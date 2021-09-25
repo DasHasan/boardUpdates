@@ -22,6 +22,12 @@
         <dd>
           <span>{{ software.path }}</span>
         </dd>
+        <dt><span jhiTranslate="boardUpdatesApp.software.board">Board</span></dt>
+        <dd>
+          <div *ngIf="software.board">
+            <a [routerLink]="['/board', software.board?.id, 'view']">{{ software.board?.serial }}</a>
+          </div>
+        </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

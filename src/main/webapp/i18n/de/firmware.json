@@ -19,7 +19,8 @@
       },
       "id": "ID",
       "version": "Version",
-      "path": "Path"
+      "path": "Path",
+      "board": "Board"
     }
   }
 }

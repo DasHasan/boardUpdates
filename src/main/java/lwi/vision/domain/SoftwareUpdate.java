@@ -1,5 +1,6 @@
 package lwi.vision.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import javax.persistence.*;
 import org.hibernate.annotations.Cache;
@@ -23,12 +24,15 @@ public class SoftwareUpdate implements Serializable {
     private Boolean active;
 
     @ManyToOne
+    @JsonIgnoreProperties(value = { "software", "firmware" }, allowSetters = true)
     private Board board;
 
     @ManyToOne
+    @JsonIgnoreProperties(value = { "board" }, allowSetters = true)
     private Software from;
 
     @ManyToOne
+    @JsonIgnoreProperties(value = { "board" }, allowSetters = true)
     private Software to;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

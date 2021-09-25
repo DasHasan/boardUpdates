@@ -10,7 +10,15 @@
       "fieldType": "String"
     }
   ],
-  "relationships": [],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "board",
+      "otherEntityRelationshipName": "software",
+      "relationshipName": "board",
+      "otherEntityField": "serial"
+    }
+  ],
   "entityTableName": "software",
   "dto": "no",
   "pagination": "no",

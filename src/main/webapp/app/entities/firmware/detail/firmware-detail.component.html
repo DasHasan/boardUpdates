@@ -22,6 +22,12 @@
         <dd>
           <span>{{ firmware.path }}</span>
         </dd>
+        <dt><span jhiTranslate="boardUpdatesApp.firmware.board">Board</span></dt>
+        <dd>
+          <div *ngIf="firmware.board">
+            <a [routerLink]="['/board', firmware.board?.id, 'view']">{{ firmware.board?.serial }}</a>
+          </div>
+        </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

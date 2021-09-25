@@ -50,6 +50,8 @@ public class CacheConfiguration {
             createCache(cm, lwi.vision.domain.User.class.getName() + ".authorities");
             createCache(cm, lwi.vision.domain.Group.class.getName());
             createCache(cm, lwi.vision.domain.Board.class.getName());
+            createCache(cm, lwi.vision.domain.Board.class.getName() + ".software");
+            createCache(cm, lwi.vision.domain.Board.class.getName() + ".firmware");
             createCache(cm, lwi.vision.domain.Firmware.class.getName());
             createCache(cm, lwi.vision.domain.FirmwareUpdate.class.getName());
             createCache(cm, lwi.vision.domain.Software.class.getName());

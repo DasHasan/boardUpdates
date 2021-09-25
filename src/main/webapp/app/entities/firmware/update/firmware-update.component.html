@@ -22,6 +22,19 @@
           <label class="form-control-label" jhiTranslate="boardUpdatesApp.firmware.path" for="field_path">Path</label>
           <input type="text" class="form-control" name="path" id="field_path" data-cy="path" formControlName="path" />
         </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="boardUpdatesApp.firmware.board" for="field_board">Board</label>
+          <select class="form-control" id="field_board" data-cy="board" name="board" formControlName="board">
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="boardOption.id === editForm.get('board')!.value?.id ? editForm.get('board')!.value : boardOption"
+              *ngFor="let boardOption of boardsSharedCollection; trackBy: trackBoardById"
+            >
+              {{ boardOption.serial }}
+            </option>
+          </select>
+        </div>
       </div>
 
       <div>

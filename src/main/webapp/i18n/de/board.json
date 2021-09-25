@@ -18,7 +18,9 @@
         "title": "Board"
       },
       "id": "ID",
-      "serial": "Serial"
+      "serial": "Serial",
+      "software": "Software",
+      "firmware": "Firmware"
     }
   }
 }

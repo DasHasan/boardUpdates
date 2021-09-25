@@ -35,6 +35,7 @@
           <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
           <th scope="col"><span jhiTranslate="boardUpdatesApp.software.version">Version</span></th>
           <th scope="col"><span jhiTranslate="boardUpdatesApp.software.path">Path</span></th>
+          <th scope="col"><span jhiTranslate="boardUpdatesApp.software.board">Board</span></th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -45,6 +46,11 @@
           </td>
           <td>{{ software.version }}</td>
           <td>{{ software.path }}</td>
+          <td>
+            <div *ngIf="software.board">
+              <a [routerLink]="['/board', software.board?.id, 'view']">{{ software.board?.serial }}</a>
+            </div>
+          </td>
           <td class="text-right">
             <div class="btn-group">
               <button

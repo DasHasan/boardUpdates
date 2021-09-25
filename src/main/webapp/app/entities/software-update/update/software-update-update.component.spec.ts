@@ -46,10 +46,10 @@ describe('Component Tests', () => {
     describe('ngOnInit', () => {
       it('Should call Board query and add missing value', () => {
         const softwareUpdate: ISoftwareUpdate = { id: 456 };
-        const board: IBoard = { id: 73942 };
+        const board: IBoard = { id: 28338 };
         softwareUpdate.board = board;
 
-        const boardCollection: IBoard[] = [{ id: 91806 }];
+        const boardCollection: IBoard[] = [{ id: 64987 }];
         spyOn(boardService, 'query').and.returnValue(of(new HttpResponse({ body: boardCollection })));
         const additionalBoards = [board];
         const expectedCollection: IBoard[] = [...additionalBoards, ...boardCollection];
@@ -86,7 +86,7 @@ describe('Component Tests', () => {
 
       it('Should update editForm', () => {
         const softwareUpdate: ISoftwareUpdate = { id: 456 };
-        const board: IBoard = { id: 65769 };
+        const board: IBoard = { id: 55418 };
         softwareUpdate.board = board;
         const from: ISoftware = { id: 10302 };
         softwareUpdate.from = from;

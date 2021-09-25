@@ -3,10 +3,12 @@ import { HttpResponse } from '@angular/common/http';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { finalize, map } from 'rxjs/operators';
 
 import { IFirmware, Firmware } from '../firmware.model';
 import { FirmwareService } from '../service/firmware.service';
+import { IBoard } from 'app/entities/board/board.model';
+import { BoardService } from 'app/entities/board/service/board.service';
 
 @Component({
   selector: 'jhi-firmware-update',
@@ -15,17 +17,27 @@ import { FirmwareService } from '../service/firmware.service';
 export class FirmwareUpdateComponent implements OnInit {
   isSaving = false;
 
+  boardsSharedCollection: IBoard[] = [];
+
   editForm = this.fb.group({
     id: [],
     version: [],
     path: [],
+    board: [],
   });
 
-  constructor(protected firmwareService: FirmwareService, protected activatedRoute: ActivatedRoute, protected fb: FormBuilder) {}
+  constructor(
+    protected firmwareService: FirmwareService,
+    protected boardService: BoardService,
+    protected activatedRoute: ActivatedRoute,
+    protected fb: FormBuilder
+  ) {}
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ firmware }) => {
       this.updateForm(firmware);
+
+      this.loadRelationshipsOptions();
     });
   }
 
@@ -41,6 +53,10 @@ export class FirmwareUpdateComponent implements OnInit {
     } else {
       this.subscribeToSaveResponse(this.firmwareService.create(firmware));
     }
+  }
+
+  trackBoardById(index: number, item: IBoard): number {
+    return item.id!;
   }
 
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IFirmware>>): void {
@@ -67,7 +83,18 @@ export class FirmwareUpdateComponent implements OnInit {
       id: firmware.id,
       version: firmware.version,
       path: firmware.path,
+      board: firmware.board,
     });
+
+    this.boardsSharedCollection = this.boardService.addBoardToCollectionIfMissing(this.boardsSharedCollection, firmware.board);
+  }
+
+  protected loadRelationshipsOptions(): void {
+    this.boardService
+      .query()
+      .pipe(map((res: HttpResponse<IBoard[]>) => res.body ?? []))
+      .pipe(map((boards: IBoard[]) => this.boardService.addBoardToCollectionIfMissing(boards, this.editForm.get('board')!.value)))
+      .subscribe((boards: IBoard[]) => (this.boardsSharedCollection = boards));
   }
 
   protected createFromForm(): IFirmware {
@@ -76,6 +103,7 @@ export class FirmwareUpdateComponent implements OnInit {
       id: this.editForm.get(['id'])!.value,
       version: this.editForm.get(['version'])!.value,
       path: this.editForm.get(['path'])!.value,
+      board: this.editForm.get(['board'])!.value,
     };
   }
 }

@@ -1,5 +1,6 @@
 package lwi.vision.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import javax.persistence.*;
 import org.hibernate.annotations.Cache;
@@ -24,6 +25,10 @@ public class Software implements Serializable {
 
     @Column(name = "path")
     private String path;
+
+    @ManyToOne
+    @JsonIgnoreProperties(value = { "software", "firmware" }, allowSetters = true)
+    private Board board;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -63,6 +68,19 @@ public class Software implements Serializable {
 
     public void setPath(String path) {
         this.path = path;
+    }
+
+    public Board getBoard() {
+        return this.board;
+    }
+
+    public Software board(Board board) {
+        this.setBoard(board);
+        return this;
+    }
+
+    public void setBoard(Board board) {
+        this.board = board;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

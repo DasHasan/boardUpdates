@@ -10,7 +10,15 @@
       "fieldType": "String"
     }
   ],
-  "relationships": [],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "board",
+      "otherEntityRelationshipName": "firmware",
+      "relationshipName": "board",
+      "otherEntityField": "serial"
+    }
+  ],
   "entityTableName": "firmware",
   "dto": "no",
   "pagination": "no",
