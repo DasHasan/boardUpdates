@@ -1,0 +1,44 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-firmware-heading" data-cy="FirmwareCreateUpdateHeading" jhiTranslate="boardUpdatesApp.firmware.home.createOrEditLabel">
+        Create or edit a Firmware
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="form-group" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-control-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="boardUpdatesApp.firmware.version" for="field_version">Version</label>
+          <input type="text" class="form-control" name="version" id="field_version" data-cy="version" formControlName="version" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="boardUpdatesApp.firmware.path" for="field_path">Path</label>
+          <input type="text" class="form-control" name="path" id="field_path" data-cy="path" formControlName="path" />
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

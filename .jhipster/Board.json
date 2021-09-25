@@ -1,0 +1,20 @@
+{
+  "name": "Board",
+  "fields": [
+    {
+      "fieldName": "serial",
+      "fieldType": "String"
+    }
+  ],
+  "relationships": [],
+  "entityTableName": "board",
+  "dto": "no",
+  "pagination": "no",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": ["boardUpdates"],
+  "changelogDate": "20210919124135"
+}

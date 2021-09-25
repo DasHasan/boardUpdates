@@ -1,0 +1,24 @@
+{
+  "boardUpdatesApp": {
+    "board": {
+      "home": {
+        "title": "Boards",
+        "refreshListLabel": "Liste aktualisieren",
+        "createLabel": "Board erstellen",
+        "createOrEditLabel": "Board erstellen oder bearbeiten",
+        "notFound": "Keine Boards gefunden"
+      },
+      "created": "Board erstellt mit ID {{ param }}",
+      "updated": "Board aktualisiert mit ID {{ param }}",
+      "deleted": "Board gelöscht mit ID {{ param }}",
+      "delete": {
+        "question": "Soll Board {{ id }} wirklich dauerhaft gelöscht werden?"
+      },
+      "detail": {
+        "title": "Board"
+      },
+      "id": "ID",
+      "serial": "Serial"
+    }
+  }
+}

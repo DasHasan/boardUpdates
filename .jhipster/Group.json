@@ -1,0 +1,20 @@
+{
+  "name": "Group",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    }
+  ],
+  "relationships": [],
+  "entityTableName": "jhi_group",
+  "dto": "no",
+  "pagination": "no",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": ["boardUpdates"],
+  "changelogDate": "20210919124035"
+}

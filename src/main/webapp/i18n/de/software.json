@@ -1,0 +1,25 @@
+{
+  "boardUpdatesApp": {
+    "software": {
+      "home": {
+        "title": "Software",
+        "refreshListLabel": "Liste aktualisieren",
+        "createLabel": "Software erstellen",
+        "createOrEditLabel": "Software erstellen oder bearbeiten",
+        "notFound": "Keine Software gefunden"
+      },
+      "created": "Software erstellt mit ID {{ param }}",
+      "updated": "Software aktualisiert mit ID {{ param }}",
+      "deleted": "Software gelöscht mit ID {{ param }}",
+      "delete": {
+        "question": "Soll Software {{ id }} wirklich dauerhaft gelöscht werden?"
+      },
+      "detail": {
+        "title": "Software"
+      },
+      "id": "ID",
+      "version": "Version",
+      "path": "Path"
+    }
+  }
+}

@@ -1,0 +1,80 @@
+<div>
+  <h2 id="page-heading" data-cy="SoftwareHeading">
+    <span jhiTranslate="boardUpdatesApp.software.home.title">Software</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="boardUpdatesApp.software.home.refreshListLabel">Refresh List</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-software"
+        [routerLink]="['/software/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="boardUpdatesApp.software.home.createLabel"> Create a new Software </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="software?.length === 0">
+    <span jhiTranslate="boardUpdatesApp.software.home.notFound">No software found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="software && software.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr>
+          <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
+          <th scope="col"><span jhiTranslate="boardUpdatesApp.software.version">Version</span></th>
+          <th scope="col"><span jhiTranslate="boardUpdatesApp.software.path">Path</span></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let software of software; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/software', software.id, 'view']">{{ software.id }}</a>
+          </td>
+          <td>{{ software.version }}</td>
+          <td>{{ software.path }}</td>
+          <td class="text-right">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/software', software.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/software', software.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(software)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

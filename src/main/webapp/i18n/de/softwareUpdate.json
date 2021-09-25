@@ -1,0 +1,27 @@
+{
+  "boardUpdatesApp": {
+    "softwareUpdate": {
+      "home": {
+        "title": "Software Updates",
+        "refreshListLabel": "Liste aktualisieren",
+        "createLabel": "Software Update erstellen",
+        "createOrEditLabel": "Software Update erstellen oder bearbeiten",
+        "notFound": "Keine Software Updates gefunden"
+      },
+      "created": "Software Update erstellt mit ID {{ param }}",
+      "updated": "Software Update aktualisiert mit ID {{ param }}",
+      "deleted": "Software Update gelöscht mit ID {{ param }}",
+      "delete": {
+        "question": "Soll Software Update {{ id }} wirklich dauerhaft gelöscht werden?"
+      },
+      "detail": {
+        "title": "Software Update"
+      },
+      "id": "ID",
+      "active": "Active",
+      "board": "Board",
+      "from": "From",
+      "to": "To"
+    }
+  }
+}

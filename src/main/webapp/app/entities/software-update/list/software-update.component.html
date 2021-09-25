@@ -1,0 +1,96 @@
+<div>
+  <h2 id="page-heading" data-cy="SoftwareUpdateHeading">
+    <span jhiTranslate="boardUpdatesApp.softwareUpdate.home.title">Software Updates</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="boardUpdatesApp.softwareUpdate.home.refreshListLabel">Refresh List</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-software-update"
+        [routerLink]="['/software-update/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="boardUpdatesApp.softwareUpdate.home.createLabel"> Create a new Software Update </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="softwareUpdates?.length === 0">
+    <span jhiTranslate="boardUpdatesApp.softwareUpdate.home.notFound">No softwareUpdates found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="softwareUpdates && softwareUpdates.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr>
+          <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
+          <th scope="col"><span jhiTranslate="boardUpdatesApp.softwareUpdate.active">Active</span></th>
+          <th scope="col"><span jhiTranslate="boardUpdatesApp.softwareUpdate.board">Board</span></th>
+          <th scope="col"><span jhiTranslate="boardUpdatesApp.softwareUpdate.from">From</span></th>
+          <th scope="col"><span jhiTranslate="boardUpdatesApp.softwareUpdate.to">To</span></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let softwareUpdate of softwareUpdates; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/software-update', softwareUpdate.id, 'view']">{{ softwareUpdate.id }}</a>
+          </td>
+          <td>{{ softwareUpdate.active }}</td>
+          <td>
+            <div *ngIf="softwareUpdate.board">
+              <a [routerLink]="['/board', softwareUpdate.board?.id, 'view']">{{ softwareUpdate.board?.serial }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="softwareUpdate.from">
+              <a [routerLink]="['/software', softwareUpdate.from?.id, 'view']">{{ softwareUpdate.from?.version }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="softwareUpdate.to">
+              <a [routerLink]="['/software', softwareUpdate.to?.id, 'view']">{{ softwareUpdate.to?.version }}</a>
+            </div>
+          </td>
+          <td class="text-right">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/software-update', softwareUpdate.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/software-update', softwareUpdate.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(softwareUpdate)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

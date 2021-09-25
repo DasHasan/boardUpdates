@@ -1,0 +1,52 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="firmwareUpdate">
+      <h2 data-cy="firmwareUpdateDetailsHeading">
+        <span jhiTranslate="boardUpdatesApp.firmwareUpdate.detail.title">Firmware Update</span>
+      </h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ firmwareUpdate.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="boardUpdatesApp.firmwareUpdate.active">Active</span></dt>
+        <dd>
+          <span>{{ firmwareUpdate.active }}</span>
+        </dd>
+        <dt><span jhiTranslate="boardUpdatesApp.firmwareUpdate.board">Board</span></dt>
+        <dd>
+          <div *ngIf="firmwareUpdate.board">
+            <a [routerLink]="['/board', firmwareUpdate.board?.id, 'view']">{{ firmwareUpdate.board?.serial }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="boardUpdatesApp.firmwareUpdate.from">From</span></dt>
+        <dd>
+          <div *ngIf="firmwareUpdate.from">
+            <a [routerLink]="['/software', firmwareUpdate.from?.id, 'view']">{{ firmwareUpdate.from?.version }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="boardUpdatesApp.firmwareUpdate.to">To</span></dt>
+        <dd>
+          <div *ngIf="firmwareUpdate.to">
+            <a [routerLink]="['/software', firmwareUpdate.to?.id, 'view']">{{ firmwareUpdate.to?.version }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/firmware-update', firmwareUpdate.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

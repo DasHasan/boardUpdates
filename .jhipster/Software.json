@@ -1,0 +1,24 @@
+{
+  "name": "Software",
+  "fields": [
+    {
+      "fieldName": "version",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "path",
+      "fieldType": "String"
+    }
+  ],
+  "relationships": [],
+  "entityTableName": "software",
+  "dto": "no",
+  "pagination": "no",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": ["boardUpdates"],
+  "changelogDate": "20210919124435"
+}
