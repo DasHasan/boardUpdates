@@ -1,12 +1,12 @@
 import { IBoard } from 'app/entities/board/board.model';
-import { ISoftware } from 'app/entities/software/software.model';
+import { IFirmware } from 'app/entities/firmware/firmware.model';
 
 export interface IFirmwareUpdate {
   id?: number;
   active?: boolean | null;
   board?: IBoard | null;
-  from?: ISoftware | null;
-  to?: ISoftware | null;
+  from?: IFirmware | null;
+  to?: IFirmware | null;
 }
 
 export class FirmwareUpdate implements IFirmwareUpdate {
@@ -14,8 +14,8 @@ export class FirmwareUpdate implements IFirmwareUpdate {
     public id?: number,
     public active?: boolean | null,
     public board?: IBoard | null,
-    public from?: ISoftware | null,
-    public to?: ISoftware | null
+    public from?: IFirmware | null,
+    public to?: IFirmware | null
   ) {
     this.active = this.active ?? false;
   }

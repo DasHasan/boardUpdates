@@ -1,18 +1,14 @@
 package lwi.vision.service;
 
-import java.util.HashMap;
-import java.util.Optional;
-import lwi.vision.domain.Firmware;
-import lwi.vision.domain.Software;
-import lwi.vision.domain.SoftwareUpdate;
-import lwi.vision.repository.ExtendedFirmwareRepository;
-import lwi.vision.repository.ExtendedSoftwareRepository;
-import lwi.vision.repository.ExtendedSoftwareUpdateRepository;
-import lwi.vision.repository.MyBoardRepository;
+import lwi.vision.domain.*;
+import lwi.vision.repository.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashMap;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -23,41 +19,53 @@ public class SearchService {
     private final ExtendedSoftwareUpdateRepository softwareUpdateRepository;
     private final ExtendedSoftwareRepository softwareRepository;
     private final ExtendedFirmwareRepository firmwareRepository;
+    private final ExtendedFirmwareUpdateRepository firmwareUpdateRepository;
 
     public SearchService(
         MyBoardRepository boardRepository,
         ExtendedSoftwareUpdateRepository softwareUpdateRepository,
         ExtendedSoftwareRepository softwareRepository,
-        ExtendedFirmwareRepository firmwareRepository
-    ) {
+        ExtendedFirmwareRepository firmwareRepository,
+        ExtendedFirmwareUpdateRepository firmwareUpdateRepository) {
         this.boardRepository = boardRepository;
         this.softwareUpdateRepository = softwareUpdateRepository;
         this.softwareRepository = softwareRepository;
         this.firmwareRepository = firmwareRepository;
+        this.firmwareUpdateRepository = firmwareUpdateRepository;
     }
 
     public HashMap<String, String> search(String serial, String firmwareVersion, String softwareVersion) {
-        Software software = new Software().version("false").path("");
-        Firmware firmware = new Firmware().version("false").path("");
+        SoftwareEntity defaultSoftware = new SoftwareEntity().version("false").path("");
+        SoftwareEntity software = defaultSoftware;
+        FirmwareEntity defaultFirmware = new FirmwareEntity().version("false").path("");
+        FirmwareEntity firmware = defaultFirmware;
 
-        Optional<SoftwareUpdate> softwareUpdateOptional = softwareUpdateRepository.findByBoard_SerialAndFrom_Version(
-            serial,
-            softwareVersion
-        );
+        Optional<SoftwareUpdateEntity> softwareUpdateOptional = softwareUpdateRepository.findByBoard_SerialAndFrom_Version(serial, softwareVersion);
         if (softwareUpdateOptional.isPresent()) {
-            Software to = softwareUpdateOptional.get().getTo();
-            if (to == null) {
-                software = to;
-            }
+            software = Optional.ofNullable(softwareUpdateOptional.get().getTo()).orElse(software);
         } else {
-            software = softwareRepository.findFirstByBoard_SerialIsOrderByCreatedDateAsc(serial).orElse(software);
-            firmware = firmwareRepository.findFirstByBoard_SerialIsOrderByCreatedDateAsc(serial).orElse(firmware);
+            software = softwareRepository.findFirstByBoard_SerialIsOrderByCreatedDateDesc(serial).orElse(software);
+        }
+
+        Optional<FirmwareUpdateEntity> firmwareUpdateOptional = firmwareUpdateRepository.findByBoard_SerialIsAndFrom_VersionIs(serial, firmwareVersion);
+        if (firmwareUpdateOptional.isPresent()) {
+            firmware = Optional.ofNullable(firmwareUpdateOptional.get().getTo()).orElse(firmware);
+        } else {
+            firmware = firmwareRepository.findFirstByBoard_SerialIsOrderByCreatedDateDesc(serial).orElse(firmware);
+        }
+
+        if (software.getVersion().equals(softwareVersion)) {
+            software = defaultSoftware;
+        }
+        if (firmware.getVersion().equals(firmwareVersion)) {
+            firmware = defaultFirmware;
         }
         HashMap<String, String> map = new HashMap<>();
         map.put("sw_update", software.getVersion());
         map.put("fw_update", firmware.getVersion());
         map.put("sw_path", software.getPath());
         map.put("fw_path", firmware.getPath());
+
         return map;
     }
 }

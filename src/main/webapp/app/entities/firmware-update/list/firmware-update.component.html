@@ -53,12 +53,12 @@
           </td>
           <td>
             <div *ngIf="firmwareUpdate.from">
-              <a [routerLink]="['/software', firmwareUpdate.from?.id, 'view']">{{ firmwareUpdate.from?.version }}</a>
+              <a [routerLink]="['/firmware', firmwareUpdate.from?.id, 'view']">{{ firmwareUpdate.from?.version }}</a>
             </div>
           </td>
           <td>
             <div *ngIf="firmwareUpdate.to">
-              <a [routerLink]="['/software', firmwareUpdate.to?.id, 'view']">{{ firmwareUpdate.to?.version }}</a>
+              <a [routerLink]="['/firmware', firmwareUpdate.to?.id, 'view']">{{ firmwareUpdate.to?.version }}</a>
             </div>
           </td>
           <td class="text-right">

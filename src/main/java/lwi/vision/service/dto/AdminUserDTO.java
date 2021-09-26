@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 import javax.validation.constraints.*;
 import lwi.vision.config.Constants;
 import lwi.vision.domain.Authority;
-import lwi.vision.domain.User;
+import lwi.vision.domain.UserEntity;
 
 /**
  * A DTO representing a user, with his authorities.
@@ -52,7 +52,7 @@ public class AdminUserDTO {
         // Empty constructor needed for Jackson.
     }
 
-    public AdminUserDTO(User user) {
+    public AdminUserDTO(UserEntity user) {
         this.id = user.getId();
         this.login = user.getLogin();
         this.firstName = user.getFirstName();

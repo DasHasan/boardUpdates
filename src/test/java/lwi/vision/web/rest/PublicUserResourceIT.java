@@ -7,7 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import javax.persistence.EntityManager;
 import lwi.vision.IntegrationTest;
-import lwi.vision.domain.User;
+import lwi.vision.domain.UserEntity;
 import lwi.vision.repository.UserRepository;
 import lwi.vision.security.AuthoritiesConstants;
 import org.junit.jupiter.api.BeforeEach;
@@ -42,7 +42,7 @@ class PublicUserResourceIT {
     @Autowired
     private MockMvc restUserMockMvc;
 
-    private User user;
+    private UserEntity user;
 
     @BeforeEach
     public void setup() {

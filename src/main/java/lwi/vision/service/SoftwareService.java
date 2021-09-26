@@ -2,7 +2,7 @@ package lwi.vision.service;
 
 import java.util.List;
 import java.util.Optional;
-import lwi.vision.domain.Software;
+import lwi.vision.domain.SoftwareEntity;
 import lwi.vision.repository.SoftwareRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Service Implementation for managing {@link Software}.
+ * Service Implementation for managing {@link SoftwareEntity}.
  */
 @Service
 @Transactional
@@ -27,32 +27,32 @@ public class SoftwareService {
     /**
      * Save a software.
      *
-     * @param software the entity to save.
+     * @param softwareEntity the entity to save.
      * @return the persisted entity.
      */
-    public Software save(Software software) {
-        log.debug("Request to save Software : {}", software);
-        return softwareRepository.save(software);
+    public SoftwareEntity save(SoftwareEntity softwareEntity) {
+        log.debug("Request to save Software : {}", softwareEntity);
+        return softwareRepository.save(softwareEntity);
     }
 
     /**
      * Partially update a software.
      *
-     * @param software the entity to update partially.
+     * @param softwareEntity the entity to update partially.
      * @return the persisted entity.
      */
-    public Optional<Software> partialUpdate(Software software) {
-        log.debug("Request to partially update Software : {}", software);
+    public Optional<SoftwareEntity> partialUpdate(SoftwareEntity softwareEntity) {
+        log.debug("Request to partially update Software : {}", softwareEntity);
 
         return softwareRepository
-            .findById(software.getId())
+            .findById(softwareEntity.getId())
             .map(
                 existingSoftware -> {
-                    if (software.getVersion() != null) {
-                        existingSoftware.setVersion(software.getVersion());
+                    if (softwareEntity.getVersion() != null) {
+                        existingSoftware.setVersion(softwareEntity.getVersion());
                     }
-                    if (software.getPath() != null) {
-                        existingSoftware.setPath(software.getPath());
+                    if (softwareEntity.getPath() != null) {
+                        existingSoftware.setPath(softwareEntity.getPath());
                     }
 
                     return existingSoftware;
@@ -67,7 +67,7 @@ public class SoftwareService {
      * @return the list of entities.
      */
     @Transactional(readOnly = true)
-    public List<Software> findAll() {
+    public List<SoftwareEntity> findAll() {
         log.debug("Request to get all Software");
         return softwareRepository.findAll();
     }
@@ -79,7 +79,7 @@ public class SoftwareService {
      * @return the entity.
      */
     @Transactional(readOnly = true)
-    public Optional<Software> findOne(Long id) {
+    public Optional<SoftwareEntity> findOne(Long id) {
         log.debug("Request to get Software : {}", id);
         return softwareRepository.findById(id);
     }

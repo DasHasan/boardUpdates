@@ -5,7 +5,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import lwi.vision.domain.Group;
+import lwi.vision.domain.GroupEntity;
 import lwi.vision.repository.GroupRepository;
 import lwi.vision.service.GroupService;
 import lwi.vision.web.rest.errors.BadRequestAlertException;
@@ -18,7 +18,7 @@ import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
 /**
- * REST controller for managing {@link lwi.vision.domain.Group}.
+ * REST controller for managing {@link lwi.vision.domain.GroupEntity}.
  */
 @RestController
 @RequestMapping("/api")
@@ -43,17 +43,17 @@ public class GroupResource {
     /**
      * {@code POST  /groups} : Create a new group.
      *
-     * @param group the group to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new group, or with status {@code 400 (Bad Request)} if the group has already an ID.
+     * @param groupEntity the groupEntity to create.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new groupEntity, or with status {@code 400 (Bad Request)} if the group has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/groups")
-    public ResponseEntity<Group> createGroup(@RequestBody Group group) throws URISyntaxException {
-        log.debug("REST request to save Group : {}", group);
-        if (group.getId() != null) {
+    public ResponseEntity<GroupEntity> createGroup(@RequestBody GroupEntity groupEntity) throws URISyntaxException {
+        log.debug("REST request to save Group : {}", groupEntity);
+        if (groupEntity.getId() != null) {
             throw new BadRequestAlertException("A new group cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        Group result = groupService.save(group);
+        GroupEntity result = groupService.save(groupEntity);
         return ResponseEntity
             .created(new URI("/api/groups/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
@@ -63,21 +63,23 @@ public class GroupResource {
     /**
      * {@code PUT  /groups/:id} : Updates an existing group.
      *
-     * @param id the id of the group to save.
-     * @param group the group to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated group,
-     * or with status {@code 400 (Bad Request)} if the group is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the group couldn't be updated.
+     * @param id the id of the groupEntity to save.
+     * @param groupEntity the groupEntity to update.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated groupEntity,
+     * or with status {@code 400 (Bad Request)} if the groupEntity is not valid,
+     * or with status {@code 500 (Internal Server Error)} if the groupEntity couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/groups/{id}")
-    public ResponseEntity<Group> updateGroup(@PathVariable(value = "id", required = false) final Long id, @RequestBody Group group)
-        throws URISyntaxException {
-        log.debug("REST request to update Group : {}, {}", id, group);
-        if (group.getId() == null) {
+    public ResponseEntity<GroupEntity> updateGroup(
+        @PathVariable(value = "id", required = false) final Long id,
+        @RequestBody GroupEntity groupEntity
+    ) throws URISyntaxException {
+        log.debug("REST request to update Group : {}, {}", id, groupEntity);
+        if (groupEntity.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        if (!Objects.equals(id, group.getId())) {
+        if (!Objects.equals(id, groupEntity.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
@@ -85,32 +87,34 @@ public class GroupResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        Group result = groupService.save(group);
+        GroupEntity result = groupService.save(groupEntity);
         return ResponseEntity
             .ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, group.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, groupEntity.getId().toString()))
             .body(result);
     }
 
     /**
      * {@code PATCH  /groups/:id} : Partial updates given fields of an existing group, field will ignore if it is null
      *
-     * @param id the id of the group to save.
-     * @param group the group to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated group,
-     * or with status {@code 400 (Bad Request)} if the group is not valid,
-     * or with status {@code 404 (Not Found)} if the group is not found,
-     * or with status {@code 500 (Internal Server Error)} if the group couldn't be updated.
+     * @param id the id of the groupEntity to save.
+     * @param groupEntity the groupEntity to update.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated groupEntity,
+     * or with status {@code 400 (Bad Request)} if the groupEntity is not valid,
+     * or with status {@code 404 (Not Found)} if the groupEntity is not found,
+     * or with status {@code 500 (Internal Server Error)} if the groupEntity couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/groups/{id}", consumes = "application/merge-patch+json")
-    public ResponseEntity<Group> partialUpdateGroup(@PathVariable(value = "id", required = false) final Long id, @RequestBody Group group)
-        throws URISyntaxException {
-        log.debug("REST request to partial update Group partially : {}, {}", id, group);
-        if (group.getId() == null) {
+    public ResponseEntity<GroupEntity> partialUpdateGroup(
+        @PathVariable(value = "id", required = false) final Long id,
+        @RequestBody GroupEntity groupEntity
+    ) throws URISyntaxException {
+        log.debug("REST request to partial update Group partially : {}, {}", id, groupEntity);
+        if (groupEntity.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        if (!Objects.equals(id, group.getId())) {
+        if (!Objects.equals(id, groupEntity.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
@@ -118,11 +122,11 @@ public class GroupResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        Optional<Group> result = groupService.partialUpdate(group);
+        Optional<GroupEntity> result = groupService.partialUpdate(groupEntity);
 
         return ResponseUtil.wrapOrNotFound(
             result,
-            HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, group.getId().toString())
+            HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, groupEntity.getId().toString())
         );
     }
 
@@ -132,7 +136,7 @@ public class GroupResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of groups in body.
      */
     @GetMapping("/groups")
-    public List<Group> getAllGroups() {
+    public List<GroupEntity> getAllGroups() {
         log.debug("REST request to get all Groups");
         return groupService.findAll();
     }
@@ -140,20 +144,20 @@ public class GroupResource {
     /**
      * {@code GET  /groups/:id} : get the "id" group.
      *
-     * @param id the id of the group to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the group, or with status {@code 404 (Not Found)}.
+     * @param id the id of the groupEntity to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the groupEntity, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/groups/{id}")
-    public ResponseEntity<Group> getGroup(@PathVariable Long id) {
+    public ResponseEntity<GroupEntity> getGroup(@PathVariable Long id) {
         log.debug("REST request to get Group : {}", id);
-        Optional<Group> group = groupService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(group);
+        Optional<GroupEntity> groupEntity = groupService.findOne(id);
+        return ResponseUtil.wrapOrNotFound(groupEntity);
     }
 
     /**
      * {@code DELETE  /groups/:id} : delete the "id" group.
      *
-     * @param id the id of the group to delete.
+     * @param id the id of the groupEntity to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/groups/{id}")

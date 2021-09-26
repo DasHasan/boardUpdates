@@ -10,7 +10,7 @@ import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 import javax.persistence.EntityManager;
 import lwi.vision.IntegrationTest;
-import lwi.vision.domain.Software;
+import lwi.vision.domain.SoftwareEntity;
 import lwi.vision.repository.SoftwareRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -50,7 +50,7 @@ class SoftwareResourceIT {
     @Autowired
     private MockMvc restSoftwareMockMvc;
 
-    private Software software;
+    private SoftwareEntity softwareEntity;
 
     /**
      * Create an entity for this test.
@@ -58,9 +58,9 @@ class SoftwareResourceIT {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static Software createEntity(EntityManager em) {
-        Software software = new Software().version(DEFAULT_VERSION).path(DEFAULT_PATH);
-        return software;
+    public static SoftwareEntity createEntity(EntityManager em) {
+        SoftwareEntity softwareEntity = new SoftwareEntity().version(DEFAULT_VERSION).path(DEFAULT_PATH);
+        return softwareEntity;
     }
 
     /**
@@ -69,14 +69,14 @@ class SoftwareResourceIT {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static Software createUpdatedEntity(EntityManager em) {
-        Software software = new Software().version(UPDATED_VERSION).path(UPDATED_PATH);
-        return software;
+    public static SoftwareEntity createUpdatedEntity(EntityManager em) {
+        SoftwareEntity softwareEntity = new SoftwareEntity().version(UPDATED_VERSION).path(UPDATED_PATH);
+        return softwareEntity;
     }
 
     @BeforeEach
     public void initTest() {
-        software = createEntity(em);
+        softwareEntity = createEntity(em);
     }
 
     @Test
@@ -85,13 +85,15 @@ class SoftwareResourceIT {
         int databaseSizeBeforeCreate = softwareRepository.findAll().size();
         // Create the Software
         restSoftwareMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(software)))
+            .perform(
+                post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(softwareEntity))
+            )
             .andExpect(status().isCreated());
 
         // Validate the Software in the database
-        List<Software> softwareList = softwareRepository.findAll();
+        List<SoftwareEntity> softwareList = softwareRepository.findAll();
         assertThat(softwareList).hasSize(databaseSizeBeforeCreate + 1);
-        Software testSoftware = softwareList.get(softwareList.size() - 1);
+        SoftwareEntity testSoftware = softwareList.get(softwareList.size() - 1);
         assertThat(testSoftware.getVersion()).isEqualTo(DEFAULT_VERSION);
         assertThat(testSoftware.getPath()).isEqualTo(DEFAULT_PATH);
     }
@@ -100,17 +102,19 @@ class SoftwareResourceIT {
     @Transactional
     void createSoftwareWithExistingId() throws Exception {
         // Create the Software with an existing ID
-        software.setId(1L);
+        softwareEntity.setId(1L);
 
         int databaseSizeBeforeCreate = softwareRepository.findAll().size();
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restSoftwareMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(software)))
+            .perform(
+                post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(softwareEntity))
+            )
             .andExpect(status().isBadRequest());
 
         // Validate the Software in the database
-        List<Software> softwareList = softwareRepository.findAll();
+        List<SoftwareEntity> softwareList = softwareRepository.findAll();
         assertThat(softwareList).hasSize(databaseSizeBeforeCreate);
     }
 
@@ -118,14 +122,14 @@ class SoftwareResourceIT {
     @Transactional
     void getAllSoftware() throws Exception {
         // Initialize the database
-        softwareRepository.saveAndFlush(software);
+        softwareRepository.saveAndFlush(softwareEntity);
 
         // Get all the softwareList
         restSoftwareMockMvc
             .perform(get(ENTITY_API_URL + "?sort=id,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(software.getId().intValue())))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(softwareEntity.getId().intValue())))
             .andExpect(jsonPath("$.[*].version").value(hasItem(DEFAULT_VERSION)))
             .andExpect(jsonPath("$.[*].path").value(hasItem(DEFAULT_PATH)));
     }
@@ -134,14 +138,14 @@ class SoftwareResourceIT {
     @Transactional
     void getSoftware() throws Exception {
         // Initialize the database
-        softwareRepository.saveAndFlush(software);
+        softwareRepository.saveAndFlush(softwareEntity);
 
         // Get the software
         restSoftwareMockMvc
-            .perform(get(ENTITY_API_URL_ID, software.getId()))
+            .perform(get(ENTITY_API_URL_ID, softwareEntity.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.id").value(software.getId().intValue()))
+            .andExpect(jsonPath("$.id").value(softwareEntity.getId().intValue()))
             .andExpect(jsonPath("$.version").value(DEFAULT_VERSION))
             .andExpect(jsonPath("$.path").value(DEFAULT_PATH));
     }
@@ -157,28 +161,28 @@ class SoftwareResourceIT {
     @Transactional
     void putNewSoftware() throws Exception {
         // Initialize the database
-        softwareRepository.saveAndFlush(software);
+        softwareRepository.saveAndFlush(softwareEntity);
 
         int databaseSizeBeforeUpdate = softwareRepository.findAll().size();
 
         // Update the software
-        Software updatedSoftware = softwareRepository.findById(software.getId()).get();
-        // Disconnect from session so that the updates on updatedSoftware are not directly saved in db
-        em.detach(updatedSoftware);
-        updatedSoftware.version(UPDATED_VERSION).path(UPDATED_PATH);
+        SoftwareEntity updatedSoftwareEntity = softwareRepository.findById(softwareEntity.getId()).get();
+        // Disconnect from session so that the updates on updatedSoftwareEntity are not directly saved in db
+        em.detach(updatedSoftwareEntity);
+        updatedSoftwareEntity.version(UPDATED_VERSION).path(UPDATED_PATH);
 
         restSoftwareMockMvc
             .perform(
-                put(ENTITY_API_URL_ID, updatedSoftware.getId())
+                put(ENTITY_API_URL_ID, updatedSoftwareEntity.getId())
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(TestUtil.convertObjectToJsonBytes(updatedSoftware))
+                    .content(TestUtil.convertObjectToJsonBytes(updatedSoftwareEntity))
             )
             .andExpect(status().isOk());
 
         // Validate the Software in the database
-        List<Software> softwareList = softwareRepository.findAll();
+        List<SoftwareEntity> softwareList = softwareRepository.findAll();
         assertThat(softwareList).hasSize(databaseSizeBeforeUpdate);
-        Software testSoftware = softwareList.get(softwareList.size() - 1);
+        SoftwareEntity testSoftware = softwareList.get(softwareList.size() - 1);
         assertThat(testSoftware.getVersion()).isEqualTo(UPDATED_VERSION);
         assertThat(testSoftware.getPath()).isEqualTo(UPDATED_PATH);
     }
@@ -187,19 +191,19 @@ class SoftwareResourceIT {
     @Transactional
     void putNonExistingSoftware() throws Exception {
         int databaseSizeBeforeUpdate = softwareRepository.findAll().size();
-        software.setId(count.incrementAndGet());
+        softwareEntity.setId(count.incrementAndGet());
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restSoftwareMockMvc
             .perform(
-                put(ENTITY_API_URL_ID, software.getId())
+                put(ENTITY_API_URL_ID, softwareEntity.getId())
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(TestUtil.convertObjectToJsonBytes(software))
+                    .content(TestUtil.convertObjectToJsonBytes(softwareEntity))
             )
             .andExpect(status().isBadRequest());
 
         // Validate the Software in the database
-        List<Software> softwareList = softwareRepository.findAll();
+        List<SoftwareEntity> softwareList = softwareRepository.findAll();
         assertThat(softwareList).hasSize(databaseSizeBeforeUpdate);
     }
 
@@ -207,19 +211,19 @@ class SoftwareResourceIT {
     @Transactional
     void putWithIdMismatchSoftware() throws Exception {
         int databaseSizeBeforeUpdate = softwareRepository.findAll().size();
-        software.setId(count.incrementAndGet());
+        softwareEntity.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restSoftwareMockMvc
             .perform(
                 put(ENTITY_API_URL_ID, count.incrementAndGet())
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(TestUtil.convertObjectToJsonBytes(software))
+                    .content(TestUtil.convertObjectToJsonBytes(softwareEntity))
             )
             .andExpect(status().isBadRequest());
 
         // Validate the Software in the database
-        List<Software> softwareList = softwareRepository.findAll();
+        List<SoftwareEntity> softwareList = softwareRepository.findAll();
         assertThat(softwareList).hasSize(databaseSizeBeforeUpdate);
     }
 
@@ -227,15 +231,15 @@ class SoftwareResourceIT {
     @Transactional
     void putWithMissingIdPathParamSoftware() throws Exception {
         int databaseSizeBeforeUpdate = softwareRepository.findAll().size();
-        software.setId(count.incrementAndGet());
+        softwareEntity.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restSoftwareMockMvc
-            .perform(put(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(software)))
+            .perform(put(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(softwareEntity)))
             .andExpect(status().isMethodNotAllowed());
 
         // Validate the Software in the database
-        List<Software> softwareList = softwareRepository.findAll();
+        List<SoftwareEntity> softwareList = softwareRepository.findAll();
         assertThat(softwareList).hasSize(databaseSizeBeforeUpdate);
     }
 
@@ -243,28 +247,28 @@ class SoftwareResourceIT {
     @Transactional
     void partialUpdateSoftwareWithPatch() throws Exception {
         // Initialize the database
-        softwareRepository.saveAndFlush(software);
+        softwareRepository.saveAndFlush(softwareEntity);
 
         int databaseSizeBeforeUpdate = softwareRepository.findAll().size();
 
         // Update the software using partial update
-        Software partialUpdatedSoftware = new Software();
-        partialUpdatedSoftware.setId(software.getId());
+        SoftwareEntity partialUpdatedSoftwareEntity = new SoftwareEntity();
+        partialUpdatedSoftwareEntity.setId(softwareEntity.getId());
 
-        partialUpdatedSoftware.path(UPDATED_PATH);
+        partialUpdatedSoftwareEntity.path(UPDATED_PATH);
 
         restSoftwareMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, partialUpdatedSoftware.getId())
+                patch(ENTITY_API_URL_ID, partialUpdatedSoftwareEntity.getId())
                     .contentType("application/merge-patch+json")
-                    .content(TestUtil.convertObjectToJsonBytes(partialUpdatedSoftware))
+                    .content(TestUtil.convertObjectToJsonBytes(partialUpdatedSoftwareEntity))
             )
             .andExpect(status().isOk());
 
         // Validate the Software in the database
-        List<Software> softwareList = softwareRepository.findAll();
+        List<SoftwareEntity> softwareList = softwareRepository.findAll();
         assertThat(softwareList).hasSize(databaseSizeBeforeUpdate);
-        Software testSoftware = softwareList.get(softwareList.size() - 1);
+        SoftwareEntity testSoftware = softwareList.get(softwareList.size() - 1);
         assertThat(testSoftware.getVersion()).isEqualTo(DEFAULT_VERSION);
         assertThat(testSoftware.getPath()).isEqualTo(UPDATED_PATH);
     }
@@ -273,28 +277,28 @@ class SoftwareResourceIT {
     @Transactional
     void fullUpdateSoftwareWithPatch() throws Exception {
         // Initialize the database
-        softwareRepository.saveAndFlush(software);
+        softwareRepository.saveAndFlush(softwareEntity);
 
         int databaseSizeBeforeUpdate = softwareRepository.findAll().size();
 
         // Update the software using partial update
-        Software partialUpdatedSoftware = new Software();
-        partialUpdatedSoftware.setId(software.getId());
+        SoftwareEntity partialUpdatedSoftwareEntity = new SoftwareEntity();
+        partialUpdatedSoftwareEntity.setId(softwareEntity.getId());
 
-        partialUpdatedSoftware.version(UPDATED_VERSION).path(UPDATED_PATH);
+        partialUpdatedSoftwareEntity.version(UPDATED_VERSION).path(UPDATED_PATH);
 
         restSoftwareMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, partialUpdatedSoftware.getId())
+                patch(ENTITY_API_URL_ID, partialUpdatedSoftwareEntity.getId())
                     .contentType("application/merge-patch+json")
-                    .content(TestUtil.convertObjectToJsonBytes(partialUpdatedSoftware))
+                    .content(TestUtil.convertObjectToJsonBytes(partialUpdatedSoftwareEntity))
             )
             .andExpect(status().isOk());
 
         // Validate the Software in the database
-        List<Software> softwareList = softwareRepository.findAll();
+        List<SoftwareEntity> softwareList = softwareRepository.findAll();
         assertThat(softwareList).hasSize(databaseSizeBeforeUpdate);
-        Software testSoftware = softwareList.get(softwareList.size() - 1);
+        SoftwareEntity testSoftware = softwareList.get(softwareList.size() - 1);
         assertThat(testSoftware.getVersion()).isEqualTo(UPDATED_VERSION);
         assertThat(testSoftware.getPath()).isEqualTo(UPDATED_PATH);
     }
@@ -303,19 +307,19 @@ class SoftwareResourceIT {
     @Transactional
     void patchNonExistingSoftware() throws Exception {
         int databaseSizeBeforeUpdate = softwareRepository.findAll().size();
-        software.setId(count.incrementAndGet());
+        softwareEntity.setId(count.incrementAndGet());
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restSoftwareMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, software.getId())
+                patch(ENTITY_API_URL_ID, softwareEntity.getId())
                     .contentType("application/merge-patch+json")
-                    .content(TestUtil.convertObjectToJsonBytes(software))
+                    .content(TestUtil.convertObjectToJsonBytes(softwareEntity))
             )
             .andExpect(status().isBadRequest());
 
         // Validate the Software in the database
-        List<Software> softwareList = softwareRepository.findAll();
+        List<SoftwareEntity> softwareList = softwareRepository.findAll();
         assertThat(softwareList).hasSize(databaseSizeBeforeUpdate);
     }
 
@@ -323,19 +327,19 @@ class SoftwareResourceIT {
     @Transactional
     void patchWithIdMismatchSoftware() throws Exception {
         int databaseSizeBeforeUpdate = softwareRepository.findAll().size();
-        software.setId(count.incrementAndGet());
+        softwareEntity.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restSoftwareMockMvc
             .perform(
                 patch(ENTITY_API_URL_ID, count.incrementAndGet())
                     .contentType("application/merge-patch+json")
-                    .content(TestUtil.convertObjectToJsonBytes(software))
+                    .content(TestUtil.convertObjectToJsonBytes(softwareEntity))
             )
             .andExpect(status().isBadRequest());
 
         // Validate the Software in the database
-        List<Software> softwareList = softwareRepository.findAll();
+        List<SoftwareEntity> softwareList = softwareRepository.findAll();
         assertThat(softwareList).hasSize(databaseSizeBeforeUpdate);
     }
 
@@ -343,15 +347,17 @@ class SoftwareResourceIT {
     @Transactional
     void patchWithMissingIdPathParamSoftware() throws Exception {
         int databaseSizeBeforeUpdate = softwareRepository.findAll().size();
-        software.setId(count.incrementAndGet());
+        softwareEntity.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restSoftwareMockMvc
-            .perform(patch(ENTITY_API_URL).contentType("application/merge-patch+json").content(TestUtil.convertObjectToJsonBytes(software)))
+            .perform(
+                patch(ENTITY_API_URL).contentType("application/merge-patch+json").content(TestUtil.convertObjectToJsonBytes(softwareEntity))
+            )
             .andExpect(status().isMethodNotAllowed());
 
         // Validate the Software in the database
-        List<Software> softwareList = softwareRepository.findAll();
+        List<SoftwareEntity> softwareList = softwareRepository.findAll();
         assertThat(softwareList).hasSize(databaseSizeBeforeUpdate);
     }
 
@@ -359,17 +365,17 @@ class SoftwareResourceIT {
     @Transactional
     void deleteSoftware() throws Exception {
         // Initialize the database
-        softwareRepository.saveAndFlush(software);
+        softwareRepository.saveAndFlush(softwareEntity);
 
         int databaseSizeBeforeDelete = softwareRepository.findAll().size();
 
         // Delete the software
         restSoftwareMockMvc
-            .perform(delete(ENTITY_API_URL_ID, software.getId()).accept(MediaType.APPLICATION_JSON))
+            .perform(delete(ENTITY_API_URL_ID, softwareEntity.getId()).accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isNoContent());
 
         // Validate the database contains one less item
-        List<Software> softwareList = softwareRepository.findAll();
+        List<SoftwareEntity> softwareList = softwareRepository.findAll();
         assertThat(softwareList).hasSize(databaseSizeBeforeDelete - 1);
     }
 }

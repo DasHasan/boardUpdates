@@ -16,14 +16,14 @@
     },
     {
       "relationshipType": "many-to-one",
-      "otherEntityName": "software",
+      "otherEntityName": "firmware",
       "otherEntityRelationshipName": "firmwareUpdate",
       "relationshipName": "from",
       "otherEntityField": "version"
     },
     {
       "relationshipType": "many-to-one",
-      "otherEntityName": "software",
+      "otherEntityName": "firmware",
       "otherEntityRelationshipName": "firmwareUpdate",
       "relationshipName": "to",
       "otherEntityField": "version"

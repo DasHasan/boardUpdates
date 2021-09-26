@@ -10,7 +10,7 @@ import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 import javax.persistence.EntityManager;
 import lwi.vision.IntegrationTest;
-import lwi.vision.domain.Group;
+import lwi.vision.domain.GroupEntity;
 import lwi.vision.repository.GroupRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -47,7 +47,7 @@ class GroupResourceIT {
     @Autowired
     private MockMvc restGroupMockMvc;
 
-    private Group group;
+    private GroupEntity groupEntity;
 
     /**
      * Create an entity for this test.
@@ -55,9 +55,9 @@ class GroupResourceIT {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static Group createEntity(EntityManager em) {
-        Group group = new Group().name(DEFAULT_NAME);
-        return group;
+    public static GroupEntity createEntity(EntityManager em) {
+        GroupEntity groupEntity = new GroupEntity().name(DEFAULT_NAME);
+        return groupEntity;
     }
 
     /**
@@ -66,14 +66,14 @@ class GroupResourceIT {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static Group createUpdatedEntity(EntityManager em) {
-        Group group = new Group().name(UPDATED_NAME);
-        return group;
+    public static GroupEntity createUpdatedEntity(EntityManager em) {
+        GroupEntity groupEntity = new GroupEntity().name(UPDATED_NAME);
+        return groupEntity;
     }
 
     @BeforeEach
     public void initTest() {
-        group = createEntity(em);
+        groupEntity = createEntity(em);
     }
 
     @Test
@@ -82,13 +82,13 @@ class GroupResourceIT {
         int databaseSizeBeforeCreate = groupRepository.findAll().size();
         // Create the Group
         restGroupMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(group)))
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(groupEntity)))
             .andExpect(status().isCreated());
 
         // Validate the Group in the database
-        List<Group> groupList = groupRepository.findAll();
+        List<GroupEntity> groupList = groupRepository.findAll();
         assertThat(groupList).hasSize(databaseSizeBeforeCreate + 1);
-        Group testGroup = groupList.get(groupList.size() - 1);
+        GroupEntity testGroup = groupList.get(groupList.size() - 1);
         assertThat(testGroup.getName()).isEqualTo(DEFAULT_NAME);
     }
 
@@ -96,17 +96,17 @@ class GroupResourceIT {
     @Transactional
     void createGroupWithExistingId() throws Exception {
         // Create the Group with an existing ID
-        group.setId(1L);
+        groupEntity.setId(1L);
 
         int databaseSizeBeforeCreate = groupRepository.findAll().size();
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restGroupMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(group)))
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(groupEntity)))
             .andExpect(status().isBadRequest());
 
         // Validate the Group in the database
-        List<Group> groupList = groupRepository.findAll();
+        List<GroupEntity> groupList = groupRepository.findAll();
         assertThat(groupList).hasSize(databaseSizeBeforeCreate);
     }
 
@@ -114,14 +114,14 @@ class GroupResourceIT {
     @Transactional
     void getAllGroups() throws Exception {
         // Initialize the database
-        groupRepository.saveAndFlush(group);
+        groupRepository.saveAndFlush(groupEntity);
 
         // Get all the groupList
         restGroupMockMvc
             .perform(get(ENTITY_API_URL + "?sort=id,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(group.getId().intValue())))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(groupEntity.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)));
     }
 
@@ -129,14 +129,14 @@ class GroupResourceIT {
     @Transactional
     void getGroup() throws Exception {
         // Initialize the database
-        groupRepository.saveAndFlush(group);
+        groupRepository.saveAndFlush(groupEntity);
 
         // Get the group
         restGroupMockMvc
-            .perform(get(ENTITY_API_URL_ID, group.getId()))
+            .perform(get(ENTITY_API_URL_ID, groupEntity.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.id").value(group.getId().intValue()))
+            .andExpect(jsonPath("$.id").value(groupEntity.getId().intValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME));
     }
 
@@ -151,28 +151,28 @@ class GroupResourceIT {
     @Transactional
     void putNewGroup() throws Exception {
         // Initialize the database
-        groupRepository.saveAndFlush(group);
+        groupRepository.saveAndFlush(groupEntity);
 
         int databaseSizeBeforeUpdate = groupRepository.findAll().size();
 
         // Update the group
-        Group updatedGroup = groupRepository.findById(group.getId()).get();
-        // Disconnect from session so that the updates on updatedGroup are not directly saved in db
-        em.detach(updatedGroup);
-        updatedGroup.name(UPDATED_NAME);
+        GroupEntity updatedGroupEntity = groupRepository.findById(groupEntity.getId()).get();
+        // Disconnect from session so that the updates on updatedGroupEntity are not directly saved in db
+        em.detach(updatedGroupEntity);
+        updatedGroupEntity.name(UPDATED_NAME);
 
         restGroupMockMvc
             .perform(
-                put(ENTITY_API_URL_ID, updatedGroup.getId())
+                put(ENTITY_API_URL_ID, updatedGroupEntity.getId())
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(TestUtil.convertObjectToJsonBytes(updatedGroup))
+                    .content(TestUtil.convertObjectToJsonBytes(updatedGroupEntity))
             )
             .andExpect(status().isOk());
 
         // Validate the Group in the database
-        List<Group> groupList = groupRepository.findAll();
+        List<GroupEntity> groupList = groupRepository.findAll();
         assertThat(groupList).hasSize(databaseSizeBeforeUpdate);
-        Group testGroup = groupList.get(groupList.size() - 1);
+        GroupEntity testGroup = groupList.get(groupList.size() - 1);
         assertThat(testGroup.getName()).isEqualTo(UPDATED_NAME);
     }
 
@@ -180,19 +180,19 @@ class GroupResourceIT {
     @Transactional
     void putNonExistingGroup() throws Exception {
         int databaseSizeBeforeUpdate = groupRepository.findAll().size();
-        group.setId(count.incrementAndGet());
+        groupEntity.setId(count.incrementAndGet());
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restGroupMockMvc
             .perform(
-                put(ENTITY_API_URL_ID, group.getId())
+                put(ENTITY_API_URL_ID, groupEntity.getId())
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(TestUtil.convertObjectToJsonBytes(group))
+                    .content(TestUtil.convertObjectToJsonBytes(groupEntity))
             )
             .andExpect(status().isBadRequest());
 
         // Validate the Group in the database
-        List<Group> groupList = groupRepository.findAll();
+        List<GroupEntity> groupList = groupRepository.findAll();
         assertThat(groupList).hasSize(databaseSizeBeforeUpdate);
     }
 
@@ -200,19 +200,19 @@ class GroupResourceIT {
     @Transactional
     void putWithIdMismatchGroup() throws Exception {
         int databaseSizeBeforeUpdate = groupRepository.findAll().size();
-        group.setId(count.incrementAndGet());
+        groupEntity.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restGroupMockMvc
             .perform(
                 put(ENTITY_API_URL_ID, count.incrementAndGet())
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(TestUtil.convertObjectToJsonBytes(group))
+                    .content(TestUtil.convertObjectToJsonBytes(groupEntity))
             )
             .andExpect(status().isBadRequest());
 
         // Validate the Group in the database
-        List<Group> groupList = groupRepository.findAll();
+        List<GroupEntity> groupList = groupRepository.findAll();
         assertThat(groupList).hasSize(databaseSizeBeforeUpdate);
     }
 
@@ -220,15 +220,15 @@ class GroupResourceIT {
     @Transactional
     void putWithMissingIdPathParamGroup() throws Exception {
         int databaseSizeBeforeUpdate = groupRepository.findAll().size();
-        group.setId(count.incrementAndGet());
+        groupEntity.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restGroupMockMvc
-            .perform(put(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(group)))
+            .perform(put(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(groupEntity)))
             .andExpect(status().isMethodNotAllowed());
 
         // Validate the Group in the database
-        List<Group> groupList = groupRepository.findAll();
+        List<GroupEntity> groupList = groupRepository.findAll();
         assertThat(groupList).hasSize(databaseSizeBeforeUpdate);
     }
 
@@ -236,28 +236,28 @@ class GroupResourceIT {
     @Transactional
     void partialUpdateGroupWithPatch() throws Exception {
         // Initialize the database
-        groupRepository.saveAndFlush(group);
+        groupRepository.saveAndFlush(groupEntity);
 
         int databaseSizeBeforeUpdate = groupRepository.findAll().size();
 
         // Update the group using partial update
-        Group partialUpdatedGroup = new Group();
-        partialUpdatedGroup.setId(group.getId());
+        GroupEntity partialUpdatedGroupEntity = new GroupEntity();
+        partialUpdatedGroupEntity.setId(groupEntity.getId());
 
-        partialUpdatedGroup.name(UPDATED_NAME);
+        partialUpdatedGroupEntity.name(UPDATED_NAME);
 
         restGroupMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, partialUpdatedGroup.getId())
+                patch(ENTITY_API_URL_ID, partialUpdatedGroupEntity.getId())
                     .contentType("application/merge-patch+json")
-                    .content(TestUtil.convertObjectToJsonBytes(partialUpdatedGroup))
+                    .content(TestUtil.convertObjectToJsonBytes(partialUpdatedGroupEntity))
             )
             .andExpect(status().isOk());
 
         // Validate the Group in the database
-        List<Group> groupList = groupRepository.findAll();
+        List<GroupEntity> groupList = groupRepository.findAll();
         assertThat(groupList).hasSize(databaseSizeBeforeUpdate);
-        Group testGroup = groupList.get(groupList.size() - 1);
+        GroupEntity testGroup = groupList.get(groupList.size() - 1);
         assertThat(testGroup.getName()).isEqualTo(UPDATED_NAME);
     }
 
@@ -265,28 +265,28 @@ class GroupResourceIT {
     @Transactional
     void fullUpdateGroupWithPatch() throws Exception {
         // Initialize the database
-        groupRepository.saveAndFlush(group);
+        groupRepository.saveAndFlush(groupEntity);
 
         int databaseSizeBeforeUpdate = groupRepository.findAll().size();
 
         // Update the group using partial update
-        Group partialUpdatedGroup = new Group();
-        partialUpdatedGroup.setId(group.getId());
+        GroupEntity partialUpdatedGroupEntity = new GroupEntity();
+        partialUpdatedGroupEntity.setId(groupEntity.getId());
 
-        partialUpdatedGroup.name(UPDATED_NAME);
+        partialUpdatedGroupEntity.name(UPDATED_NAME);
 
         restGroupMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, partialUpdatedGroup.getId())
+                patch(ENTITY_API_URL_ID, partialUpdatedGroupEntity.getId())
                     .contentType("application/merge-patch+json")
-                    .content(TestUtil.convertObjectToJsonBytes(partialUpdatedGroup))
+                    .content(TestUtil.convertObjectToJsonBytes(partialUpdatedGroupEntity))
             )
             .andExpect(status().isOk());
 
         // Validate the Group in the database
-        List<Group> groupList = groupRepository.findAll();
+        List<GroupEntity> groupList = groupRepository.findAll();
         assertThat(groupList).hasSize(databaseSizeBeforeUpdate);
-        Group testGroup = groupList.get(groupList.size() - 1);
+        GroupEntity testGroup = groupList.get(groupList.size() - 1);
         assertThat(testGroup.getName()).isEqualTo(UPDATED_NAME);
     }
 
@@ -294,19 +294,19 @@ class GroupResourceIT {
     @Transactional
     void patchNonExistingGroup() throws Exception {
         int databaseSizeBeforeUpdate = groupRepository.findAll().size();
-        group.setId(count.incrementAndGet());
+        groupEntity.setId(count.incrementAndGet());
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restGroupMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, group.getId())
+                patch(ENTITY_API_URL_ID, groupEntity.getId())
                     .contentType("application/merge-patch+json")
-                    .content(TestUtil.convertObjectToJsonBytes(group))
+                    .content(TestUtil.convertObjectToJsonBytes(groupEntity))
             )
             .andExpect(status().isBadRequest());
 
         // Validate the Group in the database
-        List<Group> groupList = groupRepository.findAll();
+        List<GroupEntity> groupList = groupRepository.findAll();
         assertThat(groupList).hasSize(databaseSizeBeforeUpdate);
     }
 
@@ -314,19 +314,19 @@ class GroupResourceIT {
     @Transactional
     void patchWithIdMismatchGroup() throws Exception {
         int databaseSizeBeforeUpdate = groupRepository.findAll().size();
-        group.setId(count.incrementAndGet());
+        groupEntity.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restGroupMockMvc
             .perform(
                 patch(ENTITY_API_URL_ID, count.incrementAndGet())
                     .contentType("application/merge-patch+json")
-                    .content(TestUtil.convertObjectToJsonBytes(group))
+                    .content(TestUtil.convertObjectToJsonBytes(groupEntity))
             )
             .andExpect(status().isBadRequest());
 
         // Validate the Group in the database
-        List<Group> groupList = groupRepository.findAll();
+        List<GroupEntity> groupList = groupRepository.findAll();
         assertThat(groupList).hasSize(databaseSizeBeforeUpdate);
     }
 
@@ -334,15 +334,17 @@ class GroupResourceIT {
     @Transactional
     void patchWithMissingIdPathParamGroup() throws Exception {
         int databaseSizeBeforeUpdate = groupRepository.findAll().size();
-        group.setId(count.incrementAndGet());
+        groupEntity.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restGroupMockMvc
-            .perform(patch(ENTITY_API_URL).contentType("application/merge-patch+json").content(TestUtil.convertObjectToJsonBytes(group)))
+            .perform(
+                patch(ENTITY_API_URL).contentType("application/merge-patch+json").content(TestUtil.convertObjectToJsonBytes(groupEntity))
+            )
             .andExpect(status().isMethodNotAllowed());
 
         // Validate the Group in the database
-        List<Group> groupList = groupRepository.findAll();
+        List<GroupEntity> groupList = groupRepository.findAll();
         assertThat(groupList).hasSize(databaseSizeBeforeUpdate);
     }
 
@@ -350,17 +352,17 @@ class GroupResourceIT {
     @Transactional
     void deleteGroup() throws Exception {
         // Initialize the database
-        groupRepository.saveAndFlush(group);
+        groupRepository.saveAndFlush(groupEntity);
 
         int databaseSizeBeforeDelete = groupRepository.findAll().size();
 
         // Delete the group
         restGroupMockMvc
-            .perform(delete(ENTITY_API_URL_ID, group.getId()).accept(MediaType.APPLICATION_JSON))
+            .perform(delete(ENTITY_API_URL_ID, groupEntity.getId()).accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isNoContent());
 
         // Validate the database contains one less item
-        List<Group> groupList = groupRepository.findAll();
+        List<GroupEntity> groupList = groupRepository.findAll();
         assertThat(groupList).hasSize(databaseSizeBeforeDelete - 1);
     }
 }

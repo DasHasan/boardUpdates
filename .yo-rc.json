@@ -36,7 +36,7 @@
     "packageFolder": "lwi/vision",
     "reactive": false,
     "skipServer": false,
-    "entitySuffix": "",
+    "entitySuffix": "Entity",
     "entities": ["Group", "Board", "Firmware", "FirmwareUpdate", "Software", "SoftwareUpdate"],
     "clientThemeVariant": "",
     "skipCheckLengthOfIdentifier": false,

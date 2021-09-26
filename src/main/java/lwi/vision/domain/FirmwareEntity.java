@@ -7,12 +7,12 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
- * A Firmware.
+ * A FirmwareEntity.
  */
 @Entity
 @Table(name = "firmware")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class Firmware implements Serializable {
+public class FirmwareEntity extends AbstractAuditingEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -28,7 +28,7 @@ public class Firmware implements Serializable {
 
     @ManyToOne
     @JsonIgnoreProperties(value = { "software", "firmware" }, allowSetters = true)
-    private Board board;
+    private BoardEntity board;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -39,7 +39,7 @@ public class Firmware implements Serializable {
         this.id = id;
     }
 
-    public Firmware id(Long id) {
+    public FirmwareEntity id(Long id) {
         this.id = id;
         return this;
     }
@@ -48,7 +48,7 @@ public class Firmware implements Serializable {
         return this.version;
     }
 
-    public Firmware version(String version) {
+    public FirmwareEntity version(String version) {
         this.version = version;
         return this;
     }
@@ -61,7 +61,7 @@ public class Firmware implements Serializable {
         return this.path;
     }
 
-    public Firmware path(String path) {
+    public FirmwareEntity path(String path) {
         this.path = path;
         return this;
     }
@@ -70,16 +70,16 @@ public class Firmware implements Serializable {
         this.path = path;
     }
 
-    public Board getBoard() {
+    public BoardEntity getBoard() {
         return this.board;
     }
 
-    public Firmware board(Board board) {
+    public FirmwareEntity board(BoardEntity board) {
         this.setBoard(board);
         return this;
     }
 
-    public void setBoard(Board board) {
+    public void setBoard(BoardEntity board) {
         this.board = board;
     }
 
@@ -90,10 +90,10 @@ public class Firmware implements Serializable {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Firmware)) {
+        if (!(o instanceof FirmwareEntity)) {
             return false;
         }
-        return id != null && id.equals(((Firmware) o).id);
+        return id != null && id.equals(((FirmwareEntity) o).id);
     }
 
     @Override
@@ -105,7 +105,7 @@ public class Firmware implements Serializable {
     // prettier-ignore
     @Override
     public String toString() {
-        return "Firmware{" +
+        return "FirmwareEntity{" +
             "id=" + getId() +
             ", version='" + getVersion() + "'" +
             ", path='" + getPath() + "'" +

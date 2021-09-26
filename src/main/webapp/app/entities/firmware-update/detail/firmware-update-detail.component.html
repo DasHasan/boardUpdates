@@ -29,13 +29,13 @@
         <dt><span jhiTranslate="boardUpdatesApp.firmwareUpdate.from">From</span></dt>
         <dd>
           <div *ngIf="firmwareUpdate.from">
-            <a [routerLink]="['/software', firmwareUpdate.from?.id, 'view']">{{ firmwareUpdate.from?.version }}</a>
+            <a [routerLink]="['/firmware', firmwareUpdate.from?.id, 'view']">{{ firmwareUpdate.from?.version }}</a>
           </div>
         </dd>
         <dt><span jhiTranslate="boardUpdatesApp.firmwareUpdate.to">To</span></dt>
         <dd>
           <div *ngIf="firmwareUpdate.to">
-            <a [routerLink]="['/software', firmwareUpdate.to?.id, 'view']">{{ firmwareUpdate.to?.version }}</a>
+            <a [routerLink]="['/firmware', firmwareUpdate.to?.id, 'view']">{{ firmwareUpdate.to?.version }}</a>
           </div>
         </dd>
       </dl>

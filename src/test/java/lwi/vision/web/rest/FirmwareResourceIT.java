@@ -10,7 +10,7 @@ import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 import javax.persistence.EntityManager;
 import lwi.vision.IntegrationTest;
-import lwi.vision.domain.Firmware;
+import lwi.vision.domain.FirmwareEntity;
 import lwi.vision.repository.FirmwareRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -50,7 +50,7 @@ class FirmwareResourceIT {
     @Autowired
     private MockMvc restFirmwareMockMvc;
 
-    private Firmware firmware;
+    private FirmwareEntity firmwareEntity;
 
     /**
      * Create an entity for this test.
@@ -58,9 +58,9 @@ class FirmwareResourceIT {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static Firmware createEntity(EntityManager em) {
-        Firmware firmware = new Firmware().version(DEFAULT_VERSION).path(DEFAULT_PATH);
-        return firmware;
+    public static FirmwareEntity createEntity(EntityManager em) {
+        FirmwareEntity firmwareEntity = new FirmwareEntity().version(DEFAULT_VERSION).path(DEFAULT_PATH);
+        return firmwareEntity;
     }
 
     /**
@@ -69,14 +69,14 @@ class FirmwareResourceIT {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static Firmware createUpdatedEntity(EntityManager em) {
-        Firmware firmware = new Firmware().version(UPDATED_VERSION).path(UPDATED_PATH);
-        return firmware;
+    public static FirmwareEntity createUpdatedEntity(EntityManager em) {
+        FirmwareEntity firmwareEntity = new FirmwareEntity().version(UPDATED_VERSION).path(UPDATED_PATH);
+        return firmwareEntity;
     }
 
     @BeforeEach
     public void initTest() {
-        firmware = createEntity(em);
+        firmwareEntity = createEntity(em);
     }
 
     @Test
@@ -85,13 +85,15 @@ class FirmwareResourceIT {
         int databaseSizeBeforeCreate = firmwareRepository.findAll().size();
         // Create the Firmware
         restFirmwareMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(firmware)))
+            .perform(
+                post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(firmwareEntity))
+            )
             .andExpect(status().isCreated());
 
         // Validate the Firmware in the database
-        List<Firmware> firmwareList = firmwareRepository.findAll();
+        List<FirmwareEntity> firmwareList = firmwareRepository.findAll();
         assertThat(firmwareList).hasSize(databaseSizeBeforeCreate + 1);
-        Firmware testFirmware = firmwareList.get(firmwareList.size() - 1);
+        FirmwareEntity testFirmware = firmwareList.get(firmwareList.size() - 1);
         assertThat(testFirmware.getVersion()).isEqualTo(DEFAULT_VERSION);
         assertThat(testFirmware.getPath()).isEqualTo(DEFAULT_PATH);
     }
@@ -100,17 +102,19 @@ class FirmwareResourceIT {
     @Transactional
     void createFirmwareWithExistingId() throws Exception {
         // Create the Firmware with an existing ID
-        firmware.setId(1L);
+        firmwareEntity.setId(1L);
 
         int databaseSizeBeforeCreate = firmwareRepository.findAll().size();
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restFirmwareMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(firmware)))
+            .perform(
+                post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(firmwareEntity))
+            )
             .andExpect(status().isBadRequest());
 
         // Validate the Firmware in the database
-        List<Firmware> firmwareList = firmwareRepository.findAll();
+        List<FirmwareEntity> firmwareList = firmwareRepository.findAll();
         assertThat(firmwareList).hasSize(databaseSizeBeforeCreate);
     }
 
@@ -118,14 +122,14 @@ class FirmwareResourceIT {
     @Transactional
     void getAllFirmware() throws Exception {
         // Initialize the database
-        firmwareRepository.saveAndFlush(firmware);
+        firmwareRepository.saveAndFlush(firmwareEntity);
 
         // Get all the firmwareList
         restFirmwareMockMvc
             .perform(get(ENTITY_API_URL + "?sort=id,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(firmware.getId().intValue())))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(firmwareEntity.getId().intValue())))
             .andExpect(jsonPath("$.[*].version").value(hasItem(DEFAULT_VERSION)))
             .andExpect(jsonPath("$.[*].path").value(hasItem(DEFAULT_PATH)));
     }
@@ -134,14 +138,14 @@ class FirmwareResourceIT {
     @Transactional
     void getFirmware() throws Exception {
         // Initialize the database
-        firmwareRepository.saveAndFlush(firmware);
+        firmwareRepository.saveAndFlush(firmwareEntity);
 
         // Get the firmware
         restFirmwareMockMvc
-            .perform(get(ENTITY_API_URL_ID, firmware.getId()))
+            .perform(get(ENTITY_API_URL_ID, firmwareEntity.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.id").value(firmware.getId().intValue()))
+            .andExpect(jsonPath("$.id").value(firmwareEntity.getId().intValue()))
             .andExpect(jsonPath("$.version").value(DEFAULT_VERSION))
             .andExpect(jsonPath("$.path").value(DEFAULT_PATH));
     }
@@ -157,28 +161,28 @@ class FirmwareResourceIT {
     @Transactional
     void putNewFirmware() throws Exception {
         // Initialize the database
-        firmwareRepository.saveAndFlush(firmware);
+        firmwareRepository.saveAndFlush(firmwareEntity);
 
         int databaseSizeBeforeUpdate = firmwareRepository.findAll().size();
 
         // Update the firmware
-        Firmware updatedFirmware = firmwareRepository.findById(firmware.getId()).get();
-        // Disconnect from session so that the updates on updatedFirmware are not directly saved in db
-        em.detach(updatedFirmware);
-        updatedFirmware.version(UPDATED_VERSION).path(UPDATED_PATH);
+        FirmwareEntity updatedFirmwareEntity = firmwareRepository.findById(firmwareEntity.getId()).get();
+        // Disconnect from session so that the updates on updatedFirmwareEntity are not directly saved in db
+        em.detach(updatedFirmwareEntity);
+        updatedFirmwareEntity.version(UPDATED_VERSION).path(UPDATED_PATH);
 
         restFirmwareMockMvc
             .perform(
-                put(ENTITY_API_URL_ID, updatedFirmware.getId())
+                put(ENTITY_API_URL_ID, updatedFirmwareEntity.getId())
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(TestUtil.convertObjectToJsonBytes(updatedFirmware))
+                    .content(TestUtil.convertObjectToJsonBytes(updatedFirmwareEntity))
             )
             .andExpect(status().isOk());
 
         // Validate the Firmware in the database
-        List<Firmware> firmwareList = firmwareRepository.findAll();
+        List<FirmwareEntity> firmwareList = firmwareRepository.findAll();
         assertThat(firmwareList).hasSize(databaseSizeBeforeUpdate);
-        Firmware testFirmware = firmwareList.get(firmwareList.size() - 1);
+        FirmwareEntity testFirmware = firmwareList.get(firmwareList.size() - 1);
         assertThat(testFirmware.getVersion()).isEqualTo(UPDATED_VERSION);
         assertThat(testFirmware.getPath()).isEqualTo(UPDATED_PATH);
     }
@@ -187,19 +191,19 @@ class FirmwareResourceIT {
     @Transactional
     void putNonExistingFirmware() throws Exception {
         int databaseSizeBeforeUpdate = firmwareRepository.findAll().size();
-        firmware.setId(count.incrementAndGet());
+        firmwareEntity.setId(count.incrementAndGet());
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restFirmwareMockMvc
             .perform(
-                put(ENTITY_API_URL_ID, firmware.getId())
+                put(ENTITY_API_URL_ID, firmwareEntity.getId())
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(TestUtil.convertObjectToJsonBytes(firmware))
+                    .content(TestUtil.convertObjectToJsonBytes(firmwareEntity))
             )
             .andExpect(status().isBadRequest());
 
         // Validate the Firmware in the database
-        List<Firmware> firmwareList = firmwareRepository.findAll();
+        List<FirmwareEntity> firmwareList = firmwareRepository.findAll();
         assertThat(firmwareList).hasSize(databaseSizeBeforeUpdate);
     }
 
@@ -207,19 +211,19 @@ class FirmwareResourceIT {
     @Transactional
     void putWithIdMismatchFirmware() throws Exception {
         int databaseSizeBeforeUpdate = firmwareRepository.findAll().size();
-        firmware.setId(count.incrementAndGet());
+        firmwareEntity.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restFirmwareMockMvc
             .perform(
                 put(ENTITY_API_URL_ID, count.incrementAndGet())
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(TestUtil.convertObjectToJsonBytes(firmware))
+                    .content(TestUtil.convertObjectToJsonBytes(firmwareEntity))
             )
             .andExpect(status().isBadRequest());
 
         // Validate the Firmware in the database
-        List<Firmware> firmwareList = firmwareRepository.findAll();
+        List<FirmwareEntity> firmwareList = firmwareRepository.findAll();
         assertThat(firmwareList).hasSize(databaseSizeBeforeUpdate);
     }
 
@@ -227,15 +231,15 @@ class FirmwareResourceIT {
     @Transactional
     void putWithMissingIdPathParamFirmware() throws Exception {
         int databaseSizeBeforeUpdate = firmwareRepository.findAll().size();
-        firmware.setId(count.incrementAndGet());
+        firmwareEntity.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restFirmwareMockMvc
-            .perform(put(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(firmware)))
+            .perform(put(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(firmwareEntity)))
             .andExpect(status().isMethodNotAllowed());
 
         // Validate the Firmware in the database
-        List<Firmware> firmwareList = firmwareRepository.findAll();
+        List<FirmwareEntity> firmwareList = firmwareRepository.findAll();
         assertThat(firmwareList).hasSize(databaseSizeBeforeUpdate);
     }
 
@@ -243,28 +247,28 @@ class FirmwareResourceIT {
     @Transactional
     void partialUpdateFirmwareWithPatch() throws Exception {
         // Initialize the database
-        firmwareRepository.saveAndFlush(firmware);
+        firmwareRepository.saveAndFlush(firmwareEntity);
 
         int databaseSizeBeforeUpdate = firmwareRepository.findAll().size();
 
         // Update the firmware using partial update
-        Firmware partialUpdatedFirmware = new Firmware();
-        partialUpdatedFirmware.setId(firmware.getId());
+        FirmwareEntity partialUpdatedFirmwareEntity = new FirmwareEntity();
+        partialUpdatedFirmwareEntity.setId(firmwareEntity.getId());
 
-        partialUpdatedFirmware.path(UPDATED_PATH);
+        partialUpdatedFirmwareEntity.path(UPDATED_PATH);
 
         restFirmwareMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, partialUpdatedFirmware.getId())
+                patch(ENTITY_API_URL_ID, partialUpdatedFirmwareEntity.getId())
                     .contentType("application/merge-patch+json")
-                    .content(TestUtil.convertObjectToJsonBytes(partialUpdatedFirmware))
+                    .content(TestUtil.convertObjectToJsonBytes(partialUpdatedFirmwareEntity))
             )
             .andExpect(status().isOk());
 
         // Validate the Firmware in the database
-        List<Firmware> firmwareList = firmwareRepository.findAll();
+        List<FirmwareEntity> firmwareList = firmwareRepository.findAll();
         assertThat(firmwareList).hasSize(databaseSizeBeforeUpdate);
-        Firmware testFirmware = firmwareList.get(firmwareList.size() - 1);
+        FirmwareEntity testFirmware = firmwareList.get(firmwareList.size() - 1);
         assertThat(testFirmware.getVersion()).isEqualTo(DEFAULT_VERSION);
         assertThat(testFirmware.getPath()).isEqualTo(UPDATED_PATH);
     }
@@ -273,28 +277,28 @@ class FirmwareResourceIT {
     @Transactional
     void fullUpdateFirmwareWithPatch() throws Exception {
         // Initialize the database
-        firmwareRepository.saveAndFlush(firmware);
+        firmwareRepository.saveAndFlush(firmwareEntity);
 
         int databaseSizeBeforeUpdate = firmwareRepository.findAll().size();
 
         // Update the firmware using partial update
-        Firmware partialUpdatedFirmware = new Firmware();
-        partialUpdatedFirmware.setId(firmware.getId());
+        FirmwareEntity partialUpdatedFirmwareEntity = new FirmwareEntity();
+        partialUpdatedFirmwareEntity.setId(firmwareEntity.getId());
 
-        partialUpdatedFirmware.version(UPDATED_VERSION).path(UPDATED_PATH);
+        partialUpdatedFirmwareEntity.version(UPDATED_VERSION).path(UPDATED_PATH);
 
         restFirmwareMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, partialUpdatedFirmware.getId())
+                patch(ENTITY_API_URL_ID, partialUpdatedFirmwareEntity.getId())
                     .contentType("application/merge-patch+json")
-                    .content(TestUtil.convertObjectToJsonBytes(partialUpdatedFirmware))
+                    .content(TestUtil.convertObjectToJsonBytes(partialUpdatedFirmwareEntity))
             )
             .andExpect(status().isOk());
 
         // Validate the Firmware in the database
-        List<Firmware> firmwareList = firmwareRepository.findAll();
+        List<FirmwareEntity> firmwareList = firmwareRepository.findAll();
         assertThat(firmwareList).hasSize(databaseSizeBeforeUpdate);
-        Firmware testFirmware = firmwareList.get(firmwareList.size() - 1);
+        FirmwareEntity testFirmware = firmwareList.get(firmwareList.size() - 1);
         assertThat(testFirmware.getVersion()).isEqualTo(UPDATED_VERSION);
         assertThat(testFirmware.getPath()).isEqualTo(UPDATED_PATH);
     }
@@ -303,19 +307,19 @@ class FirmwareResourceIT {
     @Transactional
     void patchNonExistingFirmware() throws Exception {
         int databaseSizeBeforeUpdate = firmwareRepository.findAll().size();
-        firmware.setId(count.incrementAndGet());
+        firmwareEntity.setId(count.incrementAndGet());
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restFirmwareMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, firmware.getId())
+                patch(ENTITY_API_URL_ID, firmwareEntity.getId())
                     .contentType("application/merge-patch+json")
-                    .content(TestUtil.convertObjectToJsonBytes(firmware))
+                    .content(TestUtil.convertObjectToJsonBytes(firmwareEntity))
             )
             .andExpect(status().isBadRequest());
 
         // Validate the Firmware in the database
-        List<Firmware> firmwareList = firmwareRepository.findAll();
+        List<FirmwareEntity> firmwareList = firmwareRepository.findAll();
         assertThat(firmwareList).hasSize(databaseSizeBeforeUpdate);
     }
 
@@ -323,19 +327,19 @@ class FirmwareResourceIT {
     @Transactional
     void patchWithIdMismatchFirmware() throws Exception {
         int databaseSizeBeforeUpdate = firmwareRepository.findAll().size();
-        firmware.setId(count.incrementAndGet());
+        firmwareEntity.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restFirmwareMockMvc
             .perform(
                 patch(ENTITY_API_URL_ID, count.incrementAndGet())
                     .contentType("application/merge-patch+json")
-                    .content(TestUtil.convertObjectToJsonBytes(firmware))
+                    .content(TestUtil.convertObjectToJsonBytes(firmwareEntity))
             )
             .andExpect(status().isBadRequest());
 
         // Validate the Firmware in the database
-        List<Firmware> firmwareList = firmwareRepository.findAll();
+        List<FirmwareEntity> firmwareList = firmwareRepository.findAll();
         assertThat(firmwareList).hasSize(databaseSizeBeforeUpdate);
     }
 
@@ -343,15 +347,17 @@ class FirmwareResourceIT {
     @Transactional
     void patchWithMissingIdPathParamFirmware() throws Exception {
         int databaseSizeBeforeUpdate = firmwareRepository.findAll().size();
-        firmware.setId(count.incrementAndGet());
+        firmwareEntity.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restFirmwareMockMvc
-            .perform(patch(ENTITY_API_URL).contentType("application/merge-patch+json").content(TestUtil.convertObjectToJsonBytes(firmware)))
+            .perform(
+                patch(ENTITY_API_URL).contentType("application/merge-patch+json").content(TestUtil.convertObjectToJsonBytes(firmwareEntity))
+            )
             .andExpect(status().isMethodNotAllowed());
 
         // Validate the Firmware in the database
-        List<Firmware> firmwareList = firmwareRepository.findAll();
+        List<FirmwareEntity> firmwareList = firmwareRepository.findAll();
         assertThat(firmwareList).hasSize(databaseSizeBeforeUpdate);
     }
 
@@ -359,17 +365,17 @@ class FirmwareResourceIT {
     @Transactional
     void deleteFirmware() throws Exception {
         // Initialize the database
-        firmwareRepository.saveAndFlush(firmware);
+        firmwareRepository.saveAndFlush(firmwareEntity);
 
         int databaseSizeBeforeDelete = firmwareRepository.findAll().size();
 
         // Delete the firmware
         restFirmwareMockMvc
-            .perform(delete(ENTITY_API_URL_ID, firmware.getId()).accept(MediaType.APPLICATION_JSON))
+            .perform(delete(ENTITY_API_URL_ID, firmwareEntity.getId()).accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isNoContent());
 
         // Validate the database contains one less item
-        List<Firmware> firmwareList = firmwareRepository.findAll();
+        List<FirmwareEntity> firmwareList = firmwareRepository.findAll();
         assertThat(firmwareList).hasSize(databaseSizeBeforeDelete - 1);
     }
 }

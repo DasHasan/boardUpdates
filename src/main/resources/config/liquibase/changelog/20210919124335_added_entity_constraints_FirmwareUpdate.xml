@@ -18,12 +18,12 @@
                                  baseTableName="firmware_update"
                                  constraintName="fk_firmware_update__from_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="software"/>
+                                 referencedTableName="firmware"/>
 
         <addForeignKeyConstraint baseColumnNames="to_id"
                                  baseTableName="firmware_update"
                                  constraintName="fk_firmware_update__to_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="software"/>
+                                 referencedTableName="firmware"/>
     </changeSet>
 </databaseChangeLog>

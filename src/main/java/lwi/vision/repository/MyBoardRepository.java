@@ -1,10 +1,10 @@
 package lwi.vision.repository;
 
 import java.util.Optional;
-import lwi.vision.domain.Board;
+import lwi.vision.domain.BoardEntity;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MyBoardRepository extends BoardRepository {
-    Optional<Board> findBySerialIs(String serial);
+    Optional<BoardEntity> findBySerialIs(String serial);
 }

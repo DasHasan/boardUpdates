@@ -2,7 +2,7 @@ package lwi.vision.service;
 
 import java.util.List;
 import java.util.Optional;
-import lwi.vision.domain.Firmware;
+import lwi.vision.domain.FirmwareEntity;
 import lwi.vision.repository.FirmwareRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Service Implementation for managing {@link Firmware}.
+ * Service Implementation for managing {@link FirmwareEntity}.
  */
 @Service
 @Transactional
@@ -27,32 +27,32 @@ public class FirmwareService {
     /**
      * Save a firmware.
      *
-     * @param firmware the entity to save.
+     * @param firmwareEntity the entity to save.
      * @return the persisted entity.
      */
-    public Firmware save(Firmware firmware) {
-        log.debug("Request to save Firmware : {}", firmware);
-        return firmwareRepository.save(firmware);
+    public FirmwareEntity save(FirmwareEntity firmwareEntity) {
+        log.debug("Request to save Firmware : {}", firmwareEntity);
+        return firmwareRepository.save(firmwareEntity);
     }
 
     /**
      * Partially update a firmware.
      *
-     * @param firmware the entity to update partially.
+     * @param firmwareEntity the entity to update partially.
      * @return the persisted entity.
      */
-    public Optional<Firmware> partialUpdate(Firmware firmware) {
-        log.debug("Request to partially update Firmware : {}", firmware);
+    public Optional<FirmwareEntity> partialUpdate(FirmwareEntity firmwareEntity) {
+        log.debug("Request to partially update Firmware : {}", firmwareEntity);
 
         return firmwareRepository
-            .findById(firmware.getId())
+            .findById(firmwareEntity.getId())
             .map(
                 existingFirmware -> {
-                    if (firmware.getVersion() != null) {
-                        existingFirmware.setVersion(firmware.getVersion());
+                    if (firmwareEntity.getVersion() != null) {
+                        existingFirmware.setVersion(firmwareEntity.getVersion());
                     }
-                    if (firmware.getPath() != null) {
-                        existingFirmware.setPath(firmware.getPath());
+                    if (firmwareEntity.getPath() != null) {
+                        existingFirmware.setPath(firmwareEntity.getPath());
                     }
 
                     return existingFirmware;
@@ -67,7 +67,7 @@ public class FirmwareService {
      * @return the list of entities.
      */
     @Transactional(readOnly = true)
-    public List<Firmware> findAll() {
+    public List<FirmwareEntity> findAll() {
         log.debug("Request to get all Firmware");
         return firmwareRepository.findAll();
     }
@@ -79,7 +79,7 @@ public class FirmwareService {
      * @return the entity.
      */
     @Transactional(readOnly = true)
-    public Optional<Firmware> findOne(Long id) {
+    public Optional<FirmwareEntity> findOne(Long id) {
         log.debug("Request to get Firmware : {}", id);
         return firmwareRepository.findById(id);
     }

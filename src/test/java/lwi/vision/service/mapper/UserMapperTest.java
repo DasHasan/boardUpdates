@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import lwi.vision.domain.User;
+import lwi.vision.domain.UserEntity;
 import lwi.vision.service.dto.AdminUserDTO;
 import lwi.vision.service.dto.UserDTO;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -22,13 +22,13 @@ class UserMapperTest {
     private static final Long DEFAULT_ID = 1L;
 
     private UserMapper userMapper;
-    private User user;
+    private UserEntity user;
     private AdminUserDTO userDto;
 
     @BeforeEach
     public void init() {
         userMapper = new UserMapper();
-        user = new User();
+        user = new UserEntity();
         user.setLogin(DEFAULT_LOGIN);
         user.setPassword(RandomStringUtils.random(60));
         user.setActivated(true);
@@ -43,7 +43,7 @@ class UserMapperTest {
 
     @Test
     void usersToUserDTOsShouldMapOnlyNonNullUsers() {
-        List<User> users = new ArrayList<>();
+        List<UserEntity> users = new ArrayList<>();
         users.add(user);
         users.add(null);
 
@@ -58,7 +58,7 @@ class UserMapperTest {
         usersDto.add(userDto);
         usersDto.add(null);
 
-        List<User> users = userMapper.userDTOsToUsers(usersDto);
+        List<UserEntity> users = userMapper.userDTOsToUsers(usersDto);
 
         assertThat(users).isNotEmpty().size().isEqualTo(1);
     }
@@ -72,7 +72,7 @@ class UserMapperTest {
         List<AdminUserDTO> usersDto = new ArrayList<>();
         usersDto.add(userDto);
 
-        List<User> users = userMapper.userDTOsToUsers(usersDto);
+        List<UserEntity> users = userMapper.userDTOsToUsers(usersDto);
 
         assertThat(users).isNotEmpty().size().isEqualTo(1);
         assertThat(users.get(0).getAuthorities()).isNotNull();
@@ -87,7 +87,7 @@ class UserMapperTest {
         List<AdminUserDTO> usersDto = new ArrayList<>();
         usersDto.add(userDto);
 
-        List<User> users = userMapper.userDTOsToUsers(usersDto);
+        List<UserEntity> users = userMapper.userDTOsToUsers(usersDto);
 
         assertThat(users).isNotEmpty().size().isEqualTo(1);
         assertThat(users.get(0).getAuthorities()).isNotNull();
@@ -100,7 +100,7 @@ class UserMapperTest {
         authoritiesAsString.add("ADMIN");
         userDto.setAuthorities(authoritiesAsString);
 
-        User user = userMapper.userDTOToUser(userDto);
+        UserEntity user = userMapper.userDTOToUser(userDto);
 
         assertThat(user).isNotNull();
         assertThat(user.getAuthorities()).isNotNull();
@@ -112,7 +112,7 @@ class UserMapperTest {
     void userDTOToUserMapWithNullAuthoritiesStringShouldReturnUserWithEmptyAuthorities() {
         userDto.setAuthorities(null);
 
-        User user = userMapper.userDTOToUser(userDto);
+        UserEntity user = userMapper.userDTOToUser(userDto);
 
         assertThat(user).isNotNull();
         assertThat(user.getAuthorities()).isNotNull();

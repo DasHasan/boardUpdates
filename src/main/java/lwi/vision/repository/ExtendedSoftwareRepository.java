@@ -1,10 +1,14 @@
 package lwi.vision.repository;
 
-import java.util.Optional;
-import lwi.vision.domain.Software;
+import lwi.vision.domain.SoftwareEntity;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ExtendedSoftwareRepository extends SoftwareRepository {
-    Optional<Software> findFirstByBoard_SerialIsOrderByCreatedDateAsc(String serial);
+    Optional<SoftwareEntity> findFirstByBoard_SerialIsOrderByCreatedDateDesc(String serial);
+
+    List<SoftwareEntity> findByBoard_SerialIsOrderByCreatedDateDesc(String serial);
 }

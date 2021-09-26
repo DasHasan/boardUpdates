@@ -11,8 +11,8 @@ import { FirmwareUpdateService } from '../service/firmware-update.service';
 import { IFirmwareUpdate, FirmwareUpdate } from '../firmware-update.model';
 import { IBoard } from 'app/entities/board/board.model';
 import { BoardService } from 'app/entities/board/service/board.service';
-import { ISoftware } from 'app/entities/software/software.model';
-import { SoftwareService } from 'app/entities/software/service/software.service';
+import { IFirmware } from 'app/entities/firmware/firmware.model';
+import { FirmwareService } from 'app/entities/firmware/service/firmware.service';
 
 import { FirmwareUpdateUpdateComponent } from './firmware-update-update.component';
 
@@ -23,7 +23,7 @@ describe('Component Tests', () => {
     let activatedRoute: ActivatedRoute;
     let firmwareUpdateService: FirmwareUpdateService;
     let boardService: BoardService;
-    let softwareService: SoftwareService;
+    let firmwareService: FirmwareService;
 
     beforeEach(() => {
       TestBed.configureTestingModule({
@@ -38,7 +38,7 @@ describe('Component Tests', () => {
       activatedRoute = TestBed.inject(ActivatedRoute);
       firmwareUpdateService = TestBed.inject(FirmwareUpdateService);
       boardService = TestBed.inject(BoardService);
-      softwareService = TestBed.inject(SoftwareService);
+      firmwareService = TestBed.inject(FirmwareService);
 
       comp = fixture.componentInstance;
     });
@@ -63,34 +63,34 @@ describe('Component Tests', () => {
         expect(comp.boardsSharedCollection).toEqual(expectedCollection);
       });
 
-      it('Should call Software query and add missing value', () => {
+      it('Should call Firmware query and add missing value', () => {
         const firmwareUpdate: IFirmwareUpdate = { id: 456 };
-        const from: ISoftware = { id: 30177 };
+        const from: IFirmware = { id: 79190 };
         firmwareUpdate.from = from;
-        const to: ISoftware = { id: 57401 };
+        const to: IFirmware = { id: 74146 };
         firmwareUpdate.to = to;
 
-        const softwareCollection: ISoftware[] = [{ id: 33948 }];
-        spyOn(softwareService, 'query').and.returnValue(of(new HttpResponse({ body: softwareCollection })));
-        const additionalSoftware = [from, to];
-        const expectedCollection: ISoftware[] = [...additionalSoftware, ...softwareCollection];
-        spyOn(softwareService, 'addSoftwareToCollectionIfMissing').and.returnValue(expectedCollection);
+        const firmwareCollection: IFirmware[] = [{ id: 84536 }];
+        spyOn(firmwareService, 'query').and.returnValue(of(new HttpResponse({ body: firmwareCollection })));
+        const additionalFirmware = [from, to];
+        const expectedCollection: IFirmware[] = [...additionalFirmware, ...firmwareCollection];
+        spyOn(firmwareService, 'addFirmwareToCollectionIfMissing').and.returnValue(expectedCollection);
 
         activatedRoute.data = of({ firmwareUpdate });
         comp.ngOnInit();
 
-        expect(softwareService.query).toHaveBeenCalled();
-        expect(softwareService.addSoftwareToCollectionIfMissing).toHaveBeenCalledWith(softwareCollection, ...additionalSoftware);
-        expect(comp.softwareSharedCollection).toEqual(expectedCollection);
+        expect(firmwareService.query).toHaveBeenCalled();
+        expect(firmwareService.addFirmwareToCollectionIfMissing).toHaveBeenCalledWith(firmwareCollection, ...additionalFirmware);
+        expect(comp.firmwareSharedCollection).toEqual(expectedCollection);
       });
 
       it('Should update editForm', () => {
         const firmwareUpdate: IFirmwareUpdate = { id: 456 };
         const board: IBoard = { id: 65769 };
         firmwareUpdate.board = board;
-        const from: ISoftware = { id: 41368 };
+        const from: IFirmware = { id: 38253 };
         firmwareUpdate.from = from;
-        const to: ISoftware = { id: 49389 };
+        const to: IFirmware = { id: 59077 };
         firmwareUpdate.to = to;
 
         activatedRoute.data = of({ firmwareUpdate });
@@ -98,8 +98,8 @@ describe('Component Tests', () => {
 
         expect(comp.editForm.value).toEqual(expect.objectContaining(firmwareUpdate));
         expect(comp.boardsSharedCollection).toContain(board);
-        expect(comp.softwareSharedCollection).toContain(from);
-        expect(comp.softwareSharedCollection).toContain(to);
+        expect(comp.firmwareSharedCollection).toContain(from);
+        expect(comp.firmwareSharedCollection).toContain(to);
       });
     });
 
@@ -176,10 +176,10 @@ describe('Component Tests', () => {
         });
       });
 
-      describe('trackSoftwareById', () => {
-        it('Should return tracked Software primary key', () => {
+      describe('trackFirmwareById', () => {
+        it('Should return tracked Firmware primary key', () => {
           const entity = { id: 123 };
-          const trackResult = comp.trackSoftwareById(0, entity);
+          const trackResult = comp.trackFirmwareById(0, entity);
           expect(trackResult).toEqual(entity.id);
         });
       });

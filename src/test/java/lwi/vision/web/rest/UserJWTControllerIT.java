@@ -10,7 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import lwi.vision.IntegrationTest;
-import lwi.vision.domain.User;
+import lwi.vision.domain.UserEntity;
 import lwi.vision.repository.UserRepository;
 import lwi.vision.web.rest.vm.LoginVM;
 import org.junit.jupiter.api.Test;
@@ -40,7 +40,7 @@ class UserJWTControllerIT {
     @Test
     @Transactional
     void testAuthorize() throws Exception {
-        User user = new User();
+        UserEntity user = new UserEntity();
         user.setLogin("user-jwt-controller");
         user.setEmail("user-jwt-controller@example.com");
         user.setActivated(true);
@@ -63,7 +63,7 @@ class UserJWTControllerIT {
     @Test
     @Transactional
     void testAuthorizeWithRememberMe() throws Exception {
-        User user = new User();
+        UserEntity user = new UserEntity();
         user.setLogin("user-jwt-controller-remember-me");
         user.setEmail("user-jwt-controller-remember-me@example.com");
         user.setActivated(true);

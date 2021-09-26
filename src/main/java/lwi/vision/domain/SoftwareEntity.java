@@ -7,12 +7,12 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
- * A Software.
+ * A SoftwareEntity.
  */
 @Entity
 @Table(name = "software")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class Software implements Serializable {
+public class SoftwareEntity extends AbstractAuditingEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -28,7 +28,7 @@ public class Software implements Serializable {
 
     @ManyToOne
     @JsonIgnoreProperties(value = { "software", "firmware" }, allowSetters = true)
-    private Board board;
+    private BoardEntity board;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -39,7 +39,7 @@ public class Software implements Serializable {
         this.id = id;
     }
 
-    public Software id(Long id) {
+    public SoftwareEntity id(Long id) {
         this.id = id;
         return this;
     }
@@ -48,7 +48,7 @@ public class Software implements Serializable {
         return this.version;
     }
 
-    public Software version(String version) {
+    public SoftwareEntity version(String version) {
         this.version = version;
         return this;
     }
@@ -61,7 +61,7 @@ public class Software implements Serializable {
         return this.path;
     }
 
-    public Software path(String path) {
+    public SoftwareEntity path(String path) {
         this.path = path;
         return this;
     }
@@ -70,16 +70,16 @@ public class Software implements Serializable {
         this.path = path;
     }
 
-    public Board getBoard() {
+    public BoardEntity getBoard() {
         return this.board;
     }
 
-    public Software board(Board board) {
+    public SoftwareEntity board(BoardEntity board) {
         this.setBoard(board);
         return this;
     }
 
-    public void setBoard(Board board) {
+    public void setBoard(BoardEntity board) {
         this.board = board;
     }
 
@@ -90,10 +90,10 @@ public class Software implements Serializable {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Software)) {
+        if (!(o instanceof SoftwareEntity)) {
             return false;
         }
-        return id != null && id.equals(((Software) o).id);
+        return id != null && id.equals(((SoftwareEntity) o).id);
     }
 
     @Override
@@ -105,7 +105,7 @@ public class Software implements Serializable {
     // prettier-ignore
     @Override
     public String toString() {
-        return "Software{" +
+        return "SoftwareEntity{" +
             "id=" + getId() +
             ", version='" + getVersion() + "'" +
             ", path='" + getPath() + "'" +

@@ -5,7 +5,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import lwi.vision.domain.FirmwareUpdate;
+import lwi.vision.domain.FirmwareUpdateEntity;
 import lwi.vision.repository.FirmwareUpdateRepository;
 import lwi.vision.service.FirmwareUpdateService;
 import lwi.vision.web.rest.errors.BadRequestAlertException;
@@ -18,7 +18,7 @@ import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
 /**
- * REST controller for managing {@link lwi.vision.domain.FirmwareUpdate}.
+ * REST controller for managing {@link lwi.vision.domain.FirmwareUpdateEntity}.
  */
 @RestController
 @RequestMapping("/api")
@@ -43,17 +43,18 @@ public class FirmwareUpdateResource {
     /**
      * {@code POST  /firmware-updates} : Create a new firmwareUpdate.
      *
-     * @param firmwareUpdate the firmwareUpdate to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new firmwareUpdate, or with status {@code 400 (Bad Request)} if the firmwareUpdate has already an ID.
+     * @param firmwareUpdateEntity the firmwareUpdateEntity to create.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new firmwareUpdateEntity, or with status {@code 400 (Bad Request)} if the firmwareUpdate has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/firmware-updates")
-    public ResponseEntity<FirmwareUpdate> createFirmwareUpdate(@RequestBody FirmwareUpdate firmwareUpdate) throws URISyntaxException {
-        log.debug("REST request to save FirmwareUpdate : {}", firmwareUpdate);
-        if (firmwareUpdate.getId() != null) {
+    public ResponseEntity<FirmwareUpdateEntity> createFirmwareUpdate(@RequestBody FirmwareUpdateEntity firmwareUpdateEntity)
+        throws URISyntaxException {
+        log.debug("REST request to save FirmwareUpdate : {}", firmwareUpdateEntity);
+        if (firmwareUpdateEntity.getId() != null) {
             throw new BadRequestAlertException("A new firmwareUpdate cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        FirmwareUpdate result = firmwareUpdateService.save(firmwareUpdate);
+        FirmwareUpdateEntity result = firmwareUpdateService.save(firmwareUpdateEntity);
         return ResponseEntity
             .created(new URI("/api/firmware-updates/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
@@ -63,23 +64,23 @@ public class FirmwareUpdateResource {
     /**
      * {@code PUT  /firmware-updates/:id} : Updates an existing firmwareUpdate.
      *
-     * @param id the id of the firmwareUpdate to save.
-     * @param firmwareUpdate the firmwareUpdate to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated firmwareUpdate,
-     * or with status {@code 400 (Bad Request)} if the firmwareUpdate is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the firmwareUpdate couldn't be updated.
+     * @param id the id of the firmwareUpdateEntity to save.
+     * @param firmwareUpdateEntity the firmwareUpdateEntity to update.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated firmwareUpdateEntity,
+     * or with status {@code 400 (Bad Request)} if the firmwareUpdateEntity is not valid,
+     * or with status {@code 500 (Internal Server Error)} if the firmwareUpdateEntity couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/firmware-updates/{id}")
-    public ResponseEntity<FirmwareUpdate> updateFirmwareUpdate(
+    public ResponseEntity<FirmwareUpdateEntity> updateFirmwareUpdate(
         @PathVariable(value = "id", required = false) final Long id,
-        @RequestBody FirmwareUpdate firmwareUpdate
+        @RequestBody FirmwareUpdateEntity firmwareUpdateEntity
     ) throws URISyntaxException {
-        log.debug("REST request to update FirmwareUpdate : {}, {}", id, firmwareUpdate);
-        if (firmwareUpdate.getId() == null) {
+        log.debug("REST request to update FirmwareUpdate : {}, {}", id, firmwareUpdateEntity);
+        if (firmwareUpdateEntity.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        if (!Objects.equals(id, firmwareUpdate.getId())) {
+        if (!Objects.equals(id, firmwareUpdateEntity.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
@@ -87,34 +88,34 @@ public class FirmwareUpdateResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        FirmwareUpdate result = firmwareUpdateService.save(firmwareUpdate);
+        FirmwareUpdateEntity result = firmwareUpdateService.save(firmwareUpdateEntity);
         return ResponseEntity
             .ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, firmwareUpdate.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, firmwareUpdateEntity.getId().toString()))
             .body(result);
     }
 
     /**
      * {@code PATCH  /firmware-updates/:id} : Partial updates given fields of an existing firmwareUpdate, field will ignore if it is null
      *
-     * @param id the id of the firmwareUpdate to save.
-     * @param firmwareUpdate the firmwareUpdate to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated firmwareUpdate,
-     * or with status {@code 400 (Bad Request)} if the firmwareUpdate is not valid,
-     * or with status {@code 404 (Not Found)} if the firmwareUpdate is not found,
-     * or with status {@code 500 (Internal Server Error)} if the firmwareUpdate couldn't be updated.
+     * @param id the id of the firmwareUpdateEntity to save.
+     * @param firmwareUpdateEntity the firmwareUpdateEntity to update.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated firmwareUpdateEntity,
+     * or with status {@code 400 (Bad Request)} if the firmwareUpdateEntity is not valid,
+     * or with status {@code 404 (Not Found)} if the firmwareUpdateEntity is not found,
+     * or with status {@code 500 (Internal Server Error)} if the firmwareUpdateEntity couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/firmware-updates/{id}", consumes = "application/merge-patch+json")
-    public ResponseEntity<FirmwareUpdate> partialUpdateFirmwareUpdate(
+    public ResponseEntity<FirmwareUpdateEntity> partialUpdateFirmwareUpdate(
         @PathVariable(value = "id", required = false) final Long id,
-        @RequestBody FirmwareUpdate firmwareUpdate
+        @RequestBody FirmwareUpdateEntity firmwareUpdateEntity
     ) throws URISyntaxException {
-        log.debug("REST request to partial update FirmwareUpdate partially : {}, {}", id, firmwareUpdate);
-        if (firmwareUpdate.getId() == null) {
+        log.debug("REST request to partial update FirmwareUpdate partially : {}, {}", id, firmwareUpdateEntity);
+        if (firmwareUpdateEntity.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        if (!Objects.equals(id, firmwareUpdate.getId())) {
+        if (!Objects.equals(id, firmwareUpdateEntity.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
@@ -122,11 +123,11 @@ public class FirmwareUpdateResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        Optional<FirmwareUpdate> result = firmwareUpdateService.partialUpdate(firmwareUpdate);
+        Optional<FirmwareUpdateEntity> result = firmwareUpdateService.partialUpdate(firmwareUpdateEntity);
 
         return ResponseUtil.wrapOrNotFound(
             result,
-            HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, firmwareUpdate.getId().toString())
+            HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, firmwareUpdateEntity.getId().toString())
         );
     }
 
@@ -136,7 +137,7 @@ public class FirmwareUpdateResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of firmwareUpdates in body.
      */
     @GetMapping("/firmware-updates")
-    public List<FirmwareUpdate> getAllFirmwareUpdates() {
+    public List<FirmwareUpdateEntity> getAllFirmwareUpdates() {
         log.debug("REST request to get all FirmwareUpdates");
         return firmwareUpdateService.findAll();
     }
@@ -144,20 +145,20 @@ public class FirmwareUpdateResource {
     /**
      * {@code GET  /firmware-updates/:id} : get the "id" firmwareUpdate.
      *
-     * @param id the id of the firmwareUpdate to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the firmwareUpdate, or with status {@code 404 (Not Found)}.
+     * @param id the id of the firmwareUpdateEntity to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the firmwareUpdateEntity, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/firmware-updates/{id}")
-    public ResponseEntity<FirmwareUpdate> getFirmwareUpdate(@PathVariable Long id) {
+    public ResponseEntity<FirmwareUpdateEntity> getFirmwareUpdate(@PathVariable Long id) {
         log.debug("REST request to get FirmwareUpdate : {}", id);
-        Optional<FirmwareUpdate> firmwareUpdate = firmwareUpdateService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(firmwareUpdate);
+        Optional<FirmwareUpdateEntity> firmwareUpdateEntity = firmwareUpdateService.findOne(id);
+        return ResponseUtil.wrapOrNotFound(firmwareUpdateEntity);
     }
 
     /**
      * {@code DELETE  /firmware-updates/:id} : delete the "id" firmwareUpdate.
      *
-     * @param id the id of the firmwareUpdate to delete.
+     * @param id the id of the firmwareUpdateEntity to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/firmware-updates/{id}")

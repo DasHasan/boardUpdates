@@ -40,10 +40,10 @@
           <select class="form-control" id="field_from" data-cy="from" name="from" formControlName="from">
             <option [ngValue]="null"></option>
             <option
-              [ngValue]="softwareOption.id === editForm.get('from')!.value?.id ? editForm.get('from')!.value : softwareOption"
-              *ngFor="let softwareOption of softwareSharedCollection; trackBy: trackSoftwareById"
+              [ngValue]="firmwareOption.id === editForm.get('from')!.value?.id ? editForm.get('from')!.value : firmwareOption"
+              *ngFor="let firmwareOption of firmwareSharedCollection; trackBy: trackFirmwareById"
             >
-              {{ softwareOption.version }}
+              {{ firmwareOption.version }}
             </option>
           </select>
         </div>
@@ -53,10 +53,10 @@
           <select class="form-control" id="field_to" data-cy="to" name="to" formControlName="to">
             <option [ngValue]="null"></option>
             <option
-              [ngValue]="softwareOption.id === editForm.get('to')!.value?.id ? editForm.get('to')!.value : softwareOption"
-              *ngFor="let softwareOption of softwareSharedCollection; trackBy: trackSoftwareById"
+              [ngValue]="firmwareOption.id === editForm.get('to')!.value?.id ? editForm.get('to')!.value : firmwareOption"
+              *ngFor="let firmwareOption of firmwareSharedCollection; trackBy: trackFirmwareById"
             >
-              {{ softwareOption.version }}
+              {{ firmwareOption.version }}
             </option>
           </select>
         </div>

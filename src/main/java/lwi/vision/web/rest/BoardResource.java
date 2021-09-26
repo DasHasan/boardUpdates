@@ -5,7 +5,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import lwi.vision.domain.Board;
+import lwi.vision.domain.BoardEntity;
 import lwi.vision.repository.BoardRepository;
 import lwi.vision.service.BoardService;
 import lwi.vision.web.rest.errors.BadRequestAlertException;
@@ -18,7 +18,7 @@ import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
 /**
- * REST controller for managing {@link lwi.vision.domain.Board}.
+ * REST controller for managing {@link lwi.vision.domain.BoardEntity}.
  */
 @RestController
 @RequestMapping("/api")
@@ -43,17 +43,17 @@ public class BoardResource {
     /**
      * {@code POST  /boards} : Create a new board.
      *
-     * @param board the board to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new board, or with status {@code 400 (Bad Request)} if the board has already an ID.
+     * @param boardEntity the boardEntity to create.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new boardEntity, or with status {@code 400 (Bad Request)} if the board has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/boards")
-    public ResponseEntity<Board> createBoard(@RequestBody Board board) throws URISyntaxException {
-        log.debug("REST request to save Board : {}", board);
-        if (board.getId() != null) {
+    public ResponseEntity<BoardEntity> createBoard(@RequestBody BoardEntity boardEntity) throws URISyntaxException {
+        log.debug("REST request to save Board : {}", boardEntity);
+        if (boardEntity.getId() != null) {
             throw new BadRequestAlertException("A new board cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        Board result = boardService.save(board);
+        BoardEntity result = boardService.save(boardEntity);
         return ResponseEntity
             .created(new URI("/api/boards/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
@@ -63,21 +63,23 @@ public class BoardResource {
     /**
      * {@code PUT  /boards/:id} : Updates an existing board.
      *
-     * @param id the id of the board to save.
-     * @param board the board to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated board,
-     * or with status {@code 400 (Bad Request)} if the board is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the board couldn't be updated.
+     * @param id the id of the boardEntity to save.
+     * @param boardEntity the boardEntity to update.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated boardEntity,
+     * or with status {@code 400 (Bad Request)} if the boardEntity is not valid,
+     * or with status {@code 500 (Internal Server Error)} if the boardEntity couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/boards/{id}")
-    public ResponseEntity<Board> updateBoard(@PathVariable(value = "id", required = false) final Long id, @RequestBody Board board)
-        throws URISyntaxException {
-        log.debug("REST request to update Board : {}, {}", id, board);
-        if (board.getId() == null) {
+    public ResponseEntity<BoardEntity> updateBoard(
+        @PathVariable(value = "id", required = false) final Long id,
+        @RequestBody BoardEntity boardEntity
+    ) throws URISyntaxException {
+        log.debug("REST request to update Board : {}, {}", id, boardEntity);
+        if (boardEntity.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        if (!Objects.equals(id, board.getId())) {
+        if (!Objects.equals(id, boardEntity.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
@@ -85,32 +87,34 @@ public class BoardResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        Board result = boardService.save(board);
+        BoardEntity result = boardService.save(boardEntity);
         return ResponseEntity
             .ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, board.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, boardEntity.getId().toString()))
             .body(result);
     }
 
     /**
      * {@code PATCH  /boards/:id} : Partial updates given fields of an existing board, field will ignore if it is null
      *
-     * @param id the id of the board to save.
-     * @param board the board to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated board,
-     * or with status {@code 400 (Bad Request)} if the board is not valid,
-     * or with status {@code 404 (Not Found)} if the board is not found,
-     * or with status {@code 500 (Internal Server Error)} if the board couldn't be updated.
+     * @param id the id of the boardEntity to save.
+     * @param boardEntity the boardEntity to update.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated boardEntity,
+     * or with status {@code 400 (Bad Request)} if the boardEntity is not valid,
+     * or with status {@code 404 (Not Found)} if the boardEntity is not found,
+     * or with status {@code 500 (Internal Server Error)} if the boardEntity couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/boards/{id}", consumes = "application/merge-patch+json")
-    public ResponseEntity<Board> partialUpdateBoard(@PathVariable(value = "id", required = false) final Long id, @RequestBody Board board)
-        throws URISyntaxException {
-        log.debug("REST request to partial update Board partially : {}, {}", id, board);
-        if (board.getId() == null) {
+    public ResponseEntity<BoardEntity> partialUpdateBoard(
+        @PathVariable(value = "id", required = false) final Long id,
+        @RequestBody BoardEntity boardEntity
+    ) throws URISyntaxException {
+        log.debug("REST request to partial update Board partially : {}, {}", id, boardEntity);
+        if (boardEntity.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        if (!Objects.equals(id, board.getId())) {
+        if (!Objects.equals(id, boardEntity.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
@@ -118,11 +122,11 @@ public class BoardResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        Optional<Board> result = boardService.partialUpdate(board);
+        Optional<BoardEntity> result = boardService.partialUpdate(boardEntity);
 
         return ResponseUtil.wrapOrNotFound(
             result,
-            HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, board.getId().toString())
+            HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, boardEntity.getId().toString())
         );
     }
 
@@ -132,7 +136,7 @@ public class BoardResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of boards in body.
      */
     @GetMapping("/boards")
-    public List<Board> getAllBoards() {
+    public List<BoardEntity> getAllBoards() {
         log.debug("REST request to get all Boards");
         return boardService.findAll();
     }
@@ -140,20 +144,20 @@ public class BoardResource {
     /**
      * {@code GET  /boards/:id} : get the "id" board.
      *
-     * @param id the id of the board to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the board, or with status {@code 404 (Not Found)}.
+     * @param id the id of the boardEntity to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the boardEntity, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/boards/{id}")
-    public ResponseEntity<Board> getBoard(@PathVariable Long id) {
+    public ResponseEntity<BoardEntity> getBoard(@PathVariable Long id) {
         log.debug("REST request to get Board : {}", id);
-        Optional<Board> board = boardService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(board);
+        Optional<BoardEntity> boardEntity = boardService.findOne(id);
+        return ResponseUtil.wrapOrNotFound(boardEntity);
     }
 
     /**
      * {@code DELETE  /boards/:id} : delete the "id" board.
      *
-     * @param id the id of the board to delete.
+     * @param id the id of the boardEntity to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/boards/{id}")

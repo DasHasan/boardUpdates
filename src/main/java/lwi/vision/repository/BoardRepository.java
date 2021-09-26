@@ -1,12 +1,12 @@
 package lwi.vision.repository;
 
-import lwi.vision.domain.Board;
+import lwi.vision.domain.BoardEntity;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
 /**
- * Spring Data SQL repository for the Board entity.
+ * Spring Data SQL repository for the BoardEntity entity.
  */
 @SuppressWarnings("unused")
 @Repository
-public interface BoardRepository extends JpaRepository<Board, Long> {}
+public interface BoardRepository extends JpaRepository<BoardEntity, Long> {}

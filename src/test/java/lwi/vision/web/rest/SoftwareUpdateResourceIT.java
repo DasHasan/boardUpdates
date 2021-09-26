@@ -10,7 +10,7 @@ import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 import javax.persistence.EntityManager;
 import lwi.vision.IntegrationTest;
-import lwi.vision.domain.SoftwareUpdate;
+import lwi.vision.domain.SoftwareUpdateEntity;
 import lwi.vision.repository.SoftwareUpdateRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -47,7 +47,7 @@ class SoftwareUpdateResourceIT {
     @Autowired
     private MockMvc restSoftwareUpdateMockMvc;
 
-    private SoftwareUpdate softwareUpdate;
+    private SoftwareUpdateEntity softwareUpdateEntity;
 
     /**
      * Create an entity for this test.
@@ -55,9 +55,9 @@ class SoftwareUpdateResourceIT {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static SoftwareUpdate createEntity(EntityManager em) {
-        SoftwareUpdate softwareUpdate = new SoftwareUpdate().active(DEFAULT_ACTIVE);
-        return softwareUpdate;
+    public static SoftwareUpdateEntity createEntity(EntityManager em) {
+        SoftwareUpdateEntity softwareUpdateEntity = new SoftwareUpdateEntity().active(DEFAULT_ACTIVE);
+        return softwareUpdateEntity;
     }
 
     /**
@@ -66,14 +66,14 @@ class SoftwareUpdateResourceIT {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static SoftwareUpdate createUpdatedEntity(EntityManager em) {
-        SoftwareUpdate softwareUpdate = new SoftwareUpdate().active(UPDATED_ACTIVE);
-        return softwareUpdate;
+    public static SoftwareUpdateEntity createUpdatedEntity(EntityManager em) {
+        SoftwareUpdateEntity softwareUpdateEntity = new SoftwareUpdateEntity().active(UPDATED_ACTIVE);
+        return softwareUpdateEntity;
     }
 
     @BeforeEach
     public void initTest() {
-        softwareUpdate = createEntity(em);
+        softwareUpdateEntity = createEntity(em);
     }
 
     @Test
@@ -83,14 +83,16 @@ class SoftwareUpdateResourceIT {
         // Create the SoftwareUpdate
         restSoftwareUpdateMockMvc
             .perform(
-                post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(softwareUpdate))
+                post(ENTITY_API_URL)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(TestUtil.convertObjectToJsonBytes(softwareUpdateEntity))
             )
             .andExpect(status().isCreated());
 
         // Validate the SoftwareUpdate in the database
-        List<SoftwareUpdate> softwareUpdateList = softwareUpdateRepository.findAll();
+        List<SoftwareUpdateEntity> softwareUpdateList = softwareUpdateRepository.findAll();
         assertThat(softwareUpdateList).hasSize(databaseSizeBeforeCreate + 1);
-        SoftwareUpdate testSoftwareUpdate = softwareUpdateList.get(softwareUpdateList.size() - 1);
+        SoftwareUpdateEntity testSoftwareUpdate = softwareUpdateList.get(softwareUpdateList.size() - 1);
         assertThat(testSoftwareUpdate.getActive()).isEqualTo(DEFAULT_ACTIVE);
     }
 
@@ -98,19 +100,21 @@ class SoftwareUpdateResourceIT {
     @Transactional
     void createSoftwareUpdateWithExistingId() throws Exception {
         // Create the SoftwareUpdate with an existing ID
-        softwareUpdate.setId(1L);
+        softwareUpdateEntity.setId(1L);
 
         int databaseSizeBeforeCreate = softwareUpdateRepository.findAll().size();
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restSoftwareUpdateMockMvc
             .perform(
-                post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(softwareUpdate))
+                post(ENTITY_API_URL)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(TestUtil.convertObjectToJsonBytes(softwareUpdateEntity))
             )
             .andExpect(status().isBadRequest());
 
         // Validate the SoftwareUpdate in the database
-        List<SoftwareUpdate> softwareUpdateList = softwareUpdateRepository.findAll();
+        List<SoftwareUpdateEntity> softwareUpdateList = softwareUpdateRepository.findAll();
         assertThat(softwareUpdateList).hasSize(databaseSizeBeforeCreate);
     }
 
@@ -118,14 +122,14 @@ class SoftwareUpdateResourceIT {
     @Transactional
     void getAllSoftwareUpdates() throws Exception {
         // Initialize the database
-        softwareUpdateRepository.saveAndFlush(softwareUpdate);
+        softwareUpdateRepository.saveAndFlush(softwareUpdateEntity);
 
         // Get all the softwareUpdateList
         restSoftwareUpdateMockMvc
             .perform(get(ENTITY_API_URL + "?sort=id,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(softwareUpdate.getId().intValue())))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(softwareUpdateEntity.getId().intValue())))
             .andExpect(jsonPath("$.[*].active").value(hasItem(DEFAULT_ACTIVE.booleanValue())));
     }
 
@@ -133,14 +137,14 @@ class SoftwareUpdateResourceIT {
     @Transactional
     void getSoftwareUpdate() throws Exception {
         // Initialize the database
-        softwareUpdateRepository.saveAndFlush(softwareUpdate);
+        softwareUpdateRepository.saveAndFlush(softwareUpdateEntity);
 
         // Get the softwareUpdate
         restSoftwareUpdateMockMvc
-            .perform(get(ENTITY_API_URL_ID, softwareUpdate.getId()))
+            .perform(get(ENTITY_API_URL_ID, softwareUpdateEntity.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.id").value(softwareUpdate.getId().intValue()))
+            .andExpect(jsonPath("$.id").value(softwareUpdateEntity.getId().intValue()))
             .andExpect(jsonPath("$.active").value(DEFAULT_ACTIVE.booleanValue()));
     }
 
@@ -155,28 +159,28 @@ class SoftwareUpdateResourceIT {
     @Transactional
     void putNewSoftwareUpdate() throws Exception {
         // Initialize the database
-        softwareUpdateRepository.saveAndFlush(softwareUpdate);
+        softwareUpdateRepository.saveAndFlush(softwareUpdateEntity);
 
         int databaseSizeBeforeUpdate = softwareUpdateRepository.findAll().size();
 
         // Update the softwareUpdate
-        SoftwareUpdate updatedSoftwareUpdate = softwareUpdateRepository.findById(softwareUpdate.getId()).get();
-        // Disconnect from session so that the updates on updatedSoftwareUpdate are not directly saved in db
-        em.detach(updatedSoftwareUpdate);
-        updatedSoftwareUpdate.active(UPDATED_ACTIVE);
+        SoftwareUpdateEntity updatedSoftwareUpdateEntity = softwareUpdateRepository.findById(softwareUpdateEntity.getId()).get();
+        // Disconnect from session so that the updates on updatedSoftwareUpdateEntity are not directly saved in db
+        em.detach(updatedSoftwareUpdateEntity);
+        updatedSoftwareUpdateEntity.active(UPDATED_ACTIVE);
 
         restSoftwareUpdateMockMvc
             .perform(
-                put(ENTITY_API_URL_ID, updatedSoftwareUpdate.getId())
+                put(ENTITY_API_URL_ID, updatedSoftwareUpdateEntity.getId())
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(TestUtil.convertObjectToJsonBytes(updatedSoftwareUpdate))
+                    .content(TestUtil.convertObjectToJsonBytes(updatedSoftwareUpdateEntity))
             )
             .andExpect(status().isOk());
 
         // Validate the SoftwareUpdate in the database
-        List<SoftwareUpdate> softwareUpdateList = softwareUpdateRepository.findAll();
+        List<SoftwareUpdateEntity> softwareUpdateList = softwareUpdateRepository.findAll();
         assertThat(softwareUpdateList).hasSize(databaseSizeBeforeUpdate);
-        SoftwareUpdate testSoftwareUpdate = softwareUpdateList.get(softwareUpdateList.size() - 1);
+        SoftwareUpdateEntity testSoftwareUpdate = softwareUpdateList.get(softwareUpdateList.size() - 1);
         assertThat(testSoftwareUpdate.getActive()).isEqualTo(UPDATED_ACTIVE);
     }
 
@@ -184,19 +188,19 @@ class SoftwareUpdateResourceIT {
     @Transactional
     void putNonExistingSoftwareUpdate() throws Exception {
         int databaseSizeBeforeUpdate = softwareUpdateRepository.findAll().size();
-        softwareUpdate.setId(count.incrementAndGet());
+        softwareUpdateEntity.setId(count.incrementAndGet());
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restSoftwareUpdateMockMvc
             .perform(
-                put(ENTITY_API_URL_ID, softwareUpdate.getId())
+                put(ENTITY_API_URL_ID, softwareUpdateEntity.getId())
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(TestUtil.convertObjectToJsonBytes(softwareUpdate))
+                    .content(TestUtil.convertObjectToJsonBytes(softwareUpdateEntity))
             )
             .andExpect(status().isBadRequest());
 
         // Validate the SoftwareUpdate in the database
-        List<SoftwareUpdate> softwareUpdateList = softwareUpdateRepository.findAll();
+        List<SoftwareUpdateEntity> softwareUpdateList = softwareUpdateRepository.findAll();
         assertThat(softwareUpdateList).hasSize(databaseSizeBeforeUpdate);
     }
 
@@ -204,19 +208,19 @@ class SoftwareUpdateResourceIT {
     @Transactional
     void putWithIdMismatchSoftwareUpdate() throws Exception {
         int databaseSizeBeforeUpdate = softwareUpdateRepository.findAll().size();
-        softwareUpdate.setId(count.incrementAndGet());
+        softwareUpdateEntity.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restSoftwareUpdateMockMvc
             .perform(
                 put(ENTITY_API_URL_ID, count.incrementAndGet())
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(TestUtil.convertObjectToJsonBytes(softwareUpdate))
+                    .content(TestUtil.convertObjectToJsonBytes(softwareUpdateEntity))
             )
             .andExpect(status().isBadRequest());
 
         // Validate the SoftwareUpdate in the database
-        List<SoftwareUpdate> softwareUpdateList = softwareUpdateRepository.findAll();
+        List<SoftwareUpdateEntity> softwareUpdateList = softwareUpdateRepository.findAll();
         assertThat(softwareUpdateList).hasSize(databaseSizeBeforeUpdate);
     }
 
@@ -224,15 +228,17 @@ class SoftwareUpdateResourceIT {
     @Transactional
     void putWithMissingIdPathParamSoftwareUpdate() throws Exception {
         int databaseSizeBeforeUpdate = softwareUpdateRepository.findAll().size();
-        softwareUpdate.setId(count.incrementAndGet());
+        softwareUpdateEntity.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restSoftwareUpdateMockMvc
-            .perform(put(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(softwareUpdate)))
+            .perform(
+                put(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(softwareUpdateEntity))
+            )
             .andExpect(status().isMethodNotAllowed());
 
         // Validate the SoftwareUpdate in the database
-        List<SoftwareUpdate> softwareUpdateList = softwareUpdateRepository.findAll();
+        List<SoftwareUpdateEntity> softwareUpdateList = softwareUpdateRepository.findAll();
         assertThat(softwareUpdateList).hasSize(databaseSizeBeforeUpdate);
     }
 
@@ -240,26 +246,26 @@ class SoftwareUpdateResourceIT {
     @Transactional
     void partialUpdateSoftwareUpdateWithPatch() throws Exception {
         // Initialize the database
-        softwareUpdateRepository.saveAndFlush(softwareUpdate);
+        softwareUpdateRepository.saveAndFlush(softwareUpdateEntity);
 
         int databaseSizeBeforeUpdate = softwareUpdateRepository.findAll().size();
 
         // Update the softwareUpdate using partial update
-        SoftwareUpdate partialUpdatedSoftwareUpdate = new SoftwareUpdate();
-        partialUpdatedSoftwareUpdate.setId(softwareUpdate.getId());
+        SoftwareUpdateEntity partialUpdatedSoftwareUpdateEntity = new SoftwareUpdateEntity();
+        partialUpdatedSoftwareUpdateEntity.setId(softwareUpdateEntity.getId());
 
         restSoftwareUpdateMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, partialUpdatedSoftwareUpdate.getId())
+                patch(ENTITY_API_URL_ID, partialUpdatedSoftwareUpdateEntity.getId())
                     .contentType("application/merge-patch+json")
-                    .content(TestUtil.convertObjectToJsonBytes(partialUpdatedSoftwareUpdate))
+                    .content(TestUtil.convertObjectToJsonBytes(partialUpdatedSoftwareUpdateEntity))
             )
             .andExpect(status().isOk());
 
         // Validate the SoftwareUpdate in the database
-        List<SoftwareUpdate> softwareUpdateList = softwareUpdateRepository.findAll();
+        List<SoftwareUpdateEntity> softwareUpdateList = softwareUpdateRepository.findAll();
         assertThat(softwareUpdateList).hasSize(databaseSizeBeforeUpdate);
-        SoftwareUpdate testSoftwareUpdate = softwareUpdateList.get(softwareUpdateList.size() - 1);
+        SoftwareUpdateEntity testSoftwareUpdate = softwareUpdateList.get(softwareUpdateList.size() - 1);
         assertThat(testSoftwareUpdate.getActive()).isEqualTo(DEFAULT_ACTIVE);
     }
 
@@ -267,28 +273,28 @@ class SoftwareUpdateResourceIT {
     @Transactional
     void fullUpdateSoftwareUpdateWithPatch() throws Exception {
         // Initialize the database
-        softwareUpdateRepository.saveAndFlush(softwareUpdate);
+        softwareUpdateRepository.saveAndFlush(softwareUpdateEntity);
 
         int databaseSizeBeforeUpdate = softwareUpdateRepository.findAll().size();
 
         // Update the softwareUpdate using partial update
-        SoftwareUpdate partialUpdatedSoftwareUpdate = new SoftwareUpdate();
-        partialUpdatedSoftwareUpdate.setId(softwareUpdate.getId());
+        SoftwareUpdateEntity partialUpdatedSoftwareUpdateEntity = new SoftwareUpdateEntity();
+        partialUpdatedSoftwareUpdateEntity.setId(softwareUpdateEntity.getId());
 
-        partialUpdatedSoftwareUpdate.active(UPDATED_ACTIVE);
+        partialUpdatedSoftwareUpdateEntity.active(UPDATED_ACTIVE);
 
         restSoftwareUpdateMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, partialUpdatedSoftwareUpdate.getId())
+                patch(ENTITY_API_URL_ID, partialUpdatedSoftwareUpdateEntity.getId())
                     .contentType("application/merge-patch+json")
-                    .content(TestUtil.convertObjectToJsonBytes(partialUpdatedSoftwareUpdate))
+                    .content(TestUtil.convertObjectToJsonBytes(partialUpdatedSoftwareUpdateEntity))
             )
             .andExpect(status().isOk());
 
         // Validate the SoftwareUpdate in the database
-        List<SoftwareUpdate> softwareUpdateList = softwareUpdateRepository.findAll();
+        List<SoftwareUpdateEntity> softwareUpdateList = softwareUpdateRepository.findAll();
         assertThat(softwareUpdateList).hasSize(databaseSizeBeforeUpdate);
-        SoftwareUpdate testSoftwareUpdate = softwareUpdateList.get(softwareUpdateList.size() - 1);
+        SoftwareUpdateEntity testSoftwareUpdate = softwareUpdateList.get(softwareUpdateList.size() - 1);
         assertThat(testSoftwareUpdate.getActive()).isEqualTo(UPDATED_ACTIVE);
     }
 
@@ -296,19 +302,19 @@ class SoftwareUpdateResourceIT {
     @Transactional
     void patchNonExistingSoftwareUpdate() throws Exception {
         int databaseSizeBeforeUpdate = softwareUpdateRepository.findAll().size();
-        softwareUpdate.setId(count.incrementAndGet());
+        softwareUpdateEntity.setId(count.incrementAndGet());
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restSoftwareUpdateMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, softwareUpdate.getId())
+                patch(ENTITY_API_URL_ID, softwareUpdateEntity.getId())
                     .contentType("application/merge-patch+json")
-                    .content(TestUtil.convertObjectToJsonBytes(softwareUpdate))
+                    .content(TestUtil.convertObjectToJsonBytes(softwareUpdateEntity))
             )
             .andExpect(status().isBadRequest());
 
         // Validate the SoftwareUpdate in the database
-        List<SoftwareUpdate> softwareUpdateList = softwareUpdateRepository.findAll();
+        List<SoftwareUpdateEntity> softwareUpdateList = softwareUpdateRepository.findAll();
         assertThat(softwareUpdateList).hasSize(databaseSizeBeforeUpdate);
     }
 
@@ -316,19 +322,19 @@ class SoftwareUpdateResourceIT {
     @Transactional
     void patchWithIdMismatchSoftwareUpdate() throws Exception {
         int databaseSizeBeforeUpdate = softwareUpdateRepository.findAll().size();
-        softwareUpdate.setId(count.incrementAndGet());
+        softwareUpdateEntity.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restSoftwareUpdateMockMvc
             .perform(
                 patch(ENTITY_API_URL_ID, count.incrementAndGet())
                     .contentType("application/merge-patch+json")
-                    .content(TestUtil.convertObjectToJsonBytes(softwareUpdate))
+                    .content(TestUtil.convertObjectToJsonBytes(softwareUpdateEntity))
             )
             .andExpect(status().isBadRequest());
 
         // Validate the SoftwareUpdate in the database
-        List<SoftwareUpdate> softwareUpdateList = softwareUpdateRepository.findAll();
+        List<SoftwareUpdateEntity> softwareUpdateList = softwareUpdateRepository.findAll();
         assertThat(softwareUpdateList).hasSize(databaseSizeBeforeUpdate);
     }
 
@@ -336,17 +342,19 @@ class SoftwareUpdateResourceIT {
     @Transactional
     void patchWithMissingIdPathParamSoftwareUpdate() throws Exception {
         int databaseSizeBeforeUpdate = softwareUpdateRepository.findAll().size();
-        softwareUpdate.setId(count.incrementAndGet());
+        softwareUpdateEntity.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restSoftwareUpdateMockMvc
             .perform(
-                patch(ENTITY_API_URL).contentType("application/merge-patch+json").content(TestUtil.convertObjectToJsonBytes(softwareUpdate))
+                patch(ENTITY_API_URL)
+                    .contentType("application/merge-patch+json")
+                    .content(TestUtil.convertObjectToJsonBytes(softwareUpdateEntity))
             )
             .andExpect(status().isMethodNotAllowed());
 
         // Validate the SoftwareUpdate in the database
-        List<SoftwareUpdate> softwareUpdateList = softwareUpdateRepository.findAll();
+        List<SoftwareUpdateEntity> softwareUpdateList = softwareUpdateRepository.findAll();
         assertThat(softwareUpdateList).hasSize(databaseSizeBeforeUpdate);
     }
 
@@ -354,17 +362,17 @@ class SoftwareUpdateResourceIT {
     @Transactional
     void deleteSoftwareUpdate() throws Exception {
         // Initialize the database
-        softwareUpdateRepository.saveAndFlush(softwareUpdate);
+        softwareUpdateRepository.saveAndFlush(softwareUpdateEntity);
 
         int databaseSizeBeforeDelete = softwareUpdateRepository.findAll().size();
 
         // Delete the softwareUpdate
         restSoftwareUpdateMockMvc
-            .perform(delete(ENTITY_API_URL_ID, softwareUpdate.getId()).accept(MediaType.APPLICATION_JSON))
+            .perform(delete(ENTITY_API_URL_ID, softwareUpdateEntity.getId()).accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isNoContent());
 
         // Validate the database contains one less item
-        List<SoftwareUpdate> softwareUpdateList = softwareUpdateRepository.findAll();
+        List<SoftwareUpdateEntity> softwareUpdateList = softwareUpdateRepository.findAll();
         assertThat(softwareUpdateList).hasSize(databaseSizeBeforeDelete - 1);
     }
 }

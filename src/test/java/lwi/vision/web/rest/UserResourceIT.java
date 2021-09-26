@@ -12,7 +12,7 @@ import java.util.function.Consumer;
 import javax.persistence.EntityManager;
 import lwi.vision.IntegrationTest;
 import lwi.vision.domain.Authority;
-import lwi.vision.domain.User;
+import lwi.vision.domain.UserEntity;
 import lwi.vision.repository.UserRepository;
 import lwi.vision.security.AuthoritiesConstants;
 import lwi.vision.service.dto.AdminUserDTO;
@@ -76,7 +76,7 @@ class UserResourceIT {
     @Autowired
     private MockMvc restUserMockMvc;
 
-    private User user;
+    private UserEntity user;
 
     @BeforeEach
     public void setup() {
@@ -90,8 +90,8 @@ class UserResourceIT {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which has a required relationship to the User entity.
      */
-    public static User createEntity(EntityManager em) {
-        User user = new User();
+    public static UserEntity createEntity(EntityManager em) {
+        UserEntity user = new UserEntity();
         user.setLogin(DEFAULT_LOGIN + RandomStringUtils.randomAlphabetic(5));
         user.setPassword(RandomStringUtils.random(60));
         user.setActivated(true);
@@ -106,8 +106,8 @@ class UserResourceIT {
     /**
      * Setups the database with one user.
      */
-    public static User initTestUser(UserRepository userRepository, EntityManager em) {
-        User user = createEntity(em);
+    public static UserEntity initTestUser(UserRepository userRepository, EntityManager em) {
+        UserEntity user = createEntity(em);
         user.setLogin(DEFAULT_LOGIN);
         user.setEmail(DEFAULT_EMAIL);
         return user;
@@ -145,7 +145,7 @@ class UserResourceIT {
         assertPersistedUsers(
             users -> {
                 assertThat(users).hasSize(databaseSizeBeforeCreate + 1);
-                User testUser = users.get(users.size() - 1);
+                UserEntity testUser = users.get(users.size() - 1);
                 assertThat(testUser.getLogin()).isEqualTo(DEFAULT_LOGIN);
                 assertThat(testUser.getFirstName()).isEqualTo(DEFAULT_FIRSTNAME);
                 assertThat(testUser.getLastName()).isEqualTo(DEFAULT_LASTNAME);
@@ -298,7 +298,7 @@ class UserResourceIT {
         int databaseSizeBeforeUpdate = userRepository.findAll().size();
 
         // Update the user
-        User updatedUser = userRepository.findById(user.getId()).get();
+        UserEntity updatedUser = userRepository.findById(user.getId()).get();
 
         ManagedUserVM managedUserVM = new ManagedUserVM();
         managedUserVM.setId(updatedUser.getId());
@@ -326,7 +326,7 @@ class UserResourceIT {
         assertPersistedUsers(
             users -> {
                 assertThat(users).hasSize(databaseSizeBeforeUpdate);
-                User testUser = users.stream().filter(usr -> usr.getId().equals(updatedUser.getId())).findFirst().get();
+                UserEntity testUser = users.stream().filter(usr -> usr.getId().equals(updatedUser.getId())).findFirst().get();
                 assertThat(testUser.getFirstName()).isEqualTo(UPDATED_FIRSTNAME);
                 assertThat(testUser.getLastName()).isEqualTo(UPDATED_LASTNAME);
                 assertThat(testUser.getEmail()).isEqualTo(UPDATED_EMAIL);
@@ -344,7 +344,7 @@ class UserResourceIT {
         int databaseSizeBeforeUpdate = userRepository.findAll().size();
 
         // Update the user
-        User updatedUser = userRepository.findById(user.getId()).get();
+        UserEntity updatedUser = userRepository.findById(user.getId()).get();
 
         ManagedUserVM managedUserVM = new ManagedUserVM();
         managedUserVM.setId(updatedUser.getId());
@@ -372,7 +372,7 @@ class UserResourceIT {
         assertPersistedUsers(
             users -> {
                 assertThat(users).hasSize(databaseSizeBeforeUpdate);
-                User testUser = users.stream().filter(usr -> usr.getId().equals(updatedUser.getId())).findFirst().get();
+                UserEntity testUser = users.stream().filter(usr -> usr.getId().equals(updatedUser.getId())).findFirst().get();
                 assertThat(testUser.getLogin()).isEqualTo(UPDATED_LOGIN);
                 assertThat(testUser.getFirstName()).isEqualTo(UPDATED_FIRSTNAME);
                 assertThat(testUser.getLastName()).isEqualTo(UPDATED_LASTNAME);
@@ -389,7 +389,7 @@ class UserResourceIT {
         // Initialize the database with 2 users
         userRepository.saveAndFlush(user);
 
-        User anotherUser = new User();
+        UserEntity anotherUser = new UserEntity();
         anotherUser.setLogin("jhipster");
         anotherUser.setPassword(RandomStringUtils.random(60));
         anotherUser.setActivated(true);
@@ -401,7 +401,7 @@ class UserResourceIT {
         userRepository.saveAndFlush(anotherUser);
 
         // Update the user
-        User updatedUser = userRepository.findById(user.getId()).get();
+        UserEntity updatedUser = userRepository.findById(user.getId()).get();
 
         ManagedUserVM managedUserVM = new ManagedUserVM();
         managedUserVM.setId(updatedUser.getId());
@@ -432,7 +432,7 @@ class UserResourceIT {
         // Initialize the database
         userRepository.saveAndFlush(user);
 
-        User anotherUser = new User();
+        UserEntity anotherUser = new UserEntity();
         anotherUser.setLogin("jhipster");
         anotherUser.setPassword(RandomStringUtils.random(60));
         anotherUser.setActivated(true);
@@ -444,7 +444,7 @@ class UserResourceIT {
         userRepository.saveAndFlush(anotherUser);
 
         // Update the user
-        User updatedUser = userRepository.findById(user.getId()).get();
+        UserEntity updatedUser = userRepository.findById(user.getId()).get();
 
         ManagedUserVM managedUserVM = new ManagedUserVM();
         managedUserVM.setId(updatedUser.getId());
@@ -489,10 +489,10 @@ class UserResourceIT {
 
     @Test
     void testUserEquals() throws Exception {
-        TestUtil.equalsVerifier(User.class);
-        User user1 = new User();
+        TestUtil.equalsVerifier(UserEntity.class);
+        UserEntity user1 = new UserEntity();
         user1.setId(DEFAULT_ID);
-        User user2 = new User();
+        UserEntity user2 = new UserEntity();
         user2.setId(user1.getId());
         assertThat(user1).isEqualTo(user2);
         user2.setId(2L);
@@ -516,7 +516,7 @@ class UserResourceIT {
         userDTO.setLastModifiedBy(DEFAULT_LOGIN);
         userDTO.setAuthorities(Collections.singleton(AuthoritiesConstants.USER));
 
-        User user = userMapper.userDTOToUser(userDTO);
+        UserEntity user = userMapper.userDTOToUser(userDTO);
         assertThat(user.getId()).isEqualTo(DEFAULT_ID);
         assertThat(user.getLogin()).isEqualTo(DEFAULT_LOGIN);
         assertThat(user.getFirstName()).isEqualTo(DEFAULT_FIRSTNAME);
@@ -583,7 +583,7 @@ class UserResourceIT {
         assertThat(authorityA).isEqualTo(authorityB).hasSameHashCodeAs(authorityB);
     }
 
-    private void assertPersistedUsers(Consumer<List<User>> userAssertion) {
+    private void assertPersistedUsers(Consumer<List<UserEntity>> userAssertion) {
         userAssertion.accept(userRepository.findAll());
     }
 }

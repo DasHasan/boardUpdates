@@ -7,12 +7,12 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
- * A SoftwareUpdate.
+ * A SoftwareUpdateEntity.
  */
 @Entity
 @Table(name = "software_update")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class SoftwareUpdate implements Serializable {
+public class SoftwareUpdateEntity extends AbstractAuditingEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -25,15 +25,15 @@ public class SoftwareUpdate implements Serializable {
 
     @ManyToOne
     @JsonIgnoreProperties(value = { "software", "firmware" }, allowSetters = true)
-    private Board board;
+    private BoardEntity board;
 
     @ManyToOne
     @JsonIgnoreProperties(value = { "board" }, allowSetters = true)
-    private Software from;
+    private SoftwareEntity from;
 
     @ManyToOne
     @JsonIgnoreProperties(value = { "board" }, allowSetters = true)
-    private Software to;
+    private SoftwareEntity to;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -44,7 +44,7 @@ public class SoftwareUpdate implements Serializable {
         this.id = id;
     }
 
-    public SoftwareUpdate id(Long id) {
+    public SoftwareUpdateEntity id(Long id) {
         this.id = id;
         return this;
     }
@@ -53,7 +53,7 @@ public class SoftwareUpdate implements Serializable {
         return this.active;
     }
 
-    public SoftwareUpdate active(Boolean active) {
+    public SoftwareUpdateEntity active(Boolean active) {
         this.active = active;
         return this;
     }
@@ -62,42 +62,42 @@ public class SoftwareUpdate implements Serializable {
         this.active = active;
     }
 
-    public Board getBoard() {
+    public BoardEntity getBoard() {
         return this.board;
     }
 
-    public SoftwareUpdate board(Board board) {
+    public SoftwareUpdateEntity board(BoardEntity board) {
         this.setBoard(board);
         return this;
     }
 
-    public void setBoard(Board board) {
+    public void setBoard(BoardEntity board) {
         this.board = board;
     }
 
-    public Software getFrom() {
+    public SoftwareEntity getFrom() {
         return this.from;
     }
 
-    public SoftwareUpdate from(Software software) {
+    public SoftwareUpdateEntity from(SoftwareEntity software) {
         this.setFrom(software);
         return this;
     }
 
-    public void setFrom(Software software) {
+    public void setFrom(SoftwareEntity software) {
         this.from = software;
     }
 
-    public Software getTo() {
+    public SoftwareEntity getTo() {
         return this.to;
     }
 
-    public SoftwareUpdate to(Software software) {
+    public SoftwareUpdateEntity to(SoftwareEntity software) {
         this.setTo(software);
         return this;
     }
 
-    public void setTo(Software software) {
+    public void setTo(SoftwareEntity software) {
         this.to = software;
     }
 
@@ -108,10 +108,10 @@ public class SoftwareUpdate implements Serializable {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof SoftwareUpdate)) {
+        if (!(o instanceof SoftwareUpdateEntity)) {
             return false;
         }
-        return id != null && id.equals(((SoftwareUpdate) o).id);
+        return id != null && id.equals(((SoftwareUpdateEntity) o).id);
     }
 
     @Override
@@ -123,7 +123,7 @@ public class SoftwareUpdate implements Serializable {
     // prettier-ignore
     @Override
     public String toString() {
-        return "SoftwareUpdate{" +
+        return "SoftwareUpdateEntity{" +
             "id=" + getId() +
             ", active='" + getActive() + "'" +
             "}";

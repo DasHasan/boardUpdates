@@ -7,12 +7,12 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
- * A FirmwareUpdate.
+ * A FirmwareUpdateEntity.
  */
 @Entity
 @Table(name = "firmware_update")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class FirmwareUpdate implements Serializable {
+public class FirmwareUpdateEntity extends AbstractAuditingEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -25,15 +25,15 @@ public class FirmwareUpdate implements Serializable {
 
     @ManyToOne
     @JsonIgnoreProperties(value = { "software", "firmware" }, allowSetters = true)
-    private Board board;
+    private BoardEntity board;
 
     @ManyToOne
     @JsonIgnoreProperties(value = { "board" }, allowSetters = true)
-    private Software from;
+    private FirmwareEntity from;
 
     @ManyToOne
     @JsonIgnoreProperties(value = { "board" }, allowSetters = true)
-    private Software to;
+    private FirmwareEntity to;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -44,7 +44,7 @@ public class FirmwareUpdate implements Serializable {
         this.id = id;
     }
 
-    public FirmwareUpdate id(Long id) {
+    public FirmwareUpdateEntity id(Long id) {
         this.id = id;
         return this;
     }
@@ -53,7 +53,7 @@ public class FirmwareUpdate implements Serializable {
         return this.active;
     }
 
-    public FirmwareUpdate active(Boolean active) {
+    public FirmwareUpdateEntity active(Boolean active) {
         this.active = active;
         return this;
     }
@@ -62,43 +62,43 @@ public class FirmwareUpdate implements Serializable {
         this.active = active;
     }
 
-    public Board getBoard() {
+    public BoardEntity getBoard() {
         return this.board;
     }
 
-    public FirmwareUpdate board(Board board) {
+    public FirmwareUpdateEntity board(BoardEntity board) {
         this.setBoard(board);
         return this;
     }
 
-    public void setBoard(Board board) {
+    public void setBoard(BoardEntity board) {
         this.board = board;
     }
 
-    public Software getFrom() {
+    public FirmwareEntity getFrom() {
         return this.from;
     }
 
-    public FirmwareUpdate from(Software software) {
-        this.setFrom(software);
+    public FirmwareUpdateEntity from(FirmwareEntity firmware) {
+        this.setFrom(firmware);
         return this;
     }
 
-    public void setFrom(Software software) {
-        this.from = software;
+    public void setFrom(FirmwareEntity firmware) {
+        this.from = firmware;
     }
 
-    public Software getTo() {
+    public FirmwareEntity getTo() {
         return this.to;
     }
 
-    public FirmwareUpdate to(Software software) {
-        this.setTo(software);
+    public FirmwareUpdateEntity to(FirmwareEntity firmware) {
+        this.setTo(firmware);
         return this;
     }
 
-    public void setTo(Software software) {
-        this.to = software;
+    public void setTo(FirmwareEntity firmware) {
+        this.to = firmware;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
@@ -108,10 +108,10 @@ public class FirmwareUpdate implements Serializable {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof FirmwareUpdate)) {
+        if (!(o instanceof FirmwareUpdateEntity)) {
             return false;
         }
-        return id != null && id.equals(((FirmwareUpdate) o).id);
+        return id != null && id.equals(((FirmwareUpdateEntity) o).id);
     }
 
     @Override
@@ -123,7 +123,7 @@ public class FirmwareUpdate implements Serializable {
     // prettier-ignore
     @Override
     public String toString() {
-        return "FirmwareUpdate{" +
+        return "FirmwareUpdateEntity{" +
             "id=" + getId() +
             ", active='" + getActive() + "'" +
             "}";

@@ -10,7 +10,7 @@ import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 import javax.persistence.EntityManager;
 import lwi.vision.IntegrationTest;
-import lwi.vision.domain.Board;
+import lwi.vision.domain.BoardEntity;
 import lwi.vision.repository.BoardRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -47,7 +47,7 @@ class BoardResourceIT {
     @Autowired
     private MockMvc restBoardMockMvc;
 
-    private Board board;
+    private BoardEntity boardEntity;
 
     /**
      * Create an entity for this test.
@@ -55,9 +55,9 @@ class BoardResourceIT {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static Board createEntity(EntityManager em) {
-        Board board = new Board().serial(DEFAULT_SERIAL);
-        return board;
+    public static BoardEntity createEntity(EntityManager em) {
+        BoardEntity boardEntity = new BoardEntity().serial(DEFAULT_SERIAL);
+        return boardEntity;
     }
 
     /**
@@ -66,14 +66,14 @@ class BoardResourceIT {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static Board createUpdatedEntity(EntityManager em) {
-        Board board = new Board().serial(UPDATED_SERIAL);
-        return board;
+    public static BoardEntity createUpdatedEntity(EntityManager em) {
+        BoardEntity boardEntity = new BoardEntity().serial(UPDATED_SERIAL);
+        return boardEntity;
     }
 
     @BeforeEach
     public void initTest() {
-        board = createEntity(em);
+        boardEntity = createEntity(em);
     }
 
     @Test
@@ -82,13 +82,13 @@ class BoardResourceIT {
         int databaseSizeBeforeCreate = boardRepository.findAll().size();
         // Create the Board
         restBoardMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(board)))
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(boardEntity)))
             .andExpect(status().isCreated());
 
         // Validate the Board in the database
-        List<Board> boardList = boardRepository.findAll();
+        List<BoardEntity> boardList = boardRepository.findAll();
         assertThat(boardList).hasSize(databaseSizeBeforeCreate + 1);
-        Board testBoard = boardList.get(boardList.size() - 1);
+        BoardEntity testBoard = boardList.get(boardList.size() - 1);
         assertThat(testBoard.getSerial()).isEqualTo(DEFAULT_SERIAL);
     }
 
@@ -96,17 +96,17 @@ class BoardResourceIT {
     @Transactional
     void createBoardWithExistingId() throws Exception {
         // Create the Board with an existing ID
-        board.setId(1L);
+        boardEntity.setId(1L);
 
         int databaseSizeBeforeCreate = boardRepository.findAll().size();
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restBoardMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(board)))
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(boardEntity)))
             .andExpect(status().isBadRequest());
 
         // Validate the Board in the database
-        List<Board> boardList = boardRepository.findAll();
+        List<BoardEntity> boardList = boardRepository.findAll();
         assertThat(boardList).hasSize(databaseSizeBeforeCreate);
     }
 
@@ -114,14 +114,14 @@ class BoardResourceIT {
     @Transactional
     void getAllBoards() throws Exception {
         // Initialize the database
-        boardRepository.saveAndFlush(board);
+        boardRepository.saveAndFlush(boardEntity);
 
         // Get all the boardList
         restBoardMockMvc
             .perform(get(ENTITY_API_URL + "?sort=id,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(board.getId().intValue())))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(boardEntity.getId().intValue())))
             .andExpect(jsonPath("$.[*].serial").value(hasItem(DEFAULT_SERIAL)));
     }
 
@@ -129,14 +129,14 @@ class BoardResourceIT {
     @Transactional
     void getBoard() throws Exception {
         // Initialize the database
-        boardRepository.saveAndFlush(board);
+        boardRepository.saveAndFlush(boardEntity);
 
         // Get the board
         restBoardMockMvc
-            .perform(get(ENTITY_API_URL_ID, board.getId()))
+            .perform(get(ENTITY_API_URL_ID, boardEntity.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.id").value(board.getId().intValue()))
+            .andExpect(jsonPath("$.id").value(boardEntity.getId().intValue()))
             .andExpect(jsonPath("$.serial").value(DEFAULT_SERIAL));
     }
 
@@ -151,28 +151,28 @@ class BoardResourceIT {
     @Transactional
     void putNewBoard() throws Exception {
         // Initialize the database
-        boardRepository.saveAndFlush(board);
+        boardRepository.saveAndFlush(boardEntity);
 
         int databaseSizeBeforeUpdate = boardRepository.findAll().size();
 
         // Update the board
-        Board updatedBoard = boardRepository.findById(board.getId()).get();
-        // Disconnect from session so that the updates on updatedBoard are not directly saved in db
-        em.detach(updatedBoard);
-        updatedBoard.serial(UPDATED_SERIAL);
+        BoardEntity updatedBoardEntity = boardRepository.findById(boardEntity.getId()).get();
+        // Disconnect from session so that the updates on updatedBoardEntity are not directly saved in db
+        em.detach(updatedBoardEntity);
+        updatedBoardEntity.serial(UPDATED_SERIAL);
 
         restBoardMockMvc
             .perform(
-                put(ENTITY_API_URL_ID, updatedBoard.getId())
+                put(ENTITY_API_URL_ID, updatedBoardEntity.getId())
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(TestUtil.convertObjectToJsonBytes(updatedBoard))
+                    .content(TestUtil.convertObjectToJsonBytes(updatedBoardEntity))
             )
             .andExpect(status().isOk());
 
         // Validate the Board in the database
-        List<Board> boardList = boardRepository.findAll();
+        List<BoardEntity> boardList = boardRepository.findAll();
         assertThat(boardList).hasSize(databaseSizeBeforeUpdate);
-        Board testBoard = boardList.get(boardList.size() - 1);
+        BoardEntity testBoard = boardList.get(boardList.size() - 1);
         assertThat(testBoard.getSerial()).isEqualTo(UPDATED_SERIAL);
     }
 
@@ -180,19 +180,19 @@ class BoardResourceIT {
     @Transactional
     void putNonExistingBoard() throws Exception {
         int databaseSizeBeforeUpdate = boardRepository.findAll().size();
-        board.setId(count.incrementAndGet());
+        boardEntity.setId(count.incrementAndGet());
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restBoardMockMvc
             .perform(
-                put(ENTITY_API_URL_ID, board.getId())
+                put(ENTITY_API_URL_ID, boardEntity.getId())
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(TestUtil.convertObjectToJsonBytes(board))
+                    .content(TestUtil.convertObjectToJsonBytes(boardEntity))
             )
             .andExpect(status().isBadRequest());
 
         // Validate the Board in the database
-        List<Board> boardList = boardRepository.findAll();
+        List<BoardEntity> boardList = boardRepository.findAll();
         assertThat(boardList).hasSize(databaseSizeBeforeUpdate);
     }
 
@@ -200,19 +200,19 @@ class BoardResourceIT {
     @Transactional
     void putWithIdMismatchBoard() throws Exception {
         int databaseSizeBeforeUpdate = boardRepository.findAll().size();
-        board.setId(count.incrementAndGet());
+        boardEntity.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restBoardMockMvc
             .perform(
                 put(ENTITY_API_URL_ID, count.incrementAndGet())
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(TestUtil.convertObjectToJsonBytes(board))
+                    .content(TestUtil.convertObjectToJsonBytes(boardEntity))
             )
             .andExpect(status().isBadRequest());
 
         // Validate the Board in the database
-        List<Board> boardList = boardRepository.findAll();
+        List<BoardEntity> boardList = boardRepository.findAll();
         assertThat(boardList).hasSize(databaseSizeBeforeUpdate);
     }
 
@@ -220,15 +220,15 @@ class BoardResourceIT {
     @Transactional
     void putWithMissingIdPathParamBoard() throws Exception {
         int databaseSizeBeforeUpdate = boardRepository.findAll().size();
-        board.setId(count.incrementAndGet());
+        boardEntity.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restBoardMockMvc
-            .perform(put(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(board)))
+            .perform(put(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(boardEntity)))
             .andExpect(status().isMethodNotAllowed());
 
         // Validate the Board in the database
-        List<Board> boardList = boardRepository.findAll();
+        List<BoardEntity> boardList = boardRepository.findAll();
         assertThat(boardList).hasSize(databaseSizeBeforeUpdate);
     }
 
@@ -236,28 +236,28 @@ class BoardResourceIT {
     @Transactional
     void partialUpdateBoardWithPatch() throws Exception {
         // Initialize the database
-        boardRepository.saveAndFlush(board);
+        boardRepository.saveAndFlush(boardEntity);
 
         int databaseSizeBeforeUpdate = boardRepository.findAll().size();
 
         // Update the board using partial update
-        Board partialUpdatedBoard = new Board();
-        partialUpdatedBoard.setId(board.getId());
+        BoardEntity partialUpdatedBoardEntity = new BoardEntity();
+        partialUpdatedBoardEntity.setId(boardEntity.getId());
 
-        partialUpdatedBoard.serial(UPDATED_SERIAL);
+        partialUpdatedBoardEntity.serial(UPDATED_SERIAL);
 
         restBoardMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, partialUpdatedBoard.getId())
+                patch(ENTITY_API_URL_ID, partialUpdatedBoardEntity.getId())
                     .contentType("application/merge-patch+json")
-                    .content(TestUtil.convertObjectToJsonBytes(partialUpdatedBoard))
+                    .content(TestUtil.convertObjectToJsonBytes(partialUpdatedBoardEntity))
             )
             .andExpect(status().isOk());
 
         // Validate the Board in the database
-        List<Board> boardList = boardRepository.findAll();
+        List<BoardEntity> boardList = boardRepository.findAll();
         assertThat(boardList).hasSize(databaseSizeBeforeUpdate);
-        Board testBoard = boardList.get(boardList.size() - 1);
+        BoardEntity testBoard = boardList.get(boardList.size() - 1);
         assertThat(testBoard.getSerial()).isEqualTo(UPDATED_SERIAL);
     }
 
@@ -265,28 +265,28 @@ class BoardResourceIT {
     @Transactional
     void fullUpdateBoardWithPatch() throws Exception {
         // Initialize the database
-        boardRepository.saveAndFlush(board);
+        boardRepository.saveAndFlush(boardEntity);
 
         int databaseSizeBeforeUpdate = boardRepository.findAll().size();
 
         // Update the board using partial update
-        Board partialUpdatedBoard = new Board();
-        partialUpdatedBoard.setId(board.getId());
+        BoardEntity partialUpdatedBoardEntity = new BoardEntity();
+        partialUpdatedBoardEntity.setId(boardEntity.getId());
 
-        partialUpdatedBoard.serial(UPDATED_SERIAL);
+        partialUpdatedBoardEntity.serial(UPDATED_SERIAL);
 
         restBoardMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, partialUpdatedBoard.getId())
+                patch(ENTITY_API_URL_ID, partialUpdatedBoardEntity.getId())
                     .contentType("application/merge-patch+json")
-                    .content(TestUtil.convertObjectToJsonBytes(partialUpdatedBoard))
+                    .content(TestUtil.convertObjectToJsonBytes(partialUpdatedBoardEntity))
             )
             .andExpect(status().isOk());
 
         // Validate the Board in the database
-        List<Board> boardList = boardRepository.findAll();
+        List<BoardEntity> boardList = boardRepository.findAll();
         assertThat(boardList).hasSize(databaseSizeBeforeUpdate);
-        Board testBoard = boardList.get(boardList.size() - 1);
+        BoardEntity testBoard = boardList.get(boardList.size() - 1);
         assertThat(testBoard.getSerial()).isEqualTo(UPDATED_SERIAL);
     }
 
@@ -294,19 +294,19 @@ class BoardResourceIT {
     @Transactional
     void patchNonExistingBoard() throws Exception {
         int databaseSizeBeforeUpdate = boardRepository.findAll().size();
-        board.setId(count.incrementAndGet());
+        boardEntity.setId(count.incrementAndGet());
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restBoardMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, board.getId())
+                patch(ENTITY_API_URL_ID, boardEntity.getId())
                     .contentType("application/merge-patch+json")
-                    .content(TestUtil.convertObjectToJsonBytes(board))
+                    .content(TestUtil.convertObjectToJsonBytes(boardEntity))
             )
             .andExpect(status().isBadRequest());
 
         // Validate the Board in the database
-        List<Board> boardList = boardRepository.findAll();
+        List<BoardEntity> boardList = boardRepository.findAll();
         assertThat(boardList).hasSize(databaseSizeBeforeUpdate);
     }
 
@@ -314,19 +314,19 @@ class BoardResourceIT {
     @Transactional
     void patchWithIdMismatchBoard() throws Exception {
         int databaseSizeBeforeUpdate = boardRepository.findAll().size();
-        board.setId(count.incrementAndGet());
+        boardEntity.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restBoardMockMvc
             .perform(
                 patch(ENTITY_API_URL_ID, count.incrementAndGet())
                     .contentType("application/merge-patch+json")
-                    .content(TestUtil.convertObjectToJsonBytes(board))
+                    .content(TestUtil.convertObjectToJsonBytes(boardEntity))
             )
             .andExpect(status().isBadRequest());
 
         // Validate the Board in the database
-        List<Board> boardList = boardRepository.findAll();
+        List<BoardEntity> boardList = boardRepository.findAll();
         assertThat(boardList).hasSize(databaseSizeBeforeUpdate);
     }
 
@@ -334,15 +334,17 @@ class BoardResourceIT {
     @Transactional
     void patchWithMissingIdPathParamBoard() throws Exception {
         int databaseSizeBeforeUpdate = boardRepository.findAll().size();
-        board.setId(count.incrementAndGet());
+        boardEntity.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restBoardMockMvc
-            .perform(patch(ENTITY_API_URL).contentType("application/merge-patch+json").content(TestUtil.convertObjectToJsonBytes(board)))
+            .perform(
+                patch(ENTITY_API_URL).contentType("application/merge-patch+json").content(TestUtil.convertObjectToJsonBytes(boardEntity))
+            )
             .andExpect(status().isMethodNotAllowed());
 
         // Validate the Board in the database
-        List<Board> boardList = boardRepository.findAll();
+        List<BoardEntity> boardList = boardRepository.findAll();
         assertThat(boardList).hasSize(databaseSizeBeforeUpdate);
     }
 
@@ -350,17 +352,17 @@ class BoardResourceIT {
     @Transactional
     void deleteBoard() throws Exception {
         // Initialize the database
-        boardRepository.saveAndFlush(board);
+        boardRepository.saveAndFlush(boardEntity);
 
         int databaseSizeBeforeDelete = boardRepository.findAll().size();
 
         // Delete the board
         restBoardMockMvc
-            .perform(delete(ENTITY_API_URL_ID, board.getId()).accept(MediaType.APPLICATION_JSON))
+            .perform(delete(ENTITY_API_URL_ID, boardEntity.getId()).accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isNoContent());
 
         // Validate the database contains one less item
-        List<Board> boardList = boardRepository.findAll();
+        List<BoardEntity> boardList = boardRepository.findAll();
         assertThat(boardList).hasSize(databaseSizeBeforeDelete - 1);
     }
 }

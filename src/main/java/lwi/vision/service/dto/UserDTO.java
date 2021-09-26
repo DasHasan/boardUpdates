@@ -1,6 +1,6 @@
 package lwi.vision.service.dto;
 
-import lwi.vision.domain.User;
+import lwi.vision.domain.UserEntity;
 
 /**
  * A DTO representing a user, with only the public attributes.
@@ -15,7 +15,7 @@ public class UserDTO {
         // Empty constructor needed for Jackson.
     }
 
-    public UserDTO(User user) {
+    public UserDTO(UserEntity user) {
         this.id = user.getId();
         // Customize it here if you need, or not, firstName/lastName/etc
         this.login = user.getLogin();

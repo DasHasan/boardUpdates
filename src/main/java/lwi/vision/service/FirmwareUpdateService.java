@@ -2,7 +2,7 @@ package lwi.vision.service;
 
 import java.util.List;
 import java.util.Optional;
-import lwi.vision.domain.FirmwareUpdate;
+import lwi.vision.domain.FirmwareUpdateEntity;
 import lwi.vision.repository.FirmwareUpdateRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Service Implementation for managing {@link FirmwareUpdate}.
+ * Service Implementation for managing {@link FirmwareUpdateEntity}.
  */
 @Service
 @Transactional
@@ -27,29 +27,29 @@ public class FirmwareUpdateService {
     /**
      * Save a firmwareUpdate.
      *
-     * @param firmwareUpdate the entity to save.
+     * @param firmwareUpdateEntity the entity to save.
      * @return the persisted entity.
      */
-    public FirmwareUpdate save(FirmwareUpdate firmwareUpdate) {
-        log.debug("Request to save FirmwareUpdate : {}", firmwareUpdate);
-        return firmwareUpdateRepository.save(firmwareUpdate);
+    public FirmwareUpdateEntity save(FirmwareUpdateEntity firmwareUpdateEntity) {
+        log.debug("Request to save FirmwareUpdate : {}", firmwareUpdateEntity);
+        return firmwareUpdateRepository.save(firmwareUpdateEntity);
     }
 
     /**
      * Partially update a firmwareUpdate.
      *
-     * @param firmwareUpdate the entity to update partially.
+     * @param firmwareUpdateEntity the entity to update partially.
      * @return the persisted entity.
      */
-    public Optional<FirmwareUpdate> partialUpdate(FirmwareUpdate firmwareUpdate) {
-        log.debug("Request to partially update FirmwareUpdate : {}", firmwareUpdate);
+    public Optional<FirmwareUpdateEntity> partialUpdate(FirmwareUpdateEntity firmwareUpdateEntity) {
+        log.debug("Request to partially update FirmwareUpdate : {}", firmwareUpdateEntity);
 
         return firmwareUpdateRepository
-            .findById(firmwareUpdate.getId())
+            .findById(firmwareUpdateEntity.getId())
             .map(
                 existingFirmwareUpdate -> {
-                    if (firmwareUpdate.getActive() != null) {
-                        existingFirmwareUpdate.setActive(firmwareUpdate.getActive());
+                    if (firmwareUpdateEntity.getActive() != null) {
+                        existingFirmwareUpdate.setActive(firmwareUpdateEntity.getActive());
                     }
 
                     return existingFirmwareUpdate;
@@ -64,7 +64,7 @@ public class FirmwareUpdateService {
      * @return the list of entities.
      */
     @Transactional(readOnly = true)
-    public List<FirmwareUpdate> findAll() {
+    public List<FirmwareUpdateEntity> findAll() {
         log.debug("Request to get all FirmwareUpdates");
         return firmwareUpdateRepository.findAll();
     }
@@ -76,7 +76,7 @@ public class FirmwareUpdateService {
      * @return the entity.
      */
     @Transactional(readOnly = true)
-    public Optional<FirmwareUpdate> findOne(Long id) {
+    public Optional<FirmwareUpdateEntity> findOne(Long id) {
         log.debug("Request to get FirmwareUpdate : {}", id);
         return firmwareUpdateRepository.findById(id);
     }

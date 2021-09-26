@@ -6,12 +6,12 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
- * A Group.
+ * A GroupEntity.
  */
 @Entity
 @Table(name = "jhi_group")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class Group implements Serializable {
+public class GroupEntity extends AbstractAuditingEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -31,7 +31,7 @@ public class Group implements Serializable {
         this.id = id;
     }
 
-    public Group id(Long id) {
+    public GroupEntity id(Long id) {
         this.id = id;
         return this;
     }
@@ -40,7 +40,7 @@ public class Group implements Serializable {
         return this.name;
     }
 
-    public Group name(String name) {
+    public GroupEntity name(String name) {
         this.name = name;
         return this;
     }
@@ -56,10 +56,10 @@ public class Group implements Serializable {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Group)) {
+        if (!(o instanceof GroupEntity)) {
             return false;
         }
-        return id != null && id.equals(((Group) o).id);
+        return id != null && id.equals(((GroupEntity) o).id);
     }
 
     @Override
@@ -71,7 +71,7 @@ public class Group implements Serializable {
     // prettier-ignore
     @Override
     public String toString() {
-        return "Group{" +
+        return "GroupEntity{" +
             "id=" + getId() +
             ", name='" + getName() + "'" +
             "}";

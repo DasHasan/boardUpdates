@@ -1,0 +1,9 @@
+### Search API
+POST http://localhost:8080/search/
+Content-Type: application/json
+
+{
+    "serial": "Solutions payment deposit",
+    "firmware": "payment",
+    "software": "firewall"
+}

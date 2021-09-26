@@ -9,12 +9,12 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
- * A Board.
+ * A BoardEntity.
  */
 @Entity
 @Table(name = "board")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class Board implements Serializable {
+public class BoardEntity extends AbstractAuditingEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -28,12 +28,12 @@ public class Board implements Serializable {
     @OneToMany(mappedBy = "board")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "board" }, allowSetters = true)
-    private Set<Software> software = new HashSet<>();
+    private Set<SoftwareEntity> software = new HashSet<>();
 
     @OneToMany(mappedBy = "board")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "board" }, allowSetters = true)
-    private Set<Firmware> firmware = new HashSet<>();
+    private Set<FirmwareEntity> firmware = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -44,7 +44,7 @@ public class Board implements Serializable {
         this.id = id;
     }
 
-    public Board id(Long id) {
+    public BoardEntity id(Long id) {
         this.id = id;
         return this;
     }
@@ -53,7 +53,7 @@ public class Board implements Serializable {
         return this.serial;
     }
 
-    public Board serial(String serial) {
+    public BoardEntity serial(String serial) {
         this.serial = serial;
         return this;
     }
@@ -62,28 +62,28 @@ public class Board implements Serializable {
         this.serial = serial;
     }
 
-    public Set<Software> getSoftware() {
+    public Set<SoftwareEntity> getSoftware() {
         return this.software;
     }
 
-    public Board software(Set<Software> software) {
+    public BoardEntity software(Set<SoftwareEntity> software) {
         this.setSoftware(software);
         return this;
     }
 
-    public Board addSoftware(Software software) {
+    public BoardEntity addSoftware(SoftwareEntity software) {
         this.software.add(software);
         software.setBoard(this);
         return this;
     }
 
-    public Board removeSoftware(Software software) {
+    public BoardEntity removeSoftware(SoftwareEntity software) {
         this.software.remove(software);
         software.setBoard(null);
         return this;
     }
 
-    public void setSoftware(Set<Software> software) {
+    public void setSoftware(Set<SoftwareEntity> software) {
         if (this.software != null) {
             this.software.forEach(i -> i.setBoard(null));
         }
@@ -93,28 +93,28 @@ public class Board implements Serializable {
         this.software = software;
     }
 
-    public Set<Firmware> getFirmware() {
+    public Set<FirmwareEntity> getFirmware() {
         return this.firmware;
     }
 
-    public Board firmware(Set<Firmware> firmware) {
+    public BoardEntity firmware(Set<FirmwareEntity> firmware) {
         this.setFirmware(firmware);
         return this;
     }
 
-    public Board addFirmware(Firmware firmware) {
+    public BoardEntity addFirmware(FirmwareEntity firmware) {
         this.firmware.add(firmware);
         firmware.setBoard(this);
         return this;
     }
 
-    public Board removeFirmware(Firmware firmware) {
+    public BoardEntity removeFirmware(FirmwareEntity firmware) {
         this.firmware.remove(firmware);
         firmware.setBoard(null);
         return this;
     }
 
-    public void setFirmware(Set<Firmware> firmware) {
+    public void setFirmware(Set<FirmwareEntity> firmware) {
         if (this.firmware != null) {
             this.firmware.forEach(i -> i.setBoard(null));
         }
@@ -131,10 +131,10 @@ public class Board implements Serializable {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Board)) {
+        if (!(o instanceof BoardEntity)) {
             return false;
         }
-        return id != null && id.equals(((Board) o).id);
+        return id != null && id.equals(((BoardEntity) o).id);
     }
 
     @Override
@@ -146,7 +146,7 @@ public class Board implements Serializable {
     // prettier-ignore
     @Override
     public String toString() {
-        return "Board{" +
+        return "BoardEntity{" +
             "id=" + getId() +
             ", serial='" + getSerial() + "'" +
             "}";

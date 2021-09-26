@@ -5,7 +5,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import lwi.vision.domain.Software;
+import lwi.vision.domain.SoftwareEntity;
 import lwi.vision.repository.SoftwareRepository;
 import lwi.vision.service.SoftwareService;
 import lwi.vision.web.rest.errors.BadRequestAlertException;
@@ -18,7 +18,7 @@ import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
 /**
- * REST controller for managing {@link lwi.vision.domain.Software}.
+ * REST controller for managing {@link lwi.vision.domain.SoftwareEntity}.
  */
 @RestController
 @RequestMapping("/api")
@@ -43,17 +43,17 @@ public class SoftwareResource {
     /**
      * {@code POST  /software} : Create a new software.
      *
-     * @param software the software to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new software, or with status {@code 400 (Bad Request)} if the software has already an ID.
+     * @param softwareEntity the softwareEntity to create.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new softwareEntity, or with status {@code 400 (Bad Request)} if the software has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/software")
-    public ResponseEntity<Software> createSoftware(@RequestBody Software software) throws URISyntaxException {
-        log.debug("REST request to save Software : {}", software);
-        if (software.getId() != null) {
+    public ResponseEntity<SoftwareEntity> createSoftware(@RequestBody SoftwareEntity softwareEntity) throws URISyntaxException {
+        log.debug("REST request to save Software : {}", softwareEntity);
+        if (softwareEntity.getId() != null) {
             throw new BadRequestAlertException("A new software cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        Software result = softwareService.save(software);
+        SoftwareEntity result = softwareService.save(softwareEntity);
         return ResponseEntity
             .created(new URI("/api/software/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
@@ -63,23 +63,23 @@ public class SoftwareResource {
     /**
      * {@code PUT  /software/:id} : Updates an existing software.
      *
-     * @param id the id of the software to save.
-     * @param software the software to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated software,
-     * or with status {@code 400 (Bad Request)} if the software is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the software couldn't be updated.
+     * @param id the id of the softwareEntity to save.
+     * @param softwareEntity the softwareEntity to update.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated softwareEntity,
+     * or with status {@code 400 (Bad Request)} if the softwareEntity is not valid,
+     * or with status {@code 500 (Internal Server Error)} if the softwareEntity couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/software/{id}")
-    public ResponseEntity<Software> updateSoftware(
+    public ResponseEntity<SoftwareEntity> updateSoftware(
         @PathVariable(value = "id", required = false) final Long id,
-        @RequestBody Software software
+        @RequestBody SoftwareEntity softwareEntity
     ) throws URISyntaxException {
-        log.debug("REST request to update Software : {}, {}", id, software);
-        if (software.getId() == null) {
+        log.debug("REST request to update Software : {}, {}", id, softwareEntity);
+        if (softwareEntity.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        if (!Objects.equals(id, software.getId())) {
+        if (!Objects.equals(id, softwareEntity.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
@@ -87,34 +87,34 @@ public class SoftwareResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        Software result = softwareService.save(software);
+        SoftwareEntity result = softwareService.save(softwareEntity);
         return ResponseEntity
             .ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, software.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, softwareEntity.getId().toString()))
             .body(result);
     }
 
     /**
      * {@code PATCH  /software/:id} : Partial updates given fields of an existing software, field will ignore if it is null
      *
-     * @param id the id of the software to save.
-     * @param software the software to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated software,
-     * or with status {@code 400 (Bad Request)} if the software is not valid,
-     * or with status {@code 404 (Not Found)} if the software is not found,
-     * or with status {@code 500 (Internal Server Error)} if the software couldn't be updated.
+     * @param id the id of the softwareEntity to save.
+     * @param softwareEntity the softwareEntity to update.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated softwareEntity,
+     * or with status {@code 400 (Bad Request)} if the softwareEntity is not valid,
+     * or with status {@code 404 (Not Found)} if the softwareEntity is not found,
+     * or with status {@code 500 (Internal Server Error)} if the softwareEntity couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/software/{id}", consumes = "application/merge-patch+json")
-    public ResponseEntity<Software> partialUpdateSoftware(
+    public ResponseEntity<SoftwareEntity> partialUpdateSoftware(
         @PathVariable(value = "id", required = false) final Long id,
-        @RequestBody Software software
+        @RequestBody SoftwareEntity softwareEntity
     ) throws URISyntaxException {
-        log.debug("REST request to partial update Software partially : {}, {}", id, software);
-        if (software.getId() == null) {
+        log.debug("REST request to partial update Software partially : {}, {}", id, softwareEntity);
+        if (softwareEntity.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        if (!Objects.equals(id, software.getId())) {
+        if (!Objects.equals(id, softwareEntity.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
@@ -122,11 +122,11 @@ public class SoftwareResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        Optional<Software> result = softwareService.partialUpdate(software);
+        Optional<SoftwareEntity> result = softwareService.partialUpdate(softwareEntity);
 
         return ResponseUtil.wrapOrNotFound(
             result,
-            HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, software.getId().toString())
+            HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, softwareEntity.getId().toString())
         );
     }
 
@@ -136,7 +136,7 @@ public class SoftwareResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of software in body.
      */
     @GetMapping("/software")
-    public List<Software> getAllSoftware() {
+    public List<SoftwareEntity> getAllSoftware() {
         log.debug("REST request to get all Software");
         return softwareService.findAll();
     }
@@ -144,20 +144,20 @@ public class SoftwareResource {
     /**
      * {@code GET  /software/:id} : get the "id" software.
      *
-     * @param id the id of the software to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the software, or with status {@code 404 (Not Found)}.
+     * @param id the id of the softwareEntity to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the softwareEntity, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/software/{id}")
-    public ResponseEntity<Software> getSoftware(@PathVariable Long id) {
+    public ResponseEntity<SoftwareEntity> getSoftware(@PathVariable Long id) {
         log.debug("REST request to get Software : {}", id);
-        Optional<Software> software = softwareService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(software);
+        Optional<SoftwareEntity> softwareEntity = softwareService.findOne(id);
+        return ResponseUtil.wrapOrNotFound(softwareEntity);
     }
 
     /**
      * {@code DELETE  /software/:id} : delete the "id" software.
      *
-     * @param id the id of the software to delete.
+     * @param id the id of the softwareEntity to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/software/{id}")

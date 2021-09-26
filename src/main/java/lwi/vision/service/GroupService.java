@@ -2,7 +2,7 @@ package lwi.vision.service;
 
 import java.util.List;
 import java.util.Optional;
-import lwi.vision.domain.Group;
+import lwi.vision.domain.GroupEntity;
 import lwi.vision.repository.GroupRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Service Implementation for managing {@link Group}.
+ * Service Implementation for managing {@link GroupEntity}.
  */
 @Service
 @Transactional
@@ -27,29 +27,29 @@ public class GroupService {
     /**
      * Save a group.
      *
-     * @param group the entity to save.
+     * @param groupEntity the entity to save.
      * @return the persisted entity.
      */
-    public Group save(Group group) {
-        log.debug("Request to save Group : {}", group);
-        return groupRepository.save(group);
+    public GroupEntity save(GroupEntity groupEntity) {
+        log.debug("Request to save Group : {}", groupEntity);
+        return groupRepository.save(groupEntity);
     }
 
     /**
      * Partially update a group.
      *
-     * @param group the entity to update partially.
+     * @param groupEntity the entity to update partially.
      * @return the persisted entity.
      */
-    public Optional<Group> partialUpdate(Group group) {
-        log.debug("Request to partially update Group : {}", group);
+    public Optional<GroupEntity> partialUpdate(GroupEntity groupEntity) {
+        log.debug("Request to partially update Group : {}", groupEntity);
 
         return groupRepository
-            .findById(group.getId())
+            .findById(groupEntity.getId())
             .map(
                 existingGroup -> {
-                    if (group.getName() != null) {
-                        existingGroup.setName(group.getName());
+                    if (groupEntity.getName() != null) {
+                        existingGroup.setName(groupEntity.getName());
                     }
 
                     return existingGroup;
@@ -64,7 +64,7 @@ public class GroupService {
      * @return the list of entities.
      */
     @Transactional(readOnly = true)
-    public List<Group> findAll() {
+    public List<GroupEntity> findAll() {
         log.debug("Request to get all Groups");
         return groupRepository.findAll();
     }
@@ -76,7 +76,7 @@ public class GroupService {
      * @return the entity.
      */
     @Transactional(readOnly = true)
-    public Optional<Group> findOne(Long id) {
+    public Optional<GroupEntity> findOne(Long id) {
         log.debug("Request to get Group : {}", id);
         return groupRepository.findById(id);
     }

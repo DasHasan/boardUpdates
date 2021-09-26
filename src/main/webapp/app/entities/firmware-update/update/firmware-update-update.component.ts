@@ -9,8 +9,8 @@ import { IFirmwareUpdate, FirmwareUpdate } from '../firmware-update.model';
 import { FirmwareUpdateService } from '../service/firmware-update.service';
 import { IBoard } from 'app/entities/board/board.model';
 import { BoardService } from 'app/entities/board/service/board.service';
-import { ISoftware } from 'app/entities/software/software.model';
-import { SoftwareService } from 'app/entities/software/service/software.service';
+import { IFirmware } from 'app/entities/firmware/firmware.model';
+import { FirmwareService } from 'app/entities/firmware/service/firmware.service';
 
 @Component({
   selector: 'jhi-firmware-update-update',
@@ -20,7 +20,7 @@ export class FirmwareUpdateUpdateComponent implements OnInit {
   isSaving = false;
 
   boardsSharedCollection: IBoard[] = [];
-  softwareSharedCollection: ISoftware[] = [];
+  firmwareSharedCollection: IFirmware[] = [];
 
   editForm = this.fb.group({
     id: [],
@@ -33,7 +33,7 @@ export class FirmwareUpdateUpdateComponent implements OnInit {
   constructor(
     protected firmwareUpdateService: FirmwareUpdateService,
     protected boardService: BoardService,
-    protected softwareService: SoftwareService,
+    protected firmwareService: FirmwareService,
     protected activatedRoute: ActivatedRoute,
     protected fb: FormBuilder
   ) {}
@@ -64,7 +64,7 @@ export class FirmwareUpdateUpdateComponent implements OnInit {
     return item.id!;
   }
 
-  trackSoftwareById(index: number, item: ISoftware): number {
+  trackFirmwareById(index: number, item: IFirmware): number {
     return item.id!;
   }
 
@@ -97,8 +97,8 @@ export class FirmwareUpdateUpdateComponent implements OnInit {
     });
 
     this.boardsSharedCollection = this.boardService.addBoardToCollectionIfMissing(this.boardsSharedCollection, firmwareUpdate.board);
-    this.softwareSharedCollection = this.softwareService.addSoftwareToCollectionIfMissing(
-      this.softwareSharedCollection,
+    this.firmwareSharedCollection = this.firmwareService.addFirmwareToCollectionIfMissing(
+      this.firmwareSharedCollection,
       firmwareUpdate.from,
       firmwareUpdate.to
     );
@@ -111,15 +111,15 @@ export class FirmwareUpdateUpdateComponent implements OnInit {
       .pipe(map((boards: IBoard[]) => this.boardService.addBoardToCollectionIfMissing(boards, this.editForm.get('board')!.value)))
       .subscribe((boards: IBoard[]) => (this.boardsSharedCollection = boards));
 
-    this.softwareService
+    this.firmwareService
       .query()
-      .pipe(map((res: HttpResponse<ISoftware[]>) => res.body ?? []))
+      .pipe(map((res: HttpResponse<IFirmware[]>) => res.body ?? []))
       .pipe(
-        map((software: ISoftware[]) =>
-          this.softwareService.addSoftwareToCollectionIfMissing(software, this.editForm.get('from')!.value, this.editForm.get('to')!.value)
+        map((firmware: IFirmware[]) =>
+          this.firmwareService.addFirmwareToCollectionIfMissing(firmware, this.editForm.get('from')!.value, this.editForm.get('to')!.value)
         )
       )
-      .subscribe((software: ISoftware[]) => (this.softwareSharedCollection = software));
+      .subscribe((firmware: IFirmware[]) => (this.firmwareSharedCollection = firmware));
   }
 
   protected createFromForm(): IFirmwareUpdate {

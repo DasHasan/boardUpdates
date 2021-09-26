@@ -45,17 +45,17 @@ public class CacheConfiguration {
         return cm -> {
             createCache(cm, lwi.vision.repository.UserRepository.USERS_BY_LOGIN_CACHE);
             createCache(cm, lwi.vision.repository.UserRepository.USERS_BY_EMAIL_CACHE);
-            createCache(cm, lwi.vision.domain.User.class.getName());
+            createCache(cm, lwi.vision.domain.UserEntity.class.getName());
             createCache(cm, lwi.vision.domain.Authority.class.getName());
-            createCache(cm, lwi.vision.domain.User.class.getName() + ".authorities");
-            createCache(cm, lwi.vision.domain.Group.class.getName());
-            createCache(cm, lwi.vision.domain.Board.class.getName());
-            createCache(cm, lwi.vision.domain.Board.class.getName() + ".software");
-            createCache(cm, lwi.vision.domain.Board.class.getName() + ".firmware");
-            createCache(cm, lwi.vision.domain.Firmware.class.getName());
-            createCache(cm, lwi.vision.domain.FirmwareUpdate.class.getName());
-            createCache(cm, lwi.vision.domain.Software.class.getName());
-            createCache(cm, lwi.vision.domain.SoftwareUpdate.class.getName());
+            createCache(cm, lwi.vision.domain.UserEntity.class.getName() + ".authorities");
+            createCache(cm, lwi.vision.domain.GroupEntity.class.getName());
+            createCache(cm, lwi.vision.domain.BoardEntity.class.getName());
+            createCache(cm, lwi.vision.domain.BoardEntity.class.getName() + ".software");
+            createCache(cm, lwi.vision.domain.BoardEntity.class.getName() + ".firmware");
+            createCache(cm, lwi.vision.domain.FirmwareEntity.class.getName());
+            createCache(cm, lwi.vision.domain.FirmwareUpdateEntity.class.getName());
+            createCache(cm, lwi.vision.domain.SoftwareEntity.class.getName());
+            createCache(cm, lwi.vision.domain.SoftwareUpdateEntity.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }
