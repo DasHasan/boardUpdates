@@ -5,5 +5,5 @@ Content-Type: application/json
 {
     "serial": "Solutions payment deposit",
     "firmware": "payment",
-    "software": "firewall"
+    "software": "test"
 }

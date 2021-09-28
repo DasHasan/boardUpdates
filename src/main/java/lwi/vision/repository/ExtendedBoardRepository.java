@@ -5,6 +5,6 @@ import lwi.vision.domain.BoardEntity;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface MyBoardRepository extends BoardRepository {
+public interface ExtendedBoardRepository extends BoardRepository {
     Optional<BoardEntity> findBySerialIs(String serial);
 }
