@@ -6,8 +6,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
-import lwi.vision.service.EmailAlreadyUsedException;
-import lwi.vision.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -23,40 +21,38 @@ public class FileUploadResource {
 
     private final Logger log = LoggerFactory.getLogger(FileUploadResource.class);
 
-    /**
-     * POST uploadSoftware
-     *
-     * @return
-     */
     @PostMapping("/upload-software")
-    public ResponseEntity<Map<String, String>> uploadSoftware(@RequestBody MultipartFile file) {
-        Path target;
-        try {
-            target = Paths.get("./software-updates").resolve(file.getOriginalFilename());
-            if (!target.toFile().exists()) {
-                Files.copy(file.getInputStream(), target);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new BadRequestAlertException("Entity not found", "ENTITY_NAME", "idnotfound");
-        }
-
+    public ResponseEntity<Map<String, String>> uploadSoftware(
+        @RequestParam String boardSerial,
+        @RequestParam String version,
+        @RequestParam MultipartFile file
+    ) throws IOException {
         Map<String, String> body = new HashMap<>();
-        body.put("path", target.toAbsolutePath().toString());
+        body.put("path", saveFile(file, boardSerial, "software", version));
         return ResponseEntity.ok(body);
     }
 
-    /**
-     * POST uploadFirmware
-     */
     @PostMapping("/upload-firmware")
-    public String uploadFirmware() {
-        return "uploadFirmware";
+    public ResponseEntity<Map<String, String>> uploadFirmware(
+        @RequestParam String boardSerial,
+        @RequestParam String version,
+        @RequestParam MultipartFile file
+    ) throws IOException {
+        Map<String, String> body = new HashMap<>();
+        body.put("path", saveFile(file, boardSerial, "firmware", version));
+        return ResponseEntity.ok(body);
     }
 
-    /**
-     * GET a
-     */
+    private String saveFile(MultipartFile file, String serial, String updateType, String version) throws IOException {
+        Path targetDir = Paths.get("updates", "versions", serial, updateType, version);
+        Files.createDirectories(targetDir);
+
+        Path targetFile = targetDir.resolve(file.getOriginalFilename());
+
+        Files.copy(file.getInputStream(), targetFile);
+        return targetFile.toString();
+    }
+
     @GetMapping("/a")
     public String a() {
         return "a";

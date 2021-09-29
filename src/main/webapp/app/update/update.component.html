@@ -1,39 +1,65 @@
 <div class="row justify-content-center">
   <div class="col-8">
     <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-      <h2 id="jhi-software-heading" data-cy="SoftwareCreateUpdateHeading" jhiTranslate="boardUpdatesApp.software.home.createOrEditLabel">
-        Create or edit a Software
-      </h2>
+      <h2 id="jhi-software-heading" data-cy="SoftwareCreateUpdateHeading">Neues Update erstellen</h2>
 
       <div>
         <jhi-alert-error></jhi-alert-error>
 
-        <div class="form-group" [hidden]="editForm.get('id')!.value == null">
-          <label class="form-control-label" jhiTranslate="global.field.id" for="field_id">ID</label>
-          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
-        </div>
+        <div class="row">
+          <div class="col-6">
+            <div class="form-group">
+              <label class="form-control-label" for="field_version">Software Version</label>
+              <input
+                type="text"
+                class="form-control"
+                name="softwareVersion"
+                id="field_version"
+                data-cy="softwareVersion"
+                formControlName="softwareVersion"
+              />
+            </div>
 
-        <div class="form-group">
-          <label class="form-control-label" jhiTranslate="boardUpdatesApp.software.version" for="field_version">Version</label>
-          <input type="text" class="form-control" name="version" id="field_version" data-cy="version" formControlName="version" />
-        </div>
+            <div class="form-group">
+              <label class="form-control-label" for="field_software_file">Software Update</label>
+              <input
+                type="file"
+                (change)="onSoftwareFileChange($event)"
+                class="form-control-file"
+                name="softwareFile"
+                id="field_software_file"
+                data-cy="softwareFile"
+                accept="application/zip"
+              />
+            </div>
+          </div>
 
-        <div class="form-group">
-          <label class="form-control-label" jhiTranslate="boardUpdatesApp.software.path" for="field_path">Path</label>
-          <input type="text" class="form-control" name="path" id="field_path" data-cy="path" formControlName="path" />
-        </div>
+          <div class="col-6">
+            <div class="form-group">
+              <label class="form-control-label" for="field_version">Firmware Version</label>
+              <input
+                type="text"
+                class="form-control"
+                name="firmwareVersion"
+                id="field_firmware_version"
+                data-cy="firmwareVersion"
+                formControlName="firmwareVersion"
+              />
+            </div>
 
-        <div class="form-group">
-          <label class="form-control-label" jhiTranslate="boardUpdatesApp.software.path" for="field_file">File</label>
-          <input
-            type="file"
-            (change)="onFileChange($event)"
-            class="form-control-file"
-            name="file"
-            id="field_file"
-            data-cy="file"
-            formControlName="file"
-          />
+            <div class="form-group">
+              <label class="form-control-label" for="field_firmware_file">Firmware Update</label>
+              <input
+                type="file"
+                (change)="onFirmwareFileChange($event)"
+                class="form-control-file"
+                name="firmwareFile"
+                id="field_firmware_file"
+                data-cy="firmwareFile"
+                accept="application/zip"
+              />
+            </div>
+          </div>
         </div>
 
         <div class="form-group">

@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { ISoftware, Software } from 'app/entities/software/software.model';
+import { ISoftware } from 'app/entities/software/software.model';
 import { finalize, map } from 'rxjs/operators';
 import { IBoard } from 'app/entities/board/board.model';
 import { SoftwareService } from 'app/entities/software/service/software.service';
 import { BoardService } from 'app/entities/board/service/board.service';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
+import { UpdateService } from 'app/update/update.service';
 
 @Component({
   selector: 'jhi-update',
@@ -16,22 +17,22 @@ import { FormBuilder } from '@angular/forms';
 })
 export class UpdateComponent implements OnInit {
   editForm = this.fb.group({
-    id: [],
-    version: [],
-    path: [],
-    file: '',
+    softwareVersion: [],
+    firmwareVersion: [],
     board: [],
   });
   isSaving = false;
   boardsSharedCollection: IBoard[] = [];
-  file?: File;
+  softwareFile?: File;
+  firmwareFile?: File;
 
   constructor(
     protected softwareService: SoftwareService,
     protected boardService: BoardService,
     protected activatedRoute: ActivatedRoute,
     protected fb: FormBuilder,
-    protected http: HttpClient
+    protected http: HttpClient,
+    protected updateService: UpdateService
   ) {}
 
   ngOnInit(): void {
@@ -39,37 +40,22 @@ export class UpdateComponent implements OnInit {
   }
 
   save(): void {
-    this.isSaving = true;
-    const software = this.createFromForm();
-    // eslint-disable-next-line no-console
-    console.log(this.editForm.get('file')?.value);
-    this.subscribeToSaveResponse(this.softwareService.create(software));
+    // this.isSaving = true;
+    // this.subscribeToSaveResponse(this.updateService.save(this.editForm, this.softwareFile, this.firmwareFile));
+    this.updateService.save(this.editForm, this.softwareFile, this.firmwareFile);
   }
 
   onSuccess(software: ISoftware | null): void {
     // eslint-disable-next-line no-console
-    console.log(software?.id);
-    if (software?.id) {
-      if (this.file) {
-        const formData = new FormData();
-        formData.append('file', this.file);
-        this.http.post<{ path: string }>('/api/file-upload/upload-software', formData).subscribe(value => {
-          // eslint-disable-next-line no-console
-          console.log(value.path);
-          software.path = value.path;
-          this.softwareService.update(software).subscribe();
-        });
-      }
-    }
+    console.log(software);
   }
 
-  onFileChange($event: Event): void {
-    if ($event.target != null) {
-      const file = ($event.target as HTMLInputElement).files;
-      if (file && file.length > 0) {
-        this.file = file[0];
-      }
-    }
+  onSoftwareFileChange($event: Event): void {
+    this.softwareFile = this.getFileFromEvent($event);
+  }
+
+  onFirmwareFileChange($event: Event): void {
+    this.firmwareFile = this.getFileFromEvent($event);
   }
 
   previousState(): void {
@@ -80,22 +66,25 @@ export class UpdateComponent implements OnInit {
     return item.id!;
   }
 
+  protected getFileFromEvent($event: Event): File | undefined {
+    if ($event.target == null) {
+      return;
+    }
+
+    const file = ($event.target as HTMLInputElement).files;
+    if (!file || !file.length) {
+      return;
+    }
+
+    return file[0];
+  }
+
   protected onSaveError(): void {
     // Api for inheritance.
   }
 
   protected onSaveFinalize(): void {
     this.isSaving = false;
-  }
-
-  protected createFromForm(): ISoftware {
-    return {
-      ...new Software(),
-      id: this.editForm.get(['id'])!.value,
-      version: this.editForm.get(['version'])!.value,
-      path: this.editForm.get(['path'])!.value,
-      board: this.editForm.get(['board'])!.value,
-    };
   }
 
   protected loadBoards(): void {
