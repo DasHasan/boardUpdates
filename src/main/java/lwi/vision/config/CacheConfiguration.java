@@ -48,10 +48,11 @@ public class CacheConfiguration {
             createCache(cm, lwi.vision.domain.UserEntity.class.getName());
             createCache(cm, lwi.vision.domain.Authority.class.getName());
             createCache(cm, lwi.vision.domain.UserEntity.class.getName() + ".authorities");
+            createCache(cm, lwi.vision.domain.BoardUpdateEntity.class.getName());
             createCache(cm, lwi.vision.domain.GroupEntity.class.getName());
             createCache(cm, lwi.vision.domain.BoardEntity.class.getName());
-            createCache(cm, lwi.vision.domain.BoardEntity.class.getName() + ".software");
             createCache(cm, lwi.vision.domain.BoardEntity.class.getName() + ".firmware");
+            createCache(cm, lwi.vision.domain.BoardEntity.class.getName() + ".software");
             createCache(cm, lwi.vision.domain.FirmwareEntity.class.getName());
             createCache(cm, lwi.vision.domain.FirmwareUpdateEntity.class.getName());
             createCache(cm, lwi.vision.domain.SoftwareEntity.class.getName());

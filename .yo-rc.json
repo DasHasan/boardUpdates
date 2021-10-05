@@ -37,11 +37,11 @@
     "reactive": false,
     "skipServer": false,
     "entitySuffix": "Entity",
-    "entities": ["Group", "Board", "Firmware", "FirmwareUpdate", "Software", "SoftwareUpdate"],
+    "entities": ["Group", "Board", "Firmware", "FirmwareUpdate", "Software", "SoftwareUpdate", "BoardUpdate"],
     "clientThemeVariant": "",
     "skipCheckLengthOfIdentifier": false,
     "skipFakeData": false,
     "pages": [],
-    "lastLiquibaseTimestamp": 1632055535000
+    "lastLiquibaseTimestamp": 1633455328000
   }
 }

@@ -5,6 +5,11 @@ import { RouterModule } from '@angular/router';
   imports: [
     RouterModule.forChild([
       {
+        path: 'board-update',
+        data: { pageTitle: 'boardUpdatesApp.boardUpdate.home.title' },
+        loadChildren: () => import('./board-update/board-update.module').then(m => m.BoardUpdateModule),
+      },
+      {
         path: 'group',
         data: { pageTitle: 'boardUpdatesApp.group.home.title' },
         loadChildren: () => import('./group/group.module').then(m => m.GroupModule),

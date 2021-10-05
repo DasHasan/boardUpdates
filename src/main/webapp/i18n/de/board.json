@@ -19,8 +19,8 @@
       },
       "id": "ID",
       "serial": "Serial",
-      "software": "Software",
-      "firmware": "Firmware"
+      "firmware": "Firmware",
+      "software": "Software"
     }
   }
 }

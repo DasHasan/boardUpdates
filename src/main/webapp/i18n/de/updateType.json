@@ -1,0 +1,9 @@
+{
+  "boardUpdatesApp": {
+    "UpdateType": {
+      "null": "",
+      "FIRMWARE": "Firmware",
+      "SOFTWARE": "Software"
+    }
+  }
+}

@@ -1,0 +1,74 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-board-update-heading"
+        data-cy="BoardUpdateCreateUpdateHeading"
+        jhiTranslate="boardUpdatesApp.boardUpdate.home.createOrEditLabel"
+      >
+        Create or edit a Board Update
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="form-group" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-control-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="boardUpdatesApp.boardUpdate.version" for="field_version">Version</label>
+          <input type="text" class="form-control" name="version" id="field_version" data-cy="version" formControlName="version" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="boardUpdatesApp.boardUpdate.path" for="field_path">Path</label>
+          <input type="text" class="form-control" name="path" id="field_path" data-cy="path" formControlName="path" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="boardUpdatesApp.boardUpdate.type" for="field_type">Type</label>
+          <select class="form-control" name="type" formControlName="type" id="field_type" data-cy="type">
+            <option [ngValue]="null">{{ 'boardUpdatesApp.UpdateType.null' | translate }}</option>
+            <option value="FIRMWARE">{{ 'boardUpdatesApp.UpdateType.FIRMWARE' | translate }}</option>
+            <option value="SOFTWARE">{{ 'boardUpdatesApp.UpdateType.SOFTWARE' | translate }}</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="boardUpdatesApp.boardUpdate.releaseDate" for="field_releaseDate"
+            >Release Date</label
+          >
+          <div class="d-flex">
+            <input
+              id="field_releaseDate"
+              data-cy="releaseDate"
+              type="datetime-local"
+              class="form-control"
+              name="releaseDate"
+              formControlName="releaseDate"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

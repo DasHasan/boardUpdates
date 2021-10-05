@@ -1,0 +1,33 @@
+{
+  "name": "BoardUpdate",
+  "fields": [
+    {
+      "fieldName": "version",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "path",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "type",
+      "fieldType": "UpdateType",
+      "fieldValues": "FIRMWARE (Firmware),SOFTWARE (Software)"
+    },
+    {
+      "fieldName": "releaseDate",
+      "fieldType": "ZonedDateTime"
+    }
+  ],
+  "relationships": [],
+  "entityTableName": "board_update",
+  "dto": "no",
+  "pagination": "no",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": ["boardUpdates"],
+  "changelogDate": "20211005173528"
+}

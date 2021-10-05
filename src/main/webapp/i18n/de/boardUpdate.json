@@ -1,0 +1,27 @@
+{
+  "boardUpdatesApp": {
+    "boardUpdate": {
+      "home": {
+        "title": "Board Updates",
+        "refreshListLabel": "Liste aktualisieren",
+        "createLabel": "Board Update erstellen",
+        "createOrEditLabel": "Board Update erstellen oder bearbeiten",
+        "notFound": "Keine Board Updates gefunden"
+      },
+      "created": "Board Update erstellt mit ID {{ param }}",
+      "updated": "Board Update aktualisiert mit ID {{ param }}",
+      "deleted": "Board Update gelöscht mit ID {{ param }}",
+      "delete": {
+        "question": "Soll Board Update {{ id }} wirklich dauerhaft gelöscht werden?"
+      },
+      "detail": {
+        "title": "Board Update"
+      },
+      "id": "ID",
+      "version": "Version",
+      "path": "Path",
+      "type": "Type",
+      "releaseDate": "Release Date"
+    }
+  }
+}
