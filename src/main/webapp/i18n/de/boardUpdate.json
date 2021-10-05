@@ -21,7 +21,8 @@
       "version": "Version",
       "path": "Path",
       "type": "Type",
-      "releaseDate": "Release Date"
+      "releaseDate": "Release Date",
+      "board": "Board"
     }
   }
 }

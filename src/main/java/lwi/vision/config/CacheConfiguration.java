@@ -48,7 +48,6 @@ public class CacheConfiguration {
             createCache(cm, lwi.vision.domain.UserEntity.class.getName());
             createCache(cm, lwi.vision.domain.Authority.class.getName());
             createCache(cm, lwi.vision.domain.UserEntity.class.getName() + ".authorities");
-            createCache(cm, lwi.vision.domain.BoardUpdateEntity.class.getName());
             createCache(cm, lwi.vision.domain.GroupEntity.class.getName());
             createCache(cm, lwi.vision.domain.BoardEntity.class.getName());
             createCache(cm, lwi.vision.domain.BoardEntity.class.getName() + ".firmware");
@@ -57,6 +56,7 @@ public class CacheConfiguration {
             createCache(cm, lwi.vision.domain.FirmwareUpdateEntity.class.getName());
             createCache(cm, lwi.vision.domain.SoftwareEntity.class.getName());
             createCache(cm, lwi.vision.domain.SoftwareUpdateEntity.class.getName());
+            createCache(cm, lwi.vision.domain.BoardUpdateEntity.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

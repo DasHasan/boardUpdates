@@ -11,6 +11,5 @@ import { SoftwareRoutingModule } from './route/software-routing.module';
   imports: [SharedModule, SoftwareRoutingModule],
   declarations: [SoftwareComponent, SoftwareDetailComponent, SoftwareUpdateComponent, SoftwareDeleteDialogComponent],
   entryComponents: [SoftwareDeleteDialogComponent],
-  exports: [SoftwareComponent],
 })
 export class SoftwareModule {}

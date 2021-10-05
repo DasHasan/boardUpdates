@@ -9,16 +9,16 @@
   "relationships": [
     {
       "relationshipType": "one-to-many",
-      "otherEntityName": "software",
+      "otherEntityName": "firmware",
       "otherEntityRelationshipName": "board",
-      "relationshipName": "software",
+      "relationshipName": "firmware",
       "otherEntityField": "version"
     },
     {
       "relationshipType": "one-to-many",
-      "otherEntityName": "firmware",
+      "otherEntityName": "software",
       "otherEntityRelationshipName": "board",
-      "relationshipName": "firmware",
+      "relationshipName": "software",
       "otherEntityField": "version"
     }
   ],
@@ -26,7 +26,7 @@
   "dto": "no",
   "pagination": "no",
   "service": "serviceClass",
-  "jpaMetamodelFiltering": false,
+  "jpaMetamodelFiltering": true,
   "fluentMethods": true,
   "readOnly": false,
   "embedded": false,

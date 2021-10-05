@@ -3,6 +3,30 @@
     <span jhiTranslate="boardUpdatesApp.boardUpdate.home.title">Board Updates</span>
 
     <div class="d-flex justify-content-end">
+      <form name="editForm" role="form" novalidate (ngSubmit)="loadAll()" [formGroup]="searchForm" class="form-inline">
+        <div class="input-group mr-2">
+          <label class="form-control-label mr-2" for="field_board">Serial</label>
+          <select class="form-control" id="field_board" data-cy="board" name="board" formControlName="board">
+            <option [ngValue]="null"></option>
+            <option
+              *ngFor="let boardOption of boardsCollection; trackBy: trackBoardById"
+              [ngValue]="boardOption.id === searchForm.get('board')!.value?.id ? searchForm.get('board')!.value : boardOption"
+            >
+              {{ boardOption.serial }}
+            </option>
+          </select>
+        </div>
+
+        <div class="input-group mr-2">
+          <label class="form-control-label" for="field_type">Typ</label>
+          <select class="form-control" name="type" formControlName="type" id="field_type" data-cy="type">
+            <option [ngValue]="null">{{ 'boardUpdatesApp.UpdateType.null' | translate }}</option>
+            <option value="FIRMWARE">{{ 'boardUpdatesApp.UpdateType.FIRMWARE' | translate }}</option>
+            <option value="SOFTWARE">{{ 'boardUpdatesApp.UpdateType.SOFTWARE' | translate }}</option>
+          </select>
+        </div>
+      </form>
+
       <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
         <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
         <span jhiTranslate="boardUpdatesApp.boardUpdate.home.refreshListLabel">Refresh List</span>
@@ -20,10 +44,6 @@
     </div>
   </h2>
 
-  <jhi-alert-error></jhi-alert-error>
-
-  <jhi-alert></jhi-alert>
-
   <div class="alert alert-warning" id="no-result" *ngIf="boardUpdates?.length === 0">
     <span jhiTranslate="boardUpdatesApp.boardUpdate.home.notFound">No boardUpdates found</span>
   </div>
@@ -32,12 +52,12 @@
     <table class="table table-striped" aria-describedby="page-heading">
       <thead>
         <tr>
-          <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
-          <th scope="col"><span jhiTranslate="boardUpdatesApp.boardUpdate.version">Version</span></th>
-          <th scope="col"><span jhiTranslate="boardUpdatesApp.boardUpdate.path">Path</span></th>
-          <th scope="col"><span jhiTranslate="boardUpdatesApp.boardUpdate.type">Type</span></th>
-          <th scope="col"><span jhiTranslate="boardUpdatesApp.boardUpdate.releaseDate">Release Date</span></th>
-          <th scope="col"><span jhiTranslate="boardUpdatesApp.boardUpdate.board">Board</span></th>
+          <th scope="col"><span>ID</span></th>
+          <th scope="col"><span>Version</span></th>
+          <th scope="col"><span>Pfad</span></th>
+          <th scope="col"><span>Typ</span></th>
+          <th scope="col"><span>Release Date</span></th>
+          <th scope="col"><span>Serial</span></th>
           <th scope="col"></th>
         </tr>
       </thead>

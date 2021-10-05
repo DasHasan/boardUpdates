@@ -28,12 +28,12 @@ public class BoardEntity extends AbstractAuditingEntity implements Serializable 
     @OneToMany(mappedBy = "board")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "board" }, allowSetters = true)
-    private Set<SoftwareEntity> software = new HashSet<>();
+    private Set<FirmwareEntity> firmware = new HashSet<>();
 
     @OneToMany(mappedBy = "board")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "board" }, allowSetters = true)
-    private Set<FirmwareEntity> firmware = new HashSet<>();
+    private Set<SoftwareEntity> software = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -60,37 +60,6 @@ public class BoardEntity extends AbstractAuditingEntity implements Serializable 
 
     public void setSerial(String serial) {
         this.serial = serial;
-    }
-
-    public Set<SoftwareEntity> getSoftware() {
-        return this.software;
-    }
-
-    public BoardEntity software(Set<SoftwareEntity> software) {
-        this.setSoftware(software);
-        return this;
-    }
-
-    public BoardEntity addSoftware(SoftwareEntity software) {
-        this.software.add(software);
-        software.setBoard(this);
-        return this;
-    }
-
-    public BoardEntity removeSoftware(SoftwareEntity software) {
-        this.software.remove(software);
-        software.setBoard(null);
-        return this;
-    }
-
-    public void setSoftware(Set<SoftwareEntity> software) {
-        if (this.software != null) {
-            this.software.forEach(i -> i.setBoard(null));
-        }
-        if (software != null) {
-            software.forEach(i -> i.setBoard(this));
-        }
-        this.software = software;
     }
 
     public Set<FirmwareEntity> getFirmware() {
@@ -122,6 +91,37 @@ public class BoardEntity extends AbstractAuditingEntity implements Serializable 
             firmware.forEach(i -> i.setBoard(this));
         }
         this.firmware = firmware;
+    }
+
+    public Set<SoftwareEntity> getSoftware() {
+        return this.software;
+    }
+
+    public BoardEntity software(Set<SoftwareEntity> software) {
+        this.setSoftware(software);
+        return this;
+    }
+
+    public BoardEntity addSoftware(SoftwareEntity software) {
+        this.software.add(software);
+        software.setBoard(this);
+        return this;
+    }
+
+    public BoardEntity removeSoftware(SoftwareEntity software) {
+        this.software.remove(software);
+        software.setBoard(null);
+        return this;
+    }
+
+    public void setSoftware(Set<SoftwareEntity> software) {
+        if (this.software != null) {
+            this.software.forEach(i -> i.setBoard(null));
+        }
+        if (software != null) {
+            software.forEach(i -> i.setBoard(this));
+        }
+        this.software = software;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

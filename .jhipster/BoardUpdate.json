@@ -19,12 +19,20 @@
       "fieldType": "ZonedDateTime"
     }
   ],
-  "relationships": [],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "board",
+      "otherEntityRelationshipName": "boardUpdate",
+      "relationshipName": "board",
+      "otherEntityField": "serial"
+    }
+  ],
   "entityTableName": "board_update",
   "dto": "no",
   "pagination": "no",
   "service": "serviceClass",
-  "jpaMetamodelFiltering": false,
+  "jpaMetamodelFiltering": true,
   "fluentMethods": true,
   "readOnly": false,
   "embedded": false,

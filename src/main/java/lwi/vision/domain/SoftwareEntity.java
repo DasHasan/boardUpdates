@@ -27,7 +27,7 @@ public class SoftwareEntity extends AbstractAuditingEntity implements Serializab
     private String path;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "software", "firmware" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "firmware", "software" }, allowSetters = true)
     private BoardEntity board;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

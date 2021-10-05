@@ -7,7 +7,9 @@ import java.util.Objects;
 import java.util.Optional;
 import lwi.vision.domain.BoardEntity;
 import lwi.vision.repository.BoardRepository;
+import lwi.vision.service.BoardQueryService;
 import lwi.vision.service.BoardService;
+import lwi.vision.service.criteria.BoardCriteria;
 import lwi.vision.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,9 +37,12 @@ public class BoardResource {
 
     private final BoardRepository boardRepository;
 
-    public BoardResource(BoardService boardService, BoardRepository boardRepository) {
+    private final BoardQueryService boardQueryService;
+
+    public BoardResource(BoardService boardService, BoardRepository boardRepository, BoardQueryService boardQueryService) {
         this.boardService = boardService;
         this.boardRepository = boardRepository;
+        this.boardQueryService = boardQueryService;
     }
 
     /**
@@ -133,12 +138,26 @@ public class BoardResource {
     /**
      * {@code GET  /boards} : get all the boards.
      *
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of boards in body.
      */
     @GetMapping("/boards")
-    public List<BoardEntity> getAllBoards() {
-        log.debug("REST request to get all Boards");
-        return boardService.findAll();
+    public ResponseEntity<List<BoardEntity>> getAllBoards(BoardCriteria criteria) {
+        log.debug("REST request to get Boards by criteria: {}", criteria);
+        List<BoardEntity> entityList = boardQueryService.findByCriteria(criteria);
+        return ResponseEntity.ok().body(entityList);
+    }
+
+    /**
+     * {@code GET  /boards/count} : count all the boards.
+     *
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+     */
+    @GetMapping("/boards/count")
+    public ResponseEntity<Long> countBoards(BoardCriteria criteria) {
+        log.debug("REST request to count Boards by criteria: {}", criteria);
+        return ResponseEntity.ok().body(boardQueryService.countByCriteria(criteria));
     }
 
     /**

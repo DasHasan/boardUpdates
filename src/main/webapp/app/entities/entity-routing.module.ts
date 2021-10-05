@@ -5,11 +5,6 @@ import { RouterModule } from '@angular/router';
   imports: [
     RouterModule.forChild([
       {
-        path: 'board-update',
-        data: { pageTitle: 'boardUpdatesApp.boardUpdate.home.title' },
-        loadChildren: () => import('./board-update/board-update.module').then(m => m.BoardUpdateModule),
-      },
-      {
         path: 'group',
         data: { pageTitle: 'boardUpdatesApp.group.home.title' },
         loadChildren: () => import('./group/group.module').then(m => m.GroupModule),
@@ -38,6 +33,11 @@ import { RouterModule } from '@angular/router';
         path: 'software-update',
         data: { pageTitle: 'boardUpdatesApp.softwareUpdate.home.title' },
         loadChildren: () => import('./software-update/software-update.module').then(m => m.SoftwareUpdateModule),
+      },
+      {
+        path: 'board-update',
+        data: { pageTitle: 'boardUpdatesApp.boardUpdate.home.title' },
+        loadChildren: () => import('./board-update/board-update.module').then(m => m.BoardUpdateModule),
       },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),

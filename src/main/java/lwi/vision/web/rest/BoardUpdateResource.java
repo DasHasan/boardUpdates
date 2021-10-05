@@ -7,7 +7,9 @@ import java.util.Objects;
 import java.util.Optional;
 import lwi.vision.domain.BoardUpdateEntity;
 import lwi.vision.repository.BoardUpdateRepository;
+import lwi.vision.service.BoardUpdateQueryService;
 import lwi.vision.service.BoardUpdateService;
+import lwi.vision.service.criteria.BoardUpdateCriteria;
 import lwi.vision.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,9 +37,16 @@ public class BoardUpdateResource {
 
     private final BoardUpdateRepository boardUpdateRepository;
 
-    public BoardUpdateResource(BoardUpdateService boardUpdateService, BoardUpdateRepository boardUpdateRepository) {
+    private final BoardUpdateQueryService boardUpdateQueryService;
+
+    public BoardUpdateResource(
+        BoardUpdateService boardUpdateService,
+        BoardUpdateRepository boardUpdateRepository,
+        BoardUpdateQueryService boardUpdateQueryService
+    ) {
         this.boardUpdateService = boardUpdateService;
         this.boardUpdateRepository = boardUpdateRepository;
+        this.boardUpdateQueryService = boardUpdateQueryService;
     }
 
     /**
@@ -133,12 +142,26 @@ public class BoardUpdateResource {
     /**
      * {@code GET  /board-updates} : get all the boardUpdates.
      *
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of boardUpdates in body.
      */
     @GetMapping("/board-updates")
-    public List<BoardUpdateEntity> getAllBoardUpdates() {
-        log.debug("REST request to get all BoardUpdates");
-        return boardUpdateService.findAll();
+    public ResponseEntity<List<BoardUpdateEntity>> getAllBoardUpdates(BoardUpdateCriteria criteria) {
+        log.debug("REST request to get BoardUpdates by criteria: {}", criteria);
+        List<BoardUpdateEntity> entityList = boardUpdateQueryService.findByCriteria(criteria);
+        return ResponseEntity.ok().body(entityList);
+    }
+
+    /**
+     * {@code GET  /board-updates/count} : count all the boardUpdates.
+     *
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+     */
+    @GetMapping("/board-updates/count")
+    public ResponseEntity<Long> countBoardUpdates(BoardUpdateCriteria criteria) {
+        log.debug("REST request to count BoardUpdates by criteria: {}", criteria);
+        return ResponseEntity.ok().body(boardUpdateQueryService.countByCriteria(criteria));
     }
 
     /**

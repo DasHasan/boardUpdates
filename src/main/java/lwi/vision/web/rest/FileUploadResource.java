@@ -21,30 +21,16 @@ public class FileUploadResource {
 
     private final Logger log = LoggerFactory.getLogger(FileUploadResource.class);
 
-    @PostMapping("/upload-software")
-    public ResponseEntity<Map<String, String>> uploadSoftware(
-        @RequestParam String boardSerial,
-        @RequestParam String version,
-        @RequestParam MultipartFile file
-    ) throws IOException {
+    @PostMapping("/")
+    public ResponseEntity<Map<String, String>> uploadSoftware(@RequestParam MultipartFile file, @RequestParam String path)
+        throws IOException {
         Map<String, String> body = new HashMap<>();
-        body.put("path", saveFile(file, boardSerial, "software", version));
+        body.put("path", saveFile(file, path));
         return ResponseEntity.ok(body);
     }
 
-    @PostMapping("/upload-firmware")
-    public ResponseEntity<Map<String, String>> uploadFirmware(
-        @RequestParam String boardSerial,
-        @RequestParam String version,
-        @RequestParam MultipartFile file
-    ) throws IOException {
-        Map<String, String> body = new HashMap<>();
-        body.put("path", saveFile(file, boardSerial, "firmware", version));
-        return ResponseEntity.ok(body);
-    }
-
-    private String saveFile(MultipartFile file, String serial, String updateType, String version) throws IOException {
-        Path targetDir = Paths.get("updates", "versions", serial, updateType, version);
+    private String saveFile(MultipartFile file, String path) throws IOException {
+        Path targetDir = Paths.get("updates", "versions", path);
         Files.createDirectories(targetDir);
 
         Path targetFile = targetDir.resolve(file.getOriginalFilename());

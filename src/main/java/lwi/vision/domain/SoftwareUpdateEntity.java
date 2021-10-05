@@ -24,7 +24,7 @@ public class SoftwareUpdateEntity extends AbstractAuditingEntity implements Seri
     private Boolean active;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "software", "firmware" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "firmware", "software" }, allowSetters = true)
     private BoardEntity board;
 
     @ManyToOne

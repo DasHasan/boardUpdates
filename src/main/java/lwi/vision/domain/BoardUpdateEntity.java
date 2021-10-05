@@ -1,5 +1,6 @@
 package lwi.vision.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 import javax.persistence.*;
@@ -33,6 +34,10 @@ public class BoardUpdateEntity implements Serializable {
 
     @Column(name = "release_date")
     private ZonedDateTime releaseDate;
+
+    @ManyToOne
+    @JsonIgnoreProperties(value = { "firmware", "software" }, allowSetters = true)
+    private BoardEntity board;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -98,6 +103,19 @@ public class BoardUpdateEntity implements Serializable {
 
     public void setReleaseDate(ZonedDateTime releaseDate) {
         this.releaseDate = releaseDate;
+    }
+
+    public BoardEntity getBoard() {
+        return this.board;
+    }
+
+    public BoardUpdateEntity board(BoardEntity board) {
+        this.setBoard(board);
+        return this;
+    }
+
+    public void setBoard(BoardEntity board) {
+        this.board = board;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

@@ -1,37 +1,40 @@
-import { Component, OnInit } from '@angular/core';
-import { HttpResponse } from '@angular/common/http';
-import { FormBuilder } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
-import { finalize, map } from 'rxjs/operators';
-
-import * as dayjs from 'dayjs';
-import { DATE_TIME_FORMAT } from 'app/config/input.constants';
-
-import { IBoardUpdate, BoardUpdate } from '../board-update.model';
-import { BoardUpdateService } from '../service/board-update.service';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { IBoard } from 'app/entities/board/board.model';
 import { BoardService } from 'app/entities/board/service/board.service';
+import { finalize, map, switchMap } from 'rxjs/operators';
+import { HttpResponse } from '@angular/common/http';
+import { BoardUpdateService } from 'app/entities/board-update/service/board-update.service';
+import { ActivatedRoute } from '@angular/router';
+import * as dayjs from 'dayjs';
+import { BoardUpdate, IBoardUpdate } from 'app/entities/board-update/board-update.model';
+import { DATE_TIME_FORMAT } from 'app/config/input.constants';
+import { UpdateService } from 'app/update/update.service';
 
 @Component({
-  selector: 'jhi-board-update-update',
-  templateUrl: './board-update-update.component.html',
+  selector: 'jhi-update-edit',
+  templateUrl: './update-edit.component.html',
+  styleUrls: ['./update-edit.component.scss'],
 })
-export class BoardUpdateUpdateComponent implements OnInit {
+export class UpdateEditComponent implements OnInit {
+  @Input() id?: number;
   isSaving = false;
 
   boardsSharedCollection: IBoard[] = [];
 
   editForm = this.fb.group({
     id: [],
-    version: [],
+    version: ['', Validators.required],
     path: [],
-    type: [],
+    type: ['', Validators.required],
     releaseDate: [],
-    board: [],
+    file: ['', Validators.required],
+    board: ['', Validators.required],
   });
+  private file?: File = undefined;
 
   constructor(
+    protected updateService: UpdateService,
     protected boardUpdateService: BoardUpdateService,
     protected boardService: BoardService,
     protected activatedRoute: ActivatedRoute,
@@ -39,29 +42,37 @@ export class BoardUpdateUpdateComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.activatedRoute.data.subscribe(({ boardUpdate }) => {
-      if (boardUpdate.id === undefined) {
-        const today = dayjs().startOf('day');
-        boardUpdate.releaseDate = today;
-      }
+    const boardUpdate = new BoardUpdate();
 
-      this.updateForm(boardUpdate);
+    // if (boardUpdate.id === undefined) {
+    const today = dayjs().startOf('day');
+    boardUpdate.releaseDate = today;
+    // }
 
-      this.loadRelationshipsOptions();
-    });
+    this.updateForm(boardUpdate);
+
+    this.loadRelationshipsOptions();
   }
 
   previousState(): void {
-    window.history.back();
+    // window.history.back();
   }
 
   save(): void {
-    this.isSaving = true;
-    const boardUpdate = this.createFromForm();
-    if (boardUpdate.id !== undefined) {
-      this.subscribeToSaveResponse(this.boardUpdateService.update(boardUpdate));
-    } else {
-      this.subscribeToSaveResponse(this.boardUpdateService.create(boardUpdate));
+    if (this.file) {
+      this.isSaving = true;
+
+      const boardUpdate = this.createFromForm();
+      this.updateService
+        .uploadFile(this.file, `${boardUpdate.board!.serial!}/${boardUpdate.type!}`, `autoupdate_${boardUpdate.version!}.zip`)
+        .pipe(
+          switchMap(({ path }) => this.boardUpdateService.create({ ...boardUpdate, path })),
+          finalize(() => (this.isSaving = false))
+        )
+        .subscribe(
+          () => this.onSaveSuccess(),
+          () => this.onSaveError()
+        );
     }
   }
 
@@ -69,23 +80,22 @@ export class BoardUpdateUpdateComponent implements OnInit {
     return item.id!;
   }
 
-  protected subscribeToSaveResponse(result: Observable<HttpResponse<IBoardUpdate>>): void {
-    result.pipe(finalize(() => this.onSaveFinalize())).subscribe(
-      () => this.onSaveSuccess(),
-      () => this.onSaveError()
-    );
+  fileChanged($event: Event): void {
+    const target = $event.target as HTMLInputElement;
+    if (target.files) {
+      this.file = target.files[0];
+      this.editForm.patchValue({
+        file: target.files[0],
+      });
+    }
   }
 
   protected onSaveSuccess(): void {
-    this.previousState();
+    // this.previousState();
   }
 
   protected onSaveError(): void {
     // Api for inheritance.
-  }
-
-  protected onSaveFinalize(): void {
-    this.isSaving = false;
   }
 
   protected updateForm(boardUpdate: IBoardUpdate): void {
