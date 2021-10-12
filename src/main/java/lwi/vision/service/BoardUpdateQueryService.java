@@ -93,6 +93,15 @@ public class BoardUpdateQueryService extends QueryService<BoardUpdateEntity> {
             if (criteria.getReleaseDate() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getReleaseDate(), BoardUpdateEntity_.releaseDate));
             }
+            if (criteria.getUpdateKeysId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(
+                            criteria.getUpdateKeysId(),
+                            root -> root.join(BoardUpdateEntity_.updateKeys, JoinType.LEFT).get(UpdateKeysEntity_.id)
+                        )
+                    );
+            }
             if (criteria.getBoardId() != null) {
                 specification =
                     specification.and(

@@ -1,0 +1,27 @@
+{
+  "fields": [
+    {
+      "fieldName": "key",
+      "fieldType": "String"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "boardUpdate",
+      "otherEntityRelationshipName": "updateKeys",
+      "relationshipName": "boardUpdate"
+    }
+  ],
+  "service": "serviceClass",
+  "dto": "no",
+  "jpaMetamodelFiltering": true,
+  "readOnly": false,
+  "pagination": "no",
+  "name": "UpdateKeys",
+  "changelogDate": "20211012153951",
+  "entityTableName": "update_keys",
+  "fluentMethods": true,
+  "embedded": false,
+  "applications": ["boardUpdates"]
+}

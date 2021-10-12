@@ -53,6 +53,8 @@ public class BoardUpdateCriteria implements Serializable, Criteria {
 
     private ZonedDateTimeFilter releaseDate;
 
+    private LongFilter updateKeysId;
+
     private LongFilter boardId;
 
     public BoardUpdateCriteria() {}
@@ -63,6 +65,7 @@ public class BoardUpdateCriteria implements Serializable, Criteria {
         this.path = other.path == null ? null : other.path.copy();
         this.type = other.type == null ? null : other.type.copy();
         this.releaseDate = other.releaseDate == null ? null : other.releaseDate.copy();
+        this.updateKeysId = other.updateKeysId == null ? null : other.updateKeysId.copy();
         this.boardId = other.boardId == null ? null : other.boardId.copy();
     }
 
@@ -146,6 +149,21 @@ public class BoardUpdateCriteria implements Serializable, Criteria {
         this.releaseDate = releaseDate;
     }
 
+    public LongFilter getUpdateKeysId() {
+        return updateKeysId;
+    }
+
+    public LongFilter updateKeysId() {
+        if (updateKeysId == null) {
+            updateKeysId = new LongFilter();
+        }
+        return updateKeysId;
+    }
+
+    public void setUpdateKeysId(LongFilter updateKeysId) {
+        this.updateKeysId = updateKeysId;
+    }
+
     public LongFilter getBoardId() {
         return boardId;
     }
@@ -176,13 +194,14 @@ public class BoardUpdateCriteria implements Serializable, Criteria {
             Objects.equals(path, that.path) &&
             Objects.equals(type, that.type) &&
             Objects.equals(releaseDate, that.releaseDate) &&
+            Objects.equals(updateKeysId, that.updateKeysId) &&
             Objects.equals(boardId, that.boardId)
         );
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, version, path, type, releaseDate, boardId);
+        return Objects.hash(id, version, path, type, releaseDate, updateKeysId, boardId);
     }
 
     // prettier-ignore
@@ -194,6 +213,7 @@ public class BoardUpdateCriteria implements Serializable, Criteria {
             (path != null ? "path=" + path + ", " : "") +
             (type != null ? "type=" + type + ", " : "") +
             (releaseDate != null ? "releaseDate=" + releaseDate + ", " : "") +
+            (updateKeysId != null ? "updateKeysId=" + updateKeysId + ", " : "") +
             (boardId != null ? "boardId=" + boardId + ", " : "") +
             "}";
     }

@@ -21,6 +21,12 @@
   ],
   "relationships": [
     {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "updateKeys",
+      "otherEntityRelationshipName": "boardUpdate",
+      "relationshipName": "updateKeys"
+    },
+    {
       "relationshipType": "many-to-one",
       "otherEntityName": "board",
       "otherEntityRelationshipName": "boardUpdate",

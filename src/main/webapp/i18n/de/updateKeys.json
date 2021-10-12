@@ -1,0 +1,25 @@
+{
+  "boardUpdatesApp": {
+    "updateKeys": {
+      "home": {
+        "title": "Update Keys",
+        "refreshListLabel": "Liste aktualisieren",
+        "createLabel": "Update Keys erstellen",
+        "createOrEditLabel": "Update Keys erstellen oder bearbeiten",
+        "notFound": "Keine Update Keys gefunden"
+      },
+      "created": "Update Keys erstellt mit ID {{ param }}",
+      "updated": "Update Keys aktualisiert mit ID {{ param }}",
+      "deleted": "Update Keys gelöscht mit ID {{ param }}",
+      "delete": {
+        "question": "Soll Update Keys {{ id }} wirklich dauerhaft gelöscht werden?"
+      },
+      "detail": {
+        "title": "Update Keys"
+      },
+      "id": "ID",
+      "key": "Key",
+      "boardUpdate": "Board Update"
+    }
+  }
+}

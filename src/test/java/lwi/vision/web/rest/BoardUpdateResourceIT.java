@@ -17,6 +17,7 @@ import javax.persistence.EntityManager;
 import lwi.vision.IntegrationTest;
 import lwi.vision.domain.BoardEntity;
 import lwi.vision.domain.BoardUpdateEntity;
+import lwi.vision.domain.UpdateKeysEntity;
 import lwi.vision.domain.enumeration.UpdateType;
 import lwi.vision.repository.BoardUpdateRepository;
 import lwi.vision.service.criteria.BoardUpdateCriteria;
@@ -507,6 +508,25 @@ class BoardUpdateResourceIT {
 
         // Get all the boardUpdateList where releaseDate is greater than SMALLER_RELEASE_DATE
         defaultBoardUpdateShouldBeFound("releaseDate.greaterThan=" + SMALLER_RELEASE_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllBoardUpdatesByUpdateKeysIsEqualToSomething() throws Exception {
+        // Initialize the database
+        boardUpdateRepository.saveAndFlush(boardUpdateEntity);
+        UpdateKeysEntity updateKeys = UpdateKeysResourceIT.createEntity(em);
+        em.persist(updateKeys);
+        em.flush();
+        boardUpdateEntity.addUpdateKeys(updateKeys);
+        boardUpdateRepository.saveAndFlush(boardUpdateEntity);
+        Long updateKeysId = updateKeys.getId();
+
+        // Get all the boardUpdateList where updateKeys equals to updateKeysId
+        defaultBoardUpdateShouldBeFound("updateKeysId.equals=" + updateKeysId);
+
+        // Get all the boardUpdateList where updateKeys equals to (updateKeysId + 1)
+        defaultBoardUpdateShouldNotBeFound("updateKeysId.equals=" + (updateKeysId + 1));
     }
 
     @Test

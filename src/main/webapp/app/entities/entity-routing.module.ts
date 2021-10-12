@@ -39,6 +39,11 @@ import { RouterModule } from '@angular/router';
         data: { pageTitle: 'boardUpdatesApp.boardUpdate.home.title' },
         loadChildren: () => import('./board-update/board-update.module').then(m => m.BoardUpdateModule),
       },
+      {
+        path: 'update-keys',
+        data: { pageTitle: 'boardUpdatesApp.updateKeys.home.title' },
+        loadChildren: () => import('./update-keys/update-keys.module').then(m => m.UpdateKeysModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],

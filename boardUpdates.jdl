@@ -38,7 +38,7 @@ application {
     withAdminUi true
   }
 
-  entities Board, BoardUpdate, Firmware, FirmwareUpdate, Group, Software, SoftwareUpdate
+  entities Board, BoardUpdate, Firmware, FirmwareUpdate, Group, Software, SoftwareUpdate, UpdateKeys
 }
 
 entity Board {
@@ -67,6 +67,9 @@ entity Software {
 entity SoftwareUpdate {
   active Boolean
 }
+entity UpdateKeys {
+  key String
+}
 enum UpdateType {
   FIRMWARE (Firmware),
   SOFTWARE (Software)
@@ -75,6 +78,7 @@ enum UpdateType {
 relationship OneToMany {
   Board{firmware(version)} to Firmware{board(serial)}
   Board{software(version)} to Software{board(serial)}
+  BoardUpdate to UpdateKeys
 }
 relationship ManyToOne {
   BoardUpdate{board(serial)} to Board
@@ -86,5 +90,5 @@ relationship ManyToOne {
   SoftwareUpdate{to(version)} to Software
 }
 
-service Board, BoardUpdate, Firmware, FirmwareUpdate, Group, Software, SoftwareUpdate with serviceClass
-filter Board, BoardUpdate
+service Board, BoardUpdate, Firmware, FirmwareUpdate, Group, Software, SoftwareUpdate, UpdateKeys with serviceClass
+filter Board, BoardUpdate, UpdateKeys

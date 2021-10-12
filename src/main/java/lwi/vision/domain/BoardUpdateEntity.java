@@ -3,6 +3,8 @@ package lwi.vision.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.*;
 import lwi.vision.domain.enumeration.UpdateType;
 import org.hibernate.annotations.Cache;
@@ -14,7 +16,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Entity
 @Table(name = "board_update")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class BoardUpdateEntity implements Serializable {
+public class BoardUpdateEntity extends AbstractAuditingEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -34,6 +36,11 @@ public class BoardUpdateEntity implements Serializable {
 
     @Column(name = "release_date")
     private ZonedDateTime releaseDate;
+
+    @OneToMany(mappedBy = "boardUpdate")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(value = { "boardUpdate" }, allowSetters = true)
+    private Set<UpdateKeysEntity> updateKeys = new HashSet<>();
 
     @ManyToOne
     @JsonIgnoreProperties(value = { "firmware", "software" }, allowSetters = true)
@@ -103,6 +110,37 @@ public class BoardUpdateEntity implements Serializable {
 
     public void setReleaseDate(ZonedDateTime releaseDate) {
         this.releaseDate = releaseDate;
+    }
+
+    public Set<UpdateKeysEntity> getUpdateKeys() {
+        return this.updateKeys;
+    }
+
+    public BoardUpdateEntity updateKeys(Set<UpdateKeysEntity> updateKeys) {
+        this.setUpdateKeys(updateKeys);
+        return this;
+    }
+
+    public BoardUpdateEntity addUpdateKeys(UpdateKeysEntity updateKeys) {
+        this.updateKeys.add(updateKeys);
+        updateKeys.setBoardUpdate(this);
+        return this;
+    }
+
+    public BoardUpdateEntity removeUpdateKeys(UpdateKeysEntity updateKeys) {
+        this.updateKeys.remove(updateKeys);
+        updateKeys.setBoardUpdate(null);
+        return this;
+    }
+
+    public void setUpdateKeys(Set<UpdateKeysEntity> updateKeys) {
+        if (this.updateKeys != null) {
+            this.updateKeys.forEach(i -> i.setBoardUpdate(null));
+        }
+        if (updateKeys != null) {
+            updateKeys.forEach(i -> i.setBoardUpdate(this));
+        }
+        this.updateKeys = updateKeys;
     }
 
     public BoardEntity getBoard() {

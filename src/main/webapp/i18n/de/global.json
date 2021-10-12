@@ -14,6 +14,7 @@
         "software": "Software",
         "softwareUpdate": "Software Update",
         "boardUpdate": "Board Update",
+        "updateKeys": "Update Keys",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {
