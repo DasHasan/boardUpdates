@@ -94,11 +94,32 @@ public class SearchService {
             log.info("No firmware update found");
             firmware = defaultFirmware;
         }
+
         HashMap<String, String> map = new HashMap<>();
-        map.put("sw_update", software.getVersion());
-        map.put("fw_update", firmware.getVersion());
-        map.put("sw_path", software.getPath());
-        map.put("fw_path", firmware.getPath());
+        map.put("swupdate", software.getVersion());
+        map.put("fwupdate", firmware.getVersion());
+        map.put("swpath", software.getPath());
+        map.put("fwpath", firmware.getPath());
+        // CW = continuous wave
+
+        // Updates auch manuell downloaden (USB-Update):
+        // - Anfrage-JSON von Anlage hochladen
+
+        // - frei wählbare updateKeys ["cw", "achsen", ".."]
+        // - nur updates mit passendem updateKey finden
+
+        // { serial, version, updateKeys } -->
+        //
+        // {
+        //      software: {
+        //          status: ['beta', 'release']
+        //          version: '...',
+        //      }
+        //      firmware: {
+        //          status: ['beta', 'release']
+        //          version: '...',
+        //      }
+        //  }
 
         return map;
     }

@@ -25,11 +25,39 @@ public class SearchResource {
         this.searchService = searchService;
     }
 
-    @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Map<String, String>> search(@RequestBody Map<String, String> request) {
+    // anzahl update speichern
+
+    // localhost:8080/search/software
+    // {
+    //      serial: 'asdf',
+    //      firmware: '1.0',
+    //      software: '1.0',
+    //      updateKeys: [..., ...]
+    // }
+
+    // {
+    //    software: {
+    //        version: '2.0',
+    //        mandatory: false|true,
+    //        path: '...',
+    //        updateKeys: [..., ...]
+    //    }
+    // }
+    @PostMapping(value = "/software", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Map<String, String>> searchSoftware(@RequestBody Map<String, String> request) {
         String serial = request.get("serial");
         String firmware = request.get("firmware");
         String software = request.get("software");
+        String updateKeys = request.get("updateKeys");
+        return ResponseEntity.ok().body(searchService.search(serial, firmware, software));
+    }
+
+    @PostMapping(value = "/firmware", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Map<String, String>> searchFirmware(@RequestBody Map<String, String> request) {
+        String serial = request.get("serial");
+        String firmware = request.get("firmware");
+        String software = request.get("software");
+        String updateKeys = request.get("updateKeys");
         return ResponseEntity.ok().body(searchService.search(serial, firmware, software));
     }
 }
