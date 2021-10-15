@@ -1,11 +1,15 @@
 package lwi.vision.service;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import lwi.vision.domain.*;
+import lwi.vision.domain.enumeration.UpdateType;
 import lwi.vision.repository.*;
+import lwi.vision.service.criteria.BoardUpdateCriteria;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,19 +23,25 @@ public class SearchService {
     private final ExtendedSoftwareRepository softwareRepository;
     private final ExtendedFirmwareRepository firmwareRepository;
     private final ExtendedFirmwareUpdateRepository firmwareUpdateRepository;
+    private final BoardUpdateRepository boardUpdateRepository;
+    private final BoardUpdateQueryService boardUpdateQueryService;
 
     public SearchService(
         ExtendedBoardRepository boardRepository,
         ExtendedSoftwareUpdateRepository softwareUpdateRepository,
         ExtendedSoftwareRepository softwareRepository,
         ExtendedFirmwareRepository firmwareRepository,
-        ExtendedFirmwareUpdateRepository firmwareUpdateRepository
+        ExtendedFirmwareUpdateRepository firmwareUpdateRepository,
+        BoardUpdateRepository boardUpdateRepository,
+        BoardUpdateQueryService boardUpdateQueryService
     ) {
         this.boardRepository = boardRepository;
         this.softwareUpdateRepository = softwareUpdateRepository;
         this.softwareRepository = softwareRepository;
         this.firmwareRepository = firmwareRepository;
         this.firmwareUpdateRepository = firmwareUpdateRepository;
+        this.boardUpdateRepository = boardUpdateRepository;
+        this.boardUpdateQueryService = boardUpdateQueryService;
     }
 
     public HashMap<String, String> search(String serial, String firmwareVersion, String softwareVersion) {
@@ -120,6 +130,23 @@ public class SearchService {
         //          version: '...',
         //      }
         //  }
+
+        return map;
+    }
+
+    public Map<String, String> searchNew(
+        String serial,
+        UpdateType software,
+        String softwareVersion,
+        String firmwareVersion,
+        String updateKeys
+    ) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("version", "");
+        map.put("path", "");
+        map.put("updateKeys", "");
+
+        boardUpdateRepository.findAll(specification);
 
         return map;
     }
