@@ -1,10 +1,10 @@
 package lwi.vision.repository;
 
-import java.util.Optional;
+import java.util.List;
 import lwi.vision.domain.BoardUpdateEntity;
 import lwi.vision.domain.enumeration.UpdateType;
-import org.springframework.data.jpa.repository.*;
-import org.springframework.lang.Nullable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -13,6 +13,5 @@ import org.springframework.stereotype.Repository;
 @SuppressWarnings("unused")
 @Repository
 public interface BoardUpdateRepository extends JpaRepository<BoardUpdateEntity, Long>, JpaSpecificationExecutor<BoardUpdateEntity> {
-    @Nullable
-    Optional<BoardUpdateEntity> findByBoard_SerialAndVersionAndType(String serial, String version, UpdateType type);
+    List<BoardUpdateEntity> findByBoard_SerialAndVersionAndTypeOrderByReleaseDateAsc(String serial, String version, UpdateType type);
 }

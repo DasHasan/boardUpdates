@@ -1,9 +1,13 @@
 ### Search API
-POST http://localhost:8080/search/
+POST http://localhost:8080/search/software
 Content-Type: application/json
 
 {
     "serial": "Solutions payment deposit",
-    "firmware": "payment",
-    "software": "test"
+    "firmware": "1.0",
+    "software": 1.0,
+    "updateKeys": [
+        "CW",
+        "Achse"
+    ]
 }

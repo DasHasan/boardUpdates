@@ -1,15 +1,14 @@
 package lwi.vision.service;
 
 import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import lwi.vision.domain.*;
 import lwi.vision.domain.enumeration.UpdateType;
 import lwi.vision.repository.*;
-import lwi.vision.service.criteria.BoardUpdateCriteria;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,30 +17,24 @@ import org.springframework.transaction.annotation.Transactional;
 public class SearchService {
 
     private final Logger log = LoggerFactory.getLogger(SearchService.class);
-    private final ExtendedBoardRepository boardRepository;
     private final ExtendedSoftwareUpdateRepository softwareUpdateRepository;
     private final ExtendedSoftwareRepository softwareRepository;
     private final ExtendedFirmwareRepository firmwareRepository;
     private final ExtendedFirmwareUpdateRepository firmwareUpdateRepository;
     private final BoardUpdateRepository boardUpdateRepository;
-    private final BoardUpdateQueryService boardUpdateQueryService;
 
     public SearchService(
-        ExtendedBoardRepository boardRepository,
         ExtendedSoftwareUpdateRepository softwareUpdateRepository,
         ExtendedSoftwareRepository softwareRepository,
         ExtendedFirmwareRepository firmwareRepository,
         ExtendedFirmwareUpdateRepository firmwareUpdateRepository,
-        BoardUpdateRepository boardUpdateRepository,
-        BoardUpdateQueryService boardUpdateQueryService
+        BoardUpdateRepository boardUpdateRepository
     ) {
-        this.boardRepository = boardRepository;
         this.softwareUpdateRepository = softwareUpdateRepository;
         this.softwareRepository = softwareRepository;
         this.firmwareRepository = firmwareRepository;
         this.firmwareUpdateRepository = firmwareUpdateRepository;
         this.boardUpdateRepository = boardUpdateRepository;
-        this.boardUpdateQueryService = boardUpdateQueryService;
     }
 
     public HashMap<String, String> search(String serial, String firmwareVersion, String softwareVersion) {
@@ -134,20 +127,35 @@ public class SearchService {
         return map;
     }
 
-    public Map<String, String> searchNew(
-        String serial,
-        UpdateType software,
-        String softwareVersion,
-        String firmwareVersion,
-        String updateKeys
-    ) {
-        HashMap<String, String> map = new HashMap<>();
-        map.put("version", "");
-        map.put("path", "");
-        map.put("updateKeys", "");
+    public SearchUpdateResponse search(SearchUpdateRequest request, UpdateType updateType) {
+        String version = request.getSoftware();
+        return buildSearchUpdateResponse(request, updateType, version);
+    }
 
-        boardUpdateRepository.findAll(specification);
+    private SearchUpdateResponse buildSearchUpdateResponse(SearchUpdateRequest request, UpdateType type, String version) {
+        List<BoardUpdateEntity> updateEntities = boardUpdateRepository.findByBoard_SerialAndVersionAndTypeOrderByReleaseDateAsc(
+            request.getSerial(),
+            version,
+            type
+        );
 
-        return map;
+        List<SearchUpdateResponse> responseList = updateEntities
+            .stream()
+            .map(
+                boardUpdateEntity -> {
+                    SearchUpdateResponse response = new SearchUpdateResponse();
+                    response.setVersion(boardUpdateEntity.getVersion());
+                    response.setPath(boardUpdateEntity.getPath());
+                    response.setMandatory("false");
+                    response
+                        .getUpdateKeys()
+                        .addAll(boardUpdateEntity.getUpdateKeys().stream().map(UpdateKeysEntity::getKey).collect(Collectors.toList()));
+                    return response;
+                }
+            )
+            .filter(searchUpdateResponse -> searchUpdateResponse.getUpdateKeys().containsAll(request.getUpdateKeys()))
+            .collect(Collectors.toList());
+
+        return responseList.size() > 0 ? responseList.get(0) : new SearchUpdateResponse();
     }
 }

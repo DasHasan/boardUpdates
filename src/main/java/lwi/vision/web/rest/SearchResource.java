@@ -1,6 +1,7 @@
 package lwi.vision.web.rest;
 
-import java.util.Map;
+import lwi.vision.domain.SearchUpdateRequest;
+import lwi.vision.domain.SearchUpdateResponse;
 import lwi.vision.domain.enumeration.UpdateType;
 import lwi.vision.service.SearchService;
 import org.slf4j.Logger;
@@ -45,20 +46,12 @@ public class SearchResource {
     //    }
     // }
     @PostMapping(value = "/software", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Map<String, String>> searchSoftware(@RequestBody Map<String, String> request) {
-        String serial = request.get("serial");
-        String firmwareVersion = request.get("firmware");
-        String softwareVersion = request.get("software");
-        String updateKeys = request.get("updateKeys");
-        return ResponseEntity.ok().body(searchService.searchNew(serial, UpdateType.SOFTWARE, softwareVersion, firmwareVersion, updateKeys));
+    public ResponseEntity<SearchUpdateResponse> searchSoftware(@RequestBody SearchUpdateRequest request) {
+        return ResponseEntity.ok().body(searchService.search(request, UpdateType.SOFTWARE));
     }
 
     @PostMapping(value = "/firmware", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Map<String, String>> searchFirmware(@RequestBody Map<String, String> request) {
-        String serial = request.get("serial");
-        String firmware = request.get("firmware");
-        String software = request.get("software");
-        String updateKeys = request.get("updateKeys");
-        return ResponseEntity.ok().body(searchService.search(serial, firmware, software));
+    public ResponseEntity<SearchUpdateResponse> searchFirmware(@RequestBody SearchUpdateRequest request) {
+        return ResponseEntity.ok().body(searchService.search(request, UpdateType.FIRMWARE));
     }
 }
