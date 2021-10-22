@@ -3,6 +3,7 @@ package lwi.vision.service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import lwi.vision.domain.*;
 import lwi.vision.domain.enumeration.UpdateType;
@@ -129,17 +130,19 @@ public class SearchService {
 
     public SearchUpdateResponse search(SearchUpdateRequest request, UpdateType updateType) {
         String version = request.getSoftware();
-        return buildSearchUpdateResponse(request, updateType, version);
+        return getUpdateResponse(request, updateType, version);
     }
 
-    private SearchUpdateResponse buildSearchUpdateResponse(SearchUpdateRequest request, UpdateType type, String version) {
-        List<BoardUpdateEntity> updateEntities = boardUpdateRepository.findByBoard_SerialAndVersionAndTypeOrderByReleaseDateAsc(
-            request.getSerial(),
-            version,
-            type
-        );
+    private SearchUpdateResponse getUpdateResponse(SearchUpdateRequest request, UpdateType type, String version) {
+        List<BoardUpdateEntity> updateEntities = getUpdateEntities(request, type, version);
 
-        List<SearchUpdateResponse> responseList = updateEntities
+        List<SearchUpdateResponse> responseList = buildUpdateResponse(request, updateEntities);
+
+        return responseList.size() > 0 ? responseList.get(0) : new SearchUpdateResponse();
+    }
+
+    private List<SearchUpdateResponse> buildUpdateResponse(SearchUpdateRequest request, List<BoardUpdateEntity> updateEntities) {
+        return updateEntities
             .stream()
             .map(
                 boardUpdateEntity -> {
@@ -147,15 +150,23 @@ public class SearchService {
                     response.setVersion(boardUpdateEntity.getVersion());
                     response.setPath(boardUpdateEntity.getPath());
                     response.setMandatory("false");
-                    response
-                        .getUpdateKeys()
-                        .addAll(boardUpdateEntity.getUpdateKeys().stream().map(UpdateKeysEntity::getKey).collect(Collectors.toList()));
+                    response.getUpdateKeys().addAll(buildUpdateKeys(boardUpdateEntity));
                     return response;
                 }
             )
-            .filter(searchUpdateResponse -> searchUpdateResponse.getUpdateKeys().containsAll(request.getUpdateKeys()))
+            .filter(filterByUpdateKeys(request))
             .collect(Collectors.toList());
+    }
 
-        return responseList.size() > 0 ? responseList.get(0) : new SearchUpdateResponse();
+    private Predicate<SearchUpdateResponse> filterByUpdateKeys(SearchUpdateRequest request) {
+        return searchUpdateResponse -> searchUpdateResponse.getUpdateKeys().containsAll(request.getUpdateKeys());
+    }
+
+    private List<String> buildUpdateKeys(BoardUpdateEntity boardUpdateEntity) {
+        return boardUpdateEntity.getUpdateKeys().stream().map(UpdateKeysEntity::getKey).collect(Collectors.toList());
+    }
+
+    private List<BoardUpdateEntity> getUpdateEntities(SearchUpdateRequest request, UpdateType type, String version) {
+        return boardUpdateRepository.findByBoard_SerialAndVersionAndTypeOrderByReleaseDateAsc(request.getSerial(), version, type);
     }
 }
