@@ -22,6 +22,7 @@
       "path": "Path",
       "type": "Type",
       "releaseDate": "Release Date",
+      "status": "Status",
       "updateKeys": "Update Keys",
       "board": "Board"
     }

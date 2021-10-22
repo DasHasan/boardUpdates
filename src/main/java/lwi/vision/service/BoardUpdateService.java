@@ -60,6 +60,9 @@ public class BoardUpdateService {
                     if (boardUpdateEntity.getReleaseDate() != null) {
                         existingBoardUpdate.setReleaseDate(boardUpdateEntity.getReleaseDate());
                     }
+                    if (boardUpdateEntity.getStatus() != null) {
+                        existingBoardUpdate.setStatus(boardUpdateEntity.getStatus());
+                    }
 
                     return existingBoardUpdate;
                 }

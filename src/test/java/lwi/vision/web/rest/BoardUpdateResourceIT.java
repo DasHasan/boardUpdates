@@ -51,6 +51,9 @@ class BoardUpdateResourceIT {
     private static final ZonedDateTime UPDATED_RELEASE_DATE = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
     private static final ZonedDateTime SMALLER_RELEASE_DATE = ZonedDateTime.ofInstant(Instant.ofEpochMilli(-1L), ZoneOffset.UTC);
 
+    private static final String DEFAULT_STATUS = "AAAAAAAAAA";
+    private static final String UPDATED_STATUS = "BBBBBBBBBB";
+
     private static final String ENTITY_API_URL = "/api/board-updates";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -79,7 +82,8 @@ class BoardUpdateResourceIT {
             .version(DEFAULT_VERSION)
             .path(DEFAULT_PATH)
             .type(DEFAULT_TYPE)
-            .releaseDate(DEFAULT_RELEASE_DATE);
+            .releaseDate(DEFAULT_RELEASE_DATE)
+            .status(DEFAULT_STATUS);
         return boardUpdateEntity;
     }
 
@@ -94,7 +98,8 @@ class BoardUpdateResourceIT {
             .version(UPDATED_VERSION)
             .path(UPDATED_PATH)
             .type(UPDATED_TYPE)
-            .releaseDate(UPDATED_RELEASE_DATE);
+            .releaseDate(UPDATED_RELEASE_DATE)
+            .status(UPDATED_STATUS);
         return boardUpdateEntity;
     }
 
@@ -122,6 +127,7 @@ class BoardUpdateResourceIT {
         assertThat(testBoardUpdate.getPath()).isEqualTo(DEFAULT_PATH);
         assertThat(testBoardUpdate.getType()).isEqualTo(DEFAULT_TYPE);
         assertThat(testBoardUpdate.getReleaseDate()).isEqualTo(DEFAULT_RELEASE_DATE);
+        assertThat(testBoardUpdate.getStatus()).isEqualTo(DEFAULT_STATUS);
     }
 
     @Test
@@ -159,7 +165,8 @@ class BoardUpdateResourceIT {
             .andExpect(jsonPath("$.[*].version").value(hasItem(DEFAULT_VERSION)))
             .andExpect(jsonPath("$.[*].path").value(hasItem(DEFAULT_PATH)))
             .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())))
-            .andExpect(jsonPath("$.[*].releaseDate").value(hasItem(sameInstant(DEFAULT_RELEASE_DATE))));
+            .andExpect(jsonPath("$.[*].releaseDate").value(hasItem(sameInstant(DEFAULT_RELEASE_DATE))))
+            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS)));
     }
 
     @Test
@@ -177,7 +184,8 @@ class BoardUpdateResourceIT {
             .andExpect(jsonPath("$.version").value(DEFAULT_VERSION))
             .andExpect(jsonPath("$.path").value(DEFAULT_PATH))
             .andExpect(jsonPath("$.type").value(DEFAULT_TYPE.toString()))
-            .andExpect(jsonPath("$.releaseDate").value(sameInstant(DEFAULT_RELEASE_DATE)));
+            .andExpect(jsonPath("$.releaseDate").value(sameInstant(DEFAULT_RELEASE_DATE)))
+            .andExpect(jsonPath("$.status").value(DEFAULT_STATUS));
     }
 
     @Test
@@ -512,6 +520,84 @@ class BoardUpdateResourceIT {
 
     @Test
     @Transactional
+    void getAllBoardUpdatesByStatusIsEqualToSomething() throws Exception {
+        // Initialize the database
+        boardUpdateRepository.saveAndFlush(boardUpdateEntity);
+
+        // Get all the boardUpdateList where status equals to DEFAULT_STATUS
+        defaultBoardUpdateShouldBeFound("status.equals=" + DEFAULT_STATUS);
+
+        // Get all the boardUpdateList where status equals to UPDATED_STATUS
+        defaultBoardUpdateShouldNotBeFound("status.equals=" + UPDATED_STATUS);
+    }
+
+    @Test
+    @Transactional
+    void getAllBoardUpdatesByStatusIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        boardUpdateRepository.saveAndFlush(boardUpdateEntity);
+
+        // Get all the boardUpdateList where status not equals to DEFAULT_STATUS
+        defaultBoardUpdateShouldNotBeFound("status.notEquals=" + DEFAULT_STATUS);
+
+        // Get all the boardUpdateList where status not equals to UPDATED_STATUS
+        defaultBoardUpdateShouldBeFound("status.notEquals=" + UPDATED_STATUS);
+    }
+
+    @Test
+    @Transactional
+    void getAllBoardUpdatesByStatusIsInShouldWork() throws Exception {
+        // Initialize the database
+        boardUpdateRepository.saveAndFlush(boardUpdateEntity);
+
+        // Get all the boardUpdateList where status in DEFAULT_STATUS or UPDATED_STATUS
+        defaultBoardUpdateShouldBeFound("status.in=" + DEFAULT_STATUS + "," + UPDATED_STATUS);
+
+        // Get all the boardUpdateList where status equals to UPDATED_STATUS
+        defaultBoardUpdateShouldNotBeFound("status.in=" + UPDATED_STATUS);
+    }
+
+    @Test
+    @Transactional
+    void getAllBoardUpdatesByStatusIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        boardUpdateRepository.saveAndFlush(boardUpdateEntity);
+
+        // Get all the boardUpdateList where status is not null
+        defaultBoardUpdateShouldBeFound("status.specified=true");
+
+        // Get all the boardUpdateList where status is null
+        defaultBoardUpdateShouldNotBeFound("status.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllBoardUpdatesByStatusContainsSomething() throws Exception {
+        // Initialize the database
+        boardUpdateRepository.saveAndFlush(boardUpdateEntity);
+
+        // Get all the boardUpdateList where status contains DEFAULT_STATUS
+        defaultBoardUpdateShouldBeFound("status.contains=" + DEFAULT_STATUS);
+
+        // Get all the boardUpdateList where status contains UPDATED_STATUS
+        defaultBoardUpdateShouldNotBeFound("status.contains=" + UPDATED_STATUS);
+    }
+
+    @Test
+    @Transactional
+    void getAllBoardUpdatesByStatusNotContainsSomething() throws Exception {
+        // Initialize the database
+        boardUpdateRepository.saveAndFlush(boardUpdateEntity);
+
+        // Get all the boardUpdateList where status does not contain DEFAULT_STATUS
+        defaultBoardUpdateShouldNotBeFound("status.doesNotContain=" + DEFAULT_STATUS);
+
+        // Get all the boardUpdateList where status does not contain UPDATED_STATUS
+        defaultBoardUpdateShouldBeFound("status.doesNotContain=" + UPDATED_STATUS);
+    }
+
+    @Test
+    @Transactional
     void getAllBoardUpdatesByUpdateKeysIsEqualToSomething() throws Exception {
         // Initialize the database
         boardUpdateRepository.saveAndFlush(boardUpdateEntity);
@@ -560,7 +646,8 @@ class BoardUpdateResourceIT {
             .andExpect(jsonPath("$.[*].version").value(hasItem(DEFAULT_VERSION)))
             .andExpect(jsonPath("$.[*].path").value(hasItem(DEFAULT_PATH)))
             .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())))
-            .andExpect(jsonPath("$.[*].releaseDate").value(hasItem(sameInstant(DEFAULT_RELEASE_DATE))));
+            .andExpect(jsonPath("$.[*].releaseDate").value(hasItem(sameInstant(DEFAULT_RELEASE_DATE))))
+            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS)));
 
         // Check, that the count call also returns 1
         restBoardUpdateMockMvc
@@ -608,7 +695,12 @@ class BoardUpdateResourceIT {
         BoardUpdateEntity updatedBoardUpdateEntity = boardUpdateRepository.findById(boardUpdateEntity.getId()).get();
         // Disconnect from session so that the updates on updatedBoardUpdateEntity are not directly saved in db
         em.detach(updatedBoardUpdateEntity);
-        updatedBoardUpdateEntity.version(UPDATED_VERSION).path(UPDATED_PATH).type(UPDATED_TYPE).releaseDate(UPDATED_RELEASE_DATE);
+        updatedBoardUpdateEntity
+            .version(UPDATED_VERSION)
+            .path(UPDATED_PATH)
+            .type(UPDATED_TYPE)
+            .releaseDate(UPDATED_RELEASE_DATE)
+            .status(UPDATED_STATUS);
 
         restBoardUpdateMockMvc
             .perform(
@@ -626,6 +718,7 @@ class BoardUpdateResourceIT {
         assertThat(testBoardUpdate.getPath()).isEqualTo(UPDATED_PATH);
         assertThat(testBoardUpdate.getType()).isEqualTo(UPDATED_TYPE);
         assertThat(testBoardUpdate.getReleaseDate()).isEqualTo(UPDATED_RELEASE_DATE);
+        assertThat(testBoardUpdate.getStatus()).isEqualTo(UPDATED_STATUS);
     }
 
     @Test
@@ -698,7 +791,7 @@ class BoardUpdateResourceIT {
         BoardUpdateEntity partialUpdatedBoardUpdateEntity = new BoardUpdateEntity();
         partialUpdatedBoardUpdateEntity.setId(boardUpdateEntity.getId());
 
-        partialUpdatedBoardUpdateEntity.path(UPDATED_PATH).type(UPDATED_TYPE);
+        partialUpdatedBoardUpdateEntity.path(UPDATED_PATH).type(UPDATED_TYPE).status(UPDATED_STATUS);
 
         restBoardUpdateMockMvc
             .perform(
@@ -716,6 +809,7 @@ class BoardUpdateResourceIT {
         assertThat(testBoardUpdate.getPath()).isEqualTo(UPDATED_PATH);
         assertThat(testBoardUpdate.getType()).isEqualTo(UPDATED_TYPE);
         assertThat(testBoardUpdate.getReleaseDate()).isEqualTo(DEFAULT_RELEASE_DATE);
+        assertThat(testBoardUpdate.getStatus()).isEqualTo(UPDATED_STATUS);
     }
 
     @Test
@@ -730,7 +824,12 @@ class BoardUpdateResourceIT {
         BoardUpdateEntity partialUpdatedBoardUpdateEntity = new BoardUpdateEntity();
         partialUpdatedBoardUpdateEntity.setId(boardUpdateEntity.getId());
 
-        partialUpdatedBoardUpdateEntity.version(UPDATED_VERSION).path(UPDATED_PATH).type(UPDATED_TYPE).releaseDate(UPDATED_RELEASE_DATE);
+        partialUpdatedBoardUpdateEntity
+            .version(UPDATED_VERSION)
+            .path(UPDATED_PATH)
+            .type(UPDATED_TYPE)
+            .releaseDate(UPDATED_RELEASE_DATE)
+            .status(UPDATED_STATUS);
 
         restBoardUpdateMockMvc
             .perform(
@@ -748,6 +847,7 @@ class BoardUpdateResourceIT {
         assertThat(testBoardUpdate.getPath()).isEqualTo(UPDATED_PATH);
         assertThat(testBoardUpdate.getType()).isEqualTo(UPDATED_TYPE);
         assertThat(testBoardUpdate.getReleaseDate()).isEqualTo(UPDATED_RELEASE_DATE);
+        assertThat(testBoardUpdate.getStatus()).isEqualTo(UPDATED_STATUS);
     }
 
     @Test

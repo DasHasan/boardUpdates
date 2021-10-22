@@ -53,6 +53,8 @@ public class BoardUpdateCriteria implements Serializable, Criteria {
 
     private ZonedDateTimeFilter releaseDate;
 
+    private StringFilter status;
+
     private LongFilter updateKeysId;
 
     private LongFilter boardId;
@@ -65,6 +67,7 @@ public class BoardUpdateCriteria implements Serializable, Criteria {
         this.path = other.path == null ? null : other.path.copy();
         this.type = other.type == null ? null : other.type.copy();
         this.releaseDate = other.releaseDate == null ? null : other.releaseDate.copy();
+        this.status = other.status == null ? null : other.status.copy();
         this.updateKeysId = other.updateKeysId == null ? null : other.updateKeysId.copy();
         this.boardId = other.boardId == null ? null : other.boardId.copy();
     }
@@ -149,6 +152,21 @@ public class BoardUpdateCriteria implements Serializable, Criteria {
         this.releaseDate = releaseDate;
     }
 
+    public StringFilter getStatus() {
+        return status;
+    }
+
+    public StringFilter status() {
+        if (status == null) {
+            status = new StringFilter();
+        }
+        return status;
+    }
+
+    public void setStatus(StringFilter status) {
+        this.status = status;
+    }
+
     public LongFilter getUpdateKeysId() {
         return updateKeysId;
     }
@@ -194,6 +212,7 @@ public class BoardUpdateCriteria implements Serializable, Criteria {
             Objects.equals(path, that.path) &&
             Objects.equals(type, that.type) &&
             Objects.equals(releaseDate, that.releaseDate) &&
+            Objects.equals(status, that.status) &&
             Objects.equals(updateKeysId, that.updateKeysId) &&
             Objects.equals(boardId, that.boardId)
         );
@@ -201,7 +220,7 @@ public class BoardUpdateCriteria implements Serializable, Criteria {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, version, path, type, releaseDate, updateKeysId, boardId);
+        return Objects.hash(id, version, path, type, releaseDate, status, updateKeysId, boardId);
     }
 
     // prettier-ignore
@@ -213,6 +232,7 @@ public class BoardUpdateCriteria implements Serializable, Criteria {
             (path != null ? "path=" + path + ", " : "") +
             (type != null ? "type=" + type + ", " : "") +
             (releaseDate != null ? "releaseDate=" + releaseDate + ", " : "") +
+            (status != null ? "status=" + status + ", " : "") +
             (updateKeysId != null ? "updateKeysId=" + updateKeysId + ", " : "") +
             (boardId != null ? "boardId=" + boardId + ", " : "") +
             "}";

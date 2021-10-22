@@ -28,6 +28,7 @@ export class BoardUpdateUpdateComponent implements OnInit {
     path: [],
     type: [],
     releaseDate: [],
+    status: [],
     board: [],
   });
 
@@ -95,6 +96,7 @@ export class BoardUpdateUpdateComponent implements OnInit {
       path: boardUpdate.path,
       type: boardUpdate.type,
       releaseDate: boardUpdate.releaseDate ? boardUpdate.releaseDate.format(DATE_TIME_FORMAT) : null,
+      status: boardUpdate.status,
       board: boardUpdate.board,
     });
 
@@ -119,6 +121,7 @@ export class BoardUpdateUpdateComponent implements OnInit {
       releaseDate: this.editForm.get(['releaseDate'])!.value
         ? dayjs(this.editForm.get(['releaseDate'])!.value, DATE_TIME_FORMAT)
         : undefined,
+      status: this.editForm.get(['status'])!.value,
       board: this.editForm.get(['board'])!.value,
     };
   }

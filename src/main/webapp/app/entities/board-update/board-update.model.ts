@@ -9,6 +9,7 @@ export interface IBoardUpdate {
   path?: string | null;
   type?: UpdateType | null;
   releaseDate?: dayjs.Dayjs | null;
+  status?: string | null;
   updateKeys?: IUpdateKeys[] | null;
   board?: IBoard | null;
 }
@@ -20,6 +21,7 @@ export class BoardUpdate implements IBoardUpdate {
     public path?: string | null,
     public type?: UpdateType | null,
     public releaseDate?: dayjs.Dayjs | null,
+    public status?: string | null,
     public updateKeys?: IUpdateKeys[] | null,
     public board?: IBoard | null
   ) {}

@@ -37,6 +37,9 @@ public class BoardUpdateEntity extends AbstractAuditingEntity implements Seriali
     @Column(name = "release_date")
     private ZonedDateTime releaseDate;
 
+    @Column(name = "status")
+    private String status;
+
     @OneToMany(mappedBy = "boardUpdate")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "boardUpdate" }, allowSetters = true)
@@ -112,6 +115,19 @@ public class BoardUpdateEntity extends AbstractAuditingEntity implements Seriali
         this.releaseDate = releaseDate;
     }
 
+    public String getStatus() {
+        return this.status;
+    }
+
+    public BoardUpdateEntity status(String status) {
+        this.status = status;
+        return this;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public Set<UpdateKeysEntity> getUpdateKeys() {
         return this.updateKeys;
     }
@@ -184,6 +200,7 @@ public class BoardUpdateEntity extends AbstractAuditingEntity implements Seriali
             ", path='" + getPath() + "'" +
             ", type='" + getType() + "'" +
             ", releaseDate='" + getReleaseDate() + "'" +
+            ", status='" + getStatus() + "'" +
             "}";
     }
 }

@@ -30,6 +30,10 @@
         <dd>
           <span>{{ boardUpdate.releaseDate | formatMediumDatetime }}</span>
         </dd>
+        <dt><span jhiTranslate="boardUpdatesApp.boardUpdate.status">Status</span></dt>
+        <dd>
+          <span>{{ boardUpdate.status }}</span>
+        </dd>
         <dt><span jhiTranslate="boardUpdatesApp.boardUpdate.board">Board</span></dt>
         <dd>
           <div *ngIf="boardUpdate.board">

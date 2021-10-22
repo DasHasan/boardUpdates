@@ -31,6 +31,7 @@ describe('Service Tests', () => {
         path: 'AAAAAAA',
         type: UpdateType.FIRMWARE,
         releaseDate: currentDate,
+        status: 'AAAAAAA',
       };
     });
 
@@ -81,6 +82,7 @@ describe('Service Tests', () => {
             path: 'BBBBBB',
             type: 'BBBBBB',
             releaseDate: currentDate.format(DATE_TIME_FORMAT),
+            status: 'BBBBBB',
           },
           elemDefault
         );
@@ -104,6 +106,7 @@ describe('Service Tests', () => {
           {
             path: 'BBBBBB',
             type: 'BBBBBB',
+            status: 'BBBBBB',
           },
           new BoardUpdate()
         );
@@ -132,6 +135,7 @@ describe('Service Tests', () => {
             path: 'BBBBBB',
             type: 'BBBBBB',
             releaseDate: currentDate.format(DATE_TIME_FORMAT),
+            status: 'BBBBBB',
           },
           elemDefault
         );
@@ -188,7 +192,7 @@ describe('Service Tests', () => {
         });
 
         it('should add only unique BoardUpdate to an array', () => {
-          const boardUpdateArray: IBoardUpdate[] = [{ id: 123 }, { id: 456 }, { id: 52251 }];
+          const boardUpdateArray: IBoardUpdate[] = [{ id: 123 }, { id: 456 }, { id: 64326 }];
           const boardUpdateCollection: IBoardUpdate[] = [{ id: 123 }];
           expectedResult = service.addBoardUpdateToCollectionIfMissing(boardUpdateCollection, ...boardUpdateArray);
           expect(expectedResult).toHaveLength(3);

@@ -42,10 +42,10 @@ describe('Component Tests', () => {
     describe('ngOnInit', () => {
       it('Should call BoardUpdate query and add missing value', () => {
         const updateKeys: IUpdateKeys = { id: 456 };
-        const boardUpdate: IBoardUpdate = { id: 64326 };
+        const boardUpdate: IBoardUpdate = { id: 42511 };
         updateKeys.boardUpdate = boardUpdate;
 
-        const boardUpdateCollection: IBoardUpdate[] = [{ id: 42511 }];
+        const boardUpdateCollection: IBoardUpdate[] = [{ id: 85517 }];
         spyOn(boardUpdateService, 'query').and.returnValue(of(new HttpResponse({ body: boardUpdateCollection })));
         const additionalBoardUpdates = [boardUpdate];
         const expectedCollection: IBoardUpdate[] = [...additionalBoardUpdates, ...boardUpdateCollection];
@@ -64,7 +64,7 @@ describe('Component Tests', () => {
 
       it('Should update editForm', () => {
         const updateKeys: IUpdateKeys = { id: 456 };
-        const boardUpdate: IBoardUpdate = { id: 85517 };
+        const boardUpdate: IBoardUpdate = { id: 88084 };
         updateKeys.boardUpdate = boardUpdate;
 
         activatedRoute.data = of({ updateKeys });

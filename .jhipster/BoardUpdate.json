@@ -17,6 +17,10 @@
     {
       "fieldName": "releaseDate",
       "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "status",
+      "fieldType": "String"
     }
   ],
   "relationships": [

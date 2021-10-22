@@ -37,6 +37,7 @@
           <th scope="col"><span jhiTranslate="boardUpdatesApp.boardUpdate.path">Path</span></th>
           <th scope="col"><span jhiTranslate="boardUpdatesApp.boardUpdate.type">Type</span></th>
           <th scope="col"><span jhiTranslate="boardUpdatesApp.boardUpdate.releaseDate">Release Date</span></th>
+          <th scope="col"><span jhiTranslate="boardUpdatesApp.boardUpdate.status">Status</span></th>
           <th scope="col"><span jhiTranslate="boardUpdatesApp.boardUpdate.board">Board</span></th>
           <th scope="col"></th>
         </tr>
@@ -50,6 +51,7 @@
           <td>{{ boardUpdate.path }}</td>
           <td jhiTranslate="{{ 'boardUpdatesApp.UpdateType.' + boardUpdate.type }}">{{ boardUpdate.type }}</td>
           <td>{{ boardUpdate.releaseDate | formatMediumDatetime }}</td>
+          <td>{{ boardUpdate.status }}</td>
           <td>
             <div *ngIf="boardUpdate.board">
               <a [routerLink]="['/board', boardUpdate.board?.id, 'view']">{{ boardUpdate.board?.serial }}</a>
