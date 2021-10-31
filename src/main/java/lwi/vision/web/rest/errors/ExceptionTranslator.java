@@ -130,6 +130,11 @@ public class ExceptionTranslator implements ProblemHandling, SecurityAdviceTrait
     }
 
     @ExceptionHandler
+    public ResponseEntity<Problem> handleServiceException(lwi.vision.service.ServiceException ex, NativeWebRequest request) {
+        return create(new ServiceException(), request);
+    }
+
+    @ExceptionHandler
     public ResponseEntity<Problem> handleUsernameAlreadyUsedException(
         lwi.vision.service.UsernameAlreadyUsedException ex,
         NativeWebRequest request
