@@ -23,6 +23,11 @@
         </div>
 
         <div class="form-group">
+          <label class="form-control-label" for="field_file">Datei</label>
+          <input type="file" class="form-control" name="file" id="field_file" data-cy="file" (change)="fileChanged($event)" />
+        </div>
+
+        <div class="form-group">
           <label class="form-control-label" jhiTranslate="boardUpdatesApp.boardUpdate.path" for="field_path">Path</label>
           <input type="text" class="form-control" name="path" id="field_path" data-cy="path" formControlName="path" />
         </div>

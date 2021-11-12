@@ -3,7 +3,7 @@ import { HttpResponse } from '@angular/common/http';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { finalize, map } from 'rxjs/operators';
+import { finalize, map, switchMap } from 'rxjs/operators';
 
 import * as dayjs from 'dayjs';
 import { DATE_TIME_FORMAT } from 'app/config/input.constants';
@@ -12,6 +12,7 @@ import { IBoardUpdate, BoardUpdate } from '../board-update.model';
 import { BoardUpdateService } from '../service/board-update.service';
 import { IBoard } from 'app/entities/board/board.model';
 import { BoardService } from 'app/entities/board/service/board.service';
+import { FileService } from 'app/shared/file.service';
 
 @Component({
   selector: 'jhi-board-update-update',
@@ -31,12 +32,14 @@ export class BoardUpdateUpdateComponent implements OnInit {
     status: [],
     board: [],
   });
+  private file: File | undefined;
 
   constructor(
     protected boardUpdateService: BoardUpdateService,
     protected boardService: BoardService,
     protected activatedRoute: ActivatedRoute,
-    protected fb: FormBuilder
+    protected fb: FormBuilder,
+    protected fileService: FileService
   ) {}
 
   ngOnInit(): void {
@@ -70,15 +73,39 @@ export class BoardUpdateUpdateComponent implements OnInit {
     return item.id!;
   }
 
+  fileChanged($event: Event): void {
+    const target = $event.target as HTMLInputElement;
+    if (target.files) {
+      const file = target.files[0];
+      this.file = file;
+    }
+  }
+
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IBoardUpdate>>): void {
     result.pipe(finalize(() => this.onSaveFinalize())).subscribe(
-      () => this.onSaveSuccess(),
+      ({ body: update }) => this.onSaveSuccess(update),
       () => this.onSaveError()
     );
   }
 
-  protected onSaveSuccess(): void {
-    this.previousState();
+  protected onSaveSuccess(update: IBoardUpdate | null): void {
+    // eslint-disable-next-line no-console
+    console.log(update);
+    if (this.file) {
+      if (update?.board?.serial && update.type && update.version) {
+        this.fileService
+          .upload(this.file, `${update.board.serial}/${update.type}`, `autoupdate_${update.version}.zip`)
+          .pipe(switchMap(({ path }) => this.boardUpdateService.update({ ...update, path })))
+          .subscribe(
+            value => {
+              this.previousState();
+            },
+            error => {
+              console.error(error);
+            }
+          );
+      }
+    }
   }
 
   protected onSaveError(): void {
