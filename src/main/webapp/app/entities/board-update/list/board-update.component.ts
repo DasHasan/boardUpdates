@@ -1,16 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { IBoardUpdate } from '../board-update.model';
 import { BoardUpdateService } from '../service/board-update.service';
 import { BoardUpdateDeleteDialogComponent } from '../delete/board-update-delete-dialog.component';
+import { IBoard } from 'app/entities/board/board.model';
 
 @Component({
-  selector: 'jhi-board-update',
+  selector: 'jhi-board-update-list',
   templateUrl: './board-update.component.html',
 })
 export class BoardUpdateComponent implements OnInit {
+  @Input() board?: IBoard;
   boardUpdates?: IBoardUpdate[];
   isLoading = false;
 

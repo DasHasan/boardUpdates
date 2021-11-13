@@ -11,5 +11,6 @@ import { BoardUpdateRoutingModule } from './route/board-update-routing.module';
   imports: [SharedModule, BoardUpdateRoutingModule],
   declarations: [BoardUpdateComponent, BoardUpdateDetailComponent, BoardUpdateUpdateComponent, BoardUpdateDeleteDialogComponent],
   entryComponents: [BoardUpdateDeleteDialogComponent],
+  exports: [BoardUpdateComponent],
 })
 export class BoardUpdateModule {}

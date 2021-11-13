@@ -1,6 +1,9 @@
 package lwi.vision.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -22,7 +25,13 @@ public class BoardEntity extends AbstractAuditingEntity implements Serializable 
     @Column(name = "serial")
     private String serial;
 
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(value = { "board" }, allowSetters = true)
+    private Set<BoardUpdateEntity> boardUpdates = new HashSet<>();
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
+
     public Long getId() {
         return id;
     }
@@ -47,6 +56,14 @@ public class BoardEntity extends AbstractAuditingEntity implements Serializable 
 
     public void setSerial(String serial) {
         this.serial = serial;
+    }
+
+    public Set<BoardUpdateEntity> getBoardUpdateEntities() {
+        return boardUpdates;
+    }
+
+    public void setBoardUpdateEntities(Set<BoardUpdateEntity> boardUpdates) {
+        this.boardUpdates = boardUpdates;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

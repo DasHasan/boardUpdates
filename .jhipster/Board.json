@@ -6,22 +6,7 @@
       "fieldType": "String"
     }
   ],
-  "relationships": [
-    {
-      "relationshipType": "one-to-many",
-      "otherEntityName": "firmware",
-      "otherEntityRelationshipName": "board",
-      "relationshipName": "firmware",
-      "otherEntityField": "version"
-    },
-    {
-      "relationshipType": "one-to-many",
-      "otherEntityName": "software",
-      "otherEntityRelationshipName": "board",
-      "relationshipName": "software",
-      "otherEntityField": "version"
-    }
-  ],
+  "relationships": [],
   "entityTableName": "board",
   "dto": "no",
   "pagination": "no",
