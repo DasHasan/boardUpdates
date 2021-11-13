@@ -89,23 +89,15 @@ export class BoardUpdateUpdateComponent implements OnInit {
   }
 
   protected onSaveSuccess(update: IBoardUpdate | null): void {
-    // eslint-disable-next-line no-console
-    console.log(update);
     if (this.file) {
       if (update?.board?.serial && update.type && update.version) {
         this.fileService
           .upload(this.file, `${update.board.serial}/${update.type}`, `autoupdate_${update.version}.zip`)
           .pipe(switchMap(({ path }) => this.boardUpdateService.update({ ...update, path })))
-          .subscribe(
-            value => {
-              this.previousState();
-            },
-            error => {
-              console.error(error);
-            }
-          );
+          .subscribe();
       }
     }
+    this.previousState();
   }
 
   protected onSaveError(): void {

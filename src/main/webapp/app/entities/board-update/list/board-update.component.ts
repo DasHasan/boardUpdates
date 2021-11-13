@@ -21,7 +21,8 @@ export class BoardUpdateComponent implements OnInit {
   loadAll(): void {
     this.isLoading = true;
 
-    this.boardUpdateService.query().subscribe(
+    const query = this.boardUpdateService.query(this.board?.id ? { 'boardId.equals': this.board.id } : {});
+    query.subscribe(
       (res: HttpResponse<IBoardUpdate[]>) => {
         this.isLoading = false;
         this.boardUpdates = res.body ?? [];
