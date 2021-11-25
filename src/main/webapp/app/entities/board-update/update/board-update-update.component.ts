@@ -16,6 +16,13 @@ import { FileService } from 'app/shared/file.service';
 
 @Component({
   selector: 'jhi-board-update-update',
+  styles: [
+    `
+      .hidden {
+        display: none;
+      }
+    `,
+  ],
   templateUrl: './board-update-update.component.html',
 })
 export class BoardUpdateUpdateComponent implements OnInit {

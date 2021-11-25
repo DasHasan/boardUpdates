@@ -19,9 +19,9 @@
       },
       "id": "ID",
       "version": "Version",
-      "path": "Path",
-      "type": "Type",
-      "releaseDate": "Release Date",
+      "path": "Pfad",
+      "type": "Update-Typ",
+      "releaseDate": "Release-Datum",
       "status": "Status",
       "updateKeys": "Update Keys",
       "board": "Board"

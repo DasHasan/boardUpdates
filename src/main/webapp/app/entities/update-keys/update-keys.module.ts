@@ -11,5 +11,6 @@ import { UpdateKeysRoutingModule } from './route/update-keys-routing.module';
   imports: [SharedModule, UpdateKeysRoutingModule],
   declarations: [UpdateKeysComponent, UpdateKeysDetailComponent, UpdateKeysUpdateComponent, UpdateKeysDeleteDialogComponent],
   entryComponents: [UpdateKeysDeleteDialogComponent],
+  exports: [UpdateKeysComponent],
 })
 export class UpdateKeysModule {}

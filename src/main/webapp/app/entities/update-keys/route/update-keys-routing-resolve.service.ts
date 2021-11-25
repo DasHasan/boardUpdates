@@ -6,10 +6,12 @@ import { mergeMap } from 'rxjs/operators';
 
 import { IUpdateKeys, UpdateKeys } from '../update-keys.model';
 import { UpdateKeysService } from '../service/update-keys.service';
+import { BoardUpdateService } from 'app/entities/board-update/service/board-update.service';
+import { BoardUpdate } from 'app/entities/board-update/board-update.model';
 
 @Injectable({ providedIn: 'root' })
 export class UpdateKeysRoutingResolveService implements Resolve<IUpdateKeys> {
-  constructor(protected service: UpdateKeysService, protected router: Router) {}
+  constructor(protected service: UpdateKeysService, protected boardUpdateService: BoardUpdateService, protected router: Router) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<IUpdateKeys> | Observable<never> {
     const id = route.params['id'];
@@ -20,6 +22,19 @@ export class UpdateKeysRoutingResolveService implements Resolve<IUpdateKeys> {
             return of(updateKeys.body);
           } else {
             this.router.navigate(['404']);
+            return EMPTY;
+          }
+        })
+      );
+    }
+    const boardUpdateId = route.queryParams['boardUpdateId'];
+    if (boardUpdateId) {
+      return this.boardUpdateService.find(boardUpdateId).pipe(
+        mergeMap((response: HttpResponse<BoardUpdate>) => {
+          if (response.body) {
+            return of(new UpdateKeys(undefined, undefined, response.body));
+          } else {
+            this.router.navigate(['404']); // TODO: error handling when boardUpdateId is missing
             return EMPTY;
           }
         })

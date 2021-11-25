@@ -1,16 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { IUpdateKeys } from '../update-keys.model';
 import { UpdateKeysService } from '../service/update-keys.service';
 import { UpdateKeysDeleteDialogComponent } from '../delete/update-keys-delete-dialog.component';
+import { BoardUpdate } from 'app/entities/board-update/board-update.model';
 
 @Component({
   selector: 'jhi-update-keys',
   templateUrl: './update-keys.component.html',
 })
 export class UpdateKeysComponent implements OnInit {
+  @Input() boardUpdate?: BoardUpdate;
   updateKeys?: IUpdateKeys[];
   isLoading = false;
 
@@ -19,7 +21,8 @@ export class UpdateKeysComponent implements OnInit {
   loadAll(): void {
     this.isLoading = true;
 
-    this.updateKeysService.query().subscribe(
+    const query = this.updateKeysService.query(this.boardUpdate ? { 'boardUpdateId.equals': this.boardUpdate.id } : {});
+    query.subscribe(
       (res: HttpResponse<IUpdateKeys[]>) => {
         this.isLoading = false;
         this.updateKeys = res.body ?? [];

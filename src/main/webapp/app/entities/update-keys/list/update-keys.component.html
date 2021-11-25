@@ -13,6 +13,7 @@
         data-cy="entityCreateButton"
         class="btn btn-primary jh-create-entity create-update-keys"
         [routerLink]="['/update-keys/new']"
+        [queryParams]="{ boardUpdateId: boardUpdate?.id }"
       >
         <fa-icon icon="plus"></fa-icon>
         <span jhiTranslate="boardUpdatesApp.updateKeys.home.createLabel"> Create a new Update Keys </span>
@@ -20,9 +21,11 @@
     </div>
   </h2>
 
-  <jhi-alert-error></jhi-alert-error>
+  <ng-container *ngIf="!boardUpdate">
+    <jhi-alert-error></jhi-alert-error>
 
-  <jhi-alert></jhi-alert>
+    <jhi-alert></jhi-alert>
+  </ng-container>
 
   <div class="alert alert-warning" id="no-result" *ngIf="updateKeys?.length === 0">
     <span jhiTranslate="boardUpdatesApp.updateKeys.home.notFound">No updateKeys found</span>
@@ -34,7 +37,7 @@
         <tr>
           <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
           <th scope="col"><span jhiTranslate="boardUpdatesApp.updateKeys.key">Key</span></th>
-          <th scope="col"><span jhiTranslate="boardUpdatesApp.updateKeys.boardUpdate">Board Update</span></th>
+          <!--          <th scope="col"><span jhiTranslate="boardUpdatesApp.updateKeys.boardUpdate">Board Update</span></th>-->
           <th scope="col"></th>
         </tr>
       </thead>
@@ -44,11 +47,11 @@
             <a [routerLink]="['/update-keys', updateKeys.id, 'view']">{{ updateKeys.id }}</a>
           </td>
           <td>{{ updateKeys.key }}</td>
-          <td>
-            <div *ngIf="updateKeys.boardUpdate">
-              <a [routerLink]="['/board-update', updateKeys.boardUpdate?.id, 'view']">{{ updateKeys.boardUpdate?.id }}</a>
-            </div>
-          </td>
+          <!--          <td>-->
+          <!--            <div *ngIf="updateKeys.boardUpdate">-->
+          <!--              <a [routerLink]="['/board-update', updateKeys.boardUpdate?.id, 'view']">{{ updateKeys.boardUpdate?.id }}</a>-->
+          <!--            </div>-->
+          <!--          </td>-->
           <td class="text-right">
             <div class="btn-group">
               <button

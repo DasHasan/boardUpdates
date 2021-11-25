@@ -9,6 +9,13 @@ import { IBoard } from 'app/entities/board/board.model';
 
 @Component({
   selector: 'jhi-board-update-list',
+  styles: [
+    `
+      .hidden {
+        display: none;
+      }
+    `,
+  ],
   templateUrl: './board-update.component.html',
 })
 export class BoardUpdateComponent implements OnInit {

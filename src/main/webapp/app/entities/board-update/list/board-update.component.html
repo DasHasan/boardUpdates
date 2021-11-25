@@ -13,6 +13,7 @@
         data-cy="entityCreateButton"
         class="btn btn-primary jh-create-entity create-board-update"
         [routerLink]="['/board-update/new']"
+        [queryParams]="{ boardId: board?.id }"
       >
         <fa-icon icon="plus"></fa-icon>
         <span jhiTranslate="boardUpdatesApp.boardUpdate.home.createLabel"> Create a new Board Update </span>
@@ -20,9 +21,11 @@
     </div>
   </h2>
 
-  <jhi-alert-error></jhi-alert-error>
+  <ng-container *ngIf="!board">
+    <jhi-alert-error></jhi-alert-error>
 
-  <jhi-alert></jhi-alert>
+    <jhi-alert></jhi-alert>
+  </ng-container>
 
   <div class="alert alert-warning" id="no-result" *ngIf="boardUpdates?.length === 0">
     <span jhiTranslate="boardUpdatesApp.boardUpdate.home.notFound">No boardUpdates found</span>
@@ -38,7 +41,7 @@
           <th scope="col"><span jhiTranslate="boardUpdatesApp.boardUpdate.type">Type</span></th>
           <th scope="col"><span jhiTranslate="boardUpdatesApp.boardUpdate.releaseDate">Release Date</span></th>
           <th scope="col"><span jhiTranslate="boardUpdatesApp.boardUpdate.status">Status</span></th>
-          <th scope="col"><span jhiTranslate="boardUpdatesApp.boardUpdate.board">Board</span></th>
+          <th scope="col" [classList]="board ? 'hidden' : ''"><span jhiTranslate="boardUpdatesApp.boardUpdate.board">Board</span></th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -52,7 +55,7 @@
           <td jhiTranslate="{{ 'boardUpdatesApp.UpdateType.' + boardUpdate.type }}">{{ boardUpdate.type }}</td>
           <td>{{ boardUpdate.releaseDate | formatMediumDatetime }}</td>
           <td>{{ boardUpdate.status }}</td>
-          <td>
+          <td [classList]="board ? 'hidden' : ''">
             <div *ngIf="boardUpdate.board">
               <a [routerLink]="['/board', boardUpdate.board?.id, 'view']">{{ boardUpdate.board?.serial }}</a>
             </div>

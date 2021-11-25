@@ -26,9 +26,17 @@
           </span>
         </a>
       </li>
+      <li *ngSwitchCase="true" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <a class="nav-link" routerLink="board" (click)="collapseNavbar()">
+          <span>
+            <fa-icon icon="asterisk"></fa-icon>
+            <span jhiTranslate="global.menu.entities.board">Board</span>
+          </span>
+        </a>
+      </li>
       <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
       <li
-        *ngSwitchCase="true"
+        *jhiHasAnyAuthority="'ROLE_ADMIN'"
         ngbDropdown
         class="nav-item dropdown pointer"
         display="dynamic"
