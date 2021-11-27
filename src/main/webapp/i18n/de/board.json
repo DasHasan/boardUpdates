@@ -19,8 +19,7 @@
       },
       "id": "ID",
       "serial": "Serial",
-      "firmware": "Firmware",
-      "software": "Software"
+      "boardUpdate": "Board Update"
     }
   }
 }

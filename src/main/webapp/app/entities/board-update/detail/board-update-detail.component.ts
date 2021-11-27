@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { IBoardUpdate } from '../board-update.model';
 import { UpdateType } from 'app/entities/enumerations/update-type.model';
+import { FileService } from 'app/shared/file.service';
 
 @Component({
   selector: 'jhi-board-update-detail',
@@ -12,7 +13,7 @@ export class BoardUpdateDetailComponent implements OnInit {
   boardUpdate: IBoardUpdate | null = null;
   requestBody = {};
 
-  constructor(protected activatedRoute: ActivatedRoute) {}
+  constructor(protected activatedRoute: ActivatedRoute, protected fileService: FileService) {}
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ boardUpdate }) => {
@@ -31,6 +32,8 @@ export class BoardUpdateDetailComponent implements OnInit {
   }
 
   download(): void {
-    //
+    if (this.boardUpdate?.id) {
+      this.fileService.download(this.boardUpdate.id);
+    }
   }
 }

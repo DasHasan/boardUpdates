@@ -7,7 +7,9 @@ import java.util.Objects;
 import java.util.Optional;
 import lwi.vision.domain.GroupEntity;
 import lwi.vision.repository.GroupRepository;
+import lwi.vision.service.GroupQueryService;
 import lwi.vision.service.GroupService;
+import lwi.vision.service.criteria.GroupCriteria;
 import lwi.vision.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,9 +37,12 @@ public class GroupResource {
 
     private final GroupRepository groupRepository;
 
-    public GroupResource(GroupService groupService, GroupRepository groupRepository) {
+    private final GroupQueryService groupQueryService;
+
+    public GroupResource(GroupService groupService, GroupRepository groupRepository, GroupQueryService groupQueryService) {
         this.groupService = groupService;
         this.groupRepository = groupRepository;
+        this.groupQueryService = groupQueryService;
     }
 
     /**
@@ -133,12 +138,26 @@ public class GroupResource {
     /**
      * {@code GET  /groups} : get all the groups.
      *
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of groups in body.
      */
     @GetMapping("/groups")
-    public List<GroupEntity> getAllGroups() {
-        log.debug("REST request to get all Groups");
-        return groupService.findAll();
+    public ResponseEntity<List<GroupEntity>> getAllGroups(GroupCriteria criteria) {
+        log.debug("REST request to get Groups by criteria: {}", criteria);
+        List<GroupEntity> entityList = groupQueryService.findByCriteria(criteria);
+        return ResponseEntity.ok().body(entityList);
+    }
+
+    /**
+     * {@code GET  /groups/count} : count all the groups.
+     *
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+     */
+    @GetMapping("/groups/count")
+    public ResponseEntity<Long> countGroups(GroupCriteria criteria) {
+        log.debug("REST request to count Groups by criteria: {}", criteria);
+        return ResponseEntity.ok().body(groupQueryService.countByCriteria(criteria));
     }
 
     /**

@@ -38,34 +38,24 @@ application {
     withAdminUi true
   }
 
-  entities Board, BoardUpdate, Firmware, FirmwareUpdate, Group, Software, SoftwareUpdate, UpdateKeys
+  entities Board, BoardUpdate, Group, UpdateKeys, Download
 }
 
 entity Board {
   serial String
+}
+entity Download {
+  date ZonedDateTime
 }
 entity BoardUpdate {
   version String
   path String
   type UpdateType
   releaseDate ZonedDateTime
-}
-entity Firmware {
-  version String
-  path String
-}
-entity FirmwareUpdate {
-  active Boolean
+  status String
 }
 entity Group (jhi_group) {
   name String
-}
-entity Software {
-  version String
-  path String
-}
-entity SoftwareUpdate {
-  active Boolean
 }
 entity UpdateKeys {
   key String
@@ -75,20 +65,13 @@ enum UpdateType {
   SOFTWARE (Software)
 }
 
-relationship OneToMany {
-  Board{firmware(version)} to Firmware{board(serial)}
-  Board{software(version)} to Software{board(serial)}
-  BoardUpdate to UpdateKeys
+relationship OneToOne {
+  Download{boardUpdate} to BoardUpdate
 }
-relationship ManyToOne {
-  BoardUpdate{board(serial)} to Board
-  FirmwareUpdate{board(serial)} to Board
-  FirmwareUpdate{from(version)} to Firmware
-  FirmwareUpdate{to(version)} to Firmware
-  SoftwareUpdate{board(serial)} to Board
-  SoftwareUpdate{from(version)} to Software
-  SoftwareUpdate{to(version)} to Software
+relationship OneToMany {
+  Board{boardUpdate} to BoardUpdate{board(serial)}
+  BoardUpdate{updateKeys} to UpdateKeys{boardUpdate}
 }
 
-service Board, BoardUpdate, Firmware, FirmwareUpdate, Group, Software, SoftwareUpdate, UpdateKeys with serviceClass
-filter Board, BoardUpdate, UpdateKeys
+service Board, BoardUpdate, Group, UpdateKeys, Download with serviceClass
+filter Board, BoardUpdate, Group, UpdateKeys, Download

@@ -1,0 +1,25 @@
+{
+  "boardUpdatesApp": {
+    "download": {
+      "home": {
+        "title": "Downloads",
+        "refreshListLabel": "Liste aktualisieren",
+        "createLabel": "Download erstellen",
+        "createOrEditLabel": "Download erstellen oder bearbeiten",
+        "notFound": "Keine Downloads gefunden"
+      },
+      "created": "Download erstellt mit ID {{ param }}",
+      "updated": "Download aktualisiert mit ID {{ param }}",
+      "deleted": "Download gelöscht mit ID {{ param }}",
+      "delete": {
+        "question": "Soll Download {{ id }} wirklich dauerhaft gelöscht werden?"
+      },
+      "detail": {
+        "title": "Download"
+      },
+      "id": "ID",
+      "date": "Datum",
+      "boardUpdate": "Board Update"
+    }
+  }
+}

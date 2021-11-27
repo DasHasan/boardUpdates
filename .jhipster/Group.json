@@ -11,7 +11,7 @@
   "dto": "no",
   "pagination": "no",
   "service": "serviceClass",
-  "jpaMetamodelFiltering": false,
+  "jpaMetamodelFiltering": true,
   "fluentMethods": true,
   "readOnly": false,
   "embedded": false,

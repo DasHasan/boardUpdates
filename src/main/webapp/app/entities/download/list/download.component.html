@@ -1,0 +1,84 @@
+<div>
+  <h2 id="page-heading" data-cy="DownloadHeading">
+    <span jhiTranslate="boardUpdatesApp.download.home.title">Downloads</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="boardUpdatesApp.download.home.refreshListLabel">Refresh List</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-download"
+        [routerLink]="['/download/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="boardUpdatesApp.download.home.createLabel"> Create a new Download </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="downloads?.length === 0">
+    <span jhiTranslate="boardUpdatesApp.download.home.notFound">No downloads found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="downloads && downloads.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr>
+          <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
+          <th scope="col"><span jhiTranslate="boardUpdatesApp.download.date">Date</span></th>
+          <th scope="col"><span jhiTranslate="boardUpdatesApp.download.boardUpdate">Board Update</span></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let download of downloads; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/download', download.id, 'view']">{{ download.id }}</a>
+          </td>
+          <td>{{ download.date | formatMediumDatetime }}</td>
+          <td>
+            <div *ngIf="download.boardUpdate">
+              <a [routerLink]="['/board-update', download.boardUpdate?.id, 'view']">{{ download.boardUpdate?.id }}</a>
+            </div>
+          </td>
+          <td class="text-right">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/download', download.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/download', download.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(download)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

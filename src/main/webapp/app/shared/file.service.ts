@@ -18,4 +18,8 @@ export class FileService {
       return of({ path: '' });
     }
   }
+
+  download(id: number): void {
+    window.open(`/download-update/${id}`, '_blank');
+  }
 }

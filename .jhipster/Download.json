@@ -1,20 +1,21 @@
 {
-  "name": "Board",
+  "name": "Download",
   "fields": [
     {
-      "fieldName": "serial",
-      "fieldType": "String"
+      "fieldName": "date",
+      "fieldType": "ZonedDateTime"
     }
   ],
   "relationships": [
     {
-      "relationshipType": "one-to-many",
+      "relationshipType": "one-to-one",
       "otherEntityName": "boardUpdate",
-      "otherEntityRelationshipName": "board",
-      "relationshipName": "boardUpdate"
+      "otherEntityRelationshipName": "download",
+      "relationshipName": "boardUpdate",
+      "ownerSide": true
     }
   ],
-  "entityTableName": "board",
+  "entityTableName": "download",
   "dto": "no",
   "pagination": "no",
   "service": "serviceClass",
@@ -23,5 +24,5 @@
   "readOnly": false,
   "embedded": false,
   "applications": ["boardUpdates"],
-  "changelogDate": "20210919124135"
+  "changelogDate": "20211126204544"
 }

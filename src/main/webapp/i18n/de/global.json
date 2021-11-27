@@ -9,12 +9,9 @@
         "main": "Entitäten",
         "group": "Group",
         "board": "Board",
-        "firmware": "Firmware",
-        "firmwareUpdate": "Firmware Update",
-        "software": "Software",
-        "softwareUpdate": "Software Update",
         "boardUpdate": "Board Update",
         "updateKeys": "Update Keys",
+        "download": "Download",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

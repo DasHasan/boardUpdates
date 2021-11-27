@@ -27,11 +27,10 @@ public class BoardEntity extends AbstractAuditingEntity implements Serializable 
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "board" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "updateKeys", "board" }, allowSetters = true)
     private Set<BoardUpdateEntity> boardUpdates = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
-
     public Long getId() {
         return id;
     }
@@ -58,11 +57,34 @@ public class BoardEntity extends AbstractAuditingEntity implements Serializable 
         this.serial = serial;
     }
 
-    public Set<BoardUpdateEntity> getBoardUpdateEntities() {
-        return boardUpdates;
+    public Set<BoardUpdateEntity> getBoardUpdates() {
+        return this.boardUpdates;
     }
 
-    public void setBoardUpdateEntities(Set<BoardUpdateEntity> boardUpdates) {
+    public BoardEntity boardUpdates(Set<BoardUpdateEntity> boardUpdates) {
+        this.setBoardUpdates(boardUpdates);
+        return this;
+    }
+
+    public BoardEntity addBoardUpdate(BoardUpdateEntity boardUpdate) {
+        this.boardUpdates.add(boardUpdate);
+        boardUpdate.setBoard(this);
+        return this;
+    }
+
+    public BoardEntity removeBoardUpdate(BoardUpdateEntity boardUpdate) {
+        this.boardUpdates.remove(boardUpdate);
+        boardUpdate.setBoard(null);
+        return this;
+    }
+
+    public void setBoardUpdates(Set<BoardUpdateEntity> boardUpdates) {
+        if (this.boardUpdates != null) {
+            this.boardUpdates.forEach(i -> i.setBoard(null));
+        }
+        if (boardUpdates != null) {
+            boardUpdates.forEach(i -> i.setBoard(this));
+        }
         this.boardUpdates = boardUpdates;
     }
 
