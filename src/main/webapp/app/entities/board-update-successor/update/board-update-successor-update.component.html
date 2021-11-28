@@ -17,7 +17,7 @@
           <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
         </div>
 
-        <div class="form-group" [class.hidden]="boardUpdateSuccessor?.from">
+        <div class="form-group" [class.display-none]="editForm.get('from')!.value?.id">
           <label class="form-control-label" jhiTranslate="boardUpdatesApp.boardUpdateSuccessor.from" for="field_from">From</label>
           <select class="form-control" id="field_from" data-cy="from" name="from" formControlName="from">
             <option [ngValue]="null"></option>

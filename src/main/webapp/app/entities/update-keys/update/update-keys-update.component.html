@@ -22,7 +22,7 @@
           <input type="text" class="form-control" name="key" id="field_key" data-cy="key" formControlName="key" />
         </div>
 
-        <div class="form-group">
+        <div class="form-group" [class.display-none]="editForm.get('boardUpdate')!.value?.id">
           <label class="form-control-label" jhiTranslate="boardUpdatesApp.updateKeys.boardUpdate" for="field_boardUpdate"
             >Board Update</label
           >
