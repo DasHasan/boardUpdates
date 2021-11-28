@@ -1,0 +1,30 @@
+{
+  "fields": [],
+  "relationships": [
+    {
+      "relationshipName": "from",
+      "otherEntityName": "boardUpdate",
+      "relationshipType": "one-to-one",
+      "otherEntityField": "id",
+      "ownerSide": true,
+      "id": false,
+      "otherEntityRelationshipName": "boardUpdateSuccessor"
+    },
+    {
+      "relationshipName": "to",
+      "otherEntityName": "boardUpdate",
+      "relationshipType": "one-to-one",
+      "otherEntityField": "id",
+      "ownerSide": true,
+      "id": false,
+      "otherEntityRelationshipName": "boardUpdateSuccessor"
+    }
+  ],
+  "service": "serviceImpl",
+  "dto": "no",
+  "jpaMetamodelFiltering": true,
+  "readOnly": false,
+  "pagination": "no",
+  "name": "BoardUpdateSuccessor",
+  "changelogDate": "20211127181215"
+}

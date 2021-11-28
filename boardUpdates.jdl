@@ -38,14 +38,11 @@ application {
     withAdminUi true
   }
 
-  entities Board, BoardUpdate, Group, UpdateKeys, Download
+  entities Board, BoardUpdate, BoardUpdateSuccessor, Download, Group, UpdateKeys
 }
 
 entity Board {
   serial String
-}
-entity Download {
-  date ZonedDateTime
 }
 entity BoardUpdate {
   version String
@@ -53,6 +50,10 @@ entity BoardUpdate {
   type UpdateType
   releaseDate ZonedDateTime
   status String
+}
+entity BoardUpdateSuccessor
+entity Download {
+  date ZonedDateTime
 }
 entity Group (jhi_group) {
   name String
@@ -66,6 +67,8 @@ enum UpdateType {
 }
 
 relationship OneToOne {
+  BoardUpdateSuccessor{from} to BoardUpdate
+  BoardUpdateSuccessor{to} to BoardUpdate
   Download{boardUpdate} to BoardUpdate
 }
 relationship OneToMany {
@@ -73,5 +76,6 @@ relationship OneToMany {
   BoardUpdate{updateKeys} to UpdateKeys{boardUpdate}
 }
 
-service Board, BoardUpdate, Group, UpdateKeys, Download with serviceClass
-filter Board, BoardUpdate, Group, UpdateKeys, Download
+service Board, BoardUpdate, Download, Group, UpdateKeys with serviceClass
+service BoardUpdateSuccessor with serviceImpl
+filter Board, BoardUpdate, BoardUpdateSuccessor, Download, Group, UpdateKeys

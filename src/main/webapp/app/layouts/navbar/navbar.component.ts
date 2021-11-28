@@ -16,6 +16,7 @@ import { ProfileService } from 'app/layouts/profiles/profile.service';
 })
 export class NavbarComponent implements OnInit {
   inProduction?: boolean;
+  inDev?: boolean;
   isNavbarCollapsed = true;
   languages = LANGUAGES;
   openAPIEnabled?: boolean;
@@ -37,6 +38,7 @@ export class NavbarComponent implements OnInit {
   ngOnInit(): void {
     this.profileService.getProfileInfo().subscribe(profileInfo => {
       this.inProduction = profileInfo.inProduction;
+      this.inDev = profileInfo.inDev;
       this.openAPIEnabled = profileInfo.openAPIEnabled;
     });
   }

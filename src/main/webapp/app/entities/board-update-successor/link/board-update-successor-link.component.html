@@ -1,0 +1,48 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="toBoardUpdate">
+      <h2 data-cy="boardUpdateDetailsHeading">
+        Nächstes&nbsp;<span jhiTranslate="boardUpdatesApp.boardUpdate.detail.title">Board Update</span>
+      </h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ toBoardUpdate.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="boardUpdatesApp.boardUpdate.version">Version</span></dt>
+        <dd>
+          <a [routerLink]="['/board-update', toBoardUpdate.id, 'view']">{{ toBoardUpdate.version }}</a>
+        </dd>
+        <dt><span jhiTranslate="boardUpdatesApp.boardUpdate.path">Path</span></dt>
+        <dd>
+          <span>{{ toBoardUpdate.path }}</span>
+        </dd>
+        <dt><span jhiTranslate="boardUpdatesApp.boardUpdate.type">Type</span></dt>
+        <dd>
+          <span jhiTranslate="{{ 'boardUpdatesApp.UpdateType.' + toBoardUpdate.type }}">{{ toBoardUpdate.type }}</span>
+        </dd>
+        <dt><span jhiTranslate="boardUpdatesApp.boardUpdate.releaseDate">Release Date</span></dt>
+        <dd>
+          <span>{{ toBoardUpdate.releaseDate | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="boardUpdatesApp.boardUpdate.status">Status</span></dt>
+        <dd>
+          <span>{{ toBoardUpdate.status }}</span>
+        </dd>
+        <dt><span jhiTranslate="boardUpdatesApp.boardUpdate.board">Board</span></dt>
+        <dd>
+          <div *ngIf="toBoardUpdate.board">
+            <a [routerLink]="['/board', toBoardUpdate.board?.id, 'view']">{{ toBoardUpdate.board?.serial }}</a>
+          </div>
+        </dd>
+      </dl>
+    </div>
+  </div>
+</div>

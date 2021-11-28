@@ -20,9 +20,12 @@ export class ProfileService {
 
     this.profileInfo$ = this.http.get<InfoResponse>(this.infoUrl).pipe(
       map((response: InfoResponse) => {
+        // eslint-disable-next-line no-console
+        console.log(response);
         const profileInfo: ProfileInfo = {
           activeProfiles: response.activeProfiles,
           inProduction: response.activeProfiles?.includes('prod'),
+          inDev: response.activeProfiles?.includes('dev'),
           openAPIEnabled: response.activeProfiles?.includes('api-docs'),
         };
         if (response.activeProfiles && response['display-ribbon-on-profiles']) {

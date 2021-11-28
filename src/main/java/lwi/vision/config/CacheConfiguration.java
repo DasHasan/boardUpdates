@@ -55,6 +55,7 @@ public class CacheConfiguration {
             createCache(cm, lwi.vision.domain.BoardUpdateEntity.class.getName() + ".updateKeys");
             createCache(cm, lwi.vision.domain.UpdateKeysEntity.class.getName());
             createCache(cm, lwi.vision.domain.DownloadEntity.class.getName());
+            createCache(cm, lwi.vision.domain.BoardUpdateSuccessorEntity.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

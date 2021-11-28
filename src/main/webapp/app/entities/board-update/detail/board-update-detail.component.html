@@ -42,16 +42,6 @@
         </dd>
       </dl>
 
-      <jhi-update-keys [boardUpdate]="boardUpdate"></jhi-update-keys>
-
-      <div>
-        <h2 id="page-heading" data-cy="UpdateKeysHeading">
-          <span jhiTranslate="boardUpdatesApp.updateKeys.home.title">Update Keys</span>
-        </h2>
-
-        <pre>{{ requestBody | json }}</pre>
-      </div>
-
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
         <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
       </button>
@@ -63,6 +53,18 @@
       <button type="button" class="btn btn-primary" (click)="download()">
         <fa-icon icon="download"></fa-icon>&nbsp;Update&nbsp;<span jhiTranslate="entity.action.download">Download</span>
       </button>
+
+      <jhi-update-keys [boardUpdate]="boardUpdate"></jhi-update-keys>
+
+      <div>
+        <h2 id="page-heading" data-cy="UpdateKeysHeading">
+          <span>Request-Body</span>
+        </h2>
+
+        <pre>{{ requestBody | json }}</pre>
+      </div>
+
+      <jhi-board-update-successor [boardUpdateId]="boardUpdate.id"></jhi-board-update-successor>
     </div>
   </div>
 </div>

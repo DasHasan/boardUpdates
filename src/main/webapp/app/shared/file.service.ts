@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
+import { ProfileService } from 'app/layouts/profiles/profile.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FileService {
-  constructor(protected http: HttpClient) {}
+  constructor(protected http: HttpClient, protected profileService: ProfileService) {}
 
   upload(file: File | undefined, filePath: string, fileName: string): Observable<{ path: string }> {
     if (file) {
@@ -20,6 +21,12 @@ export class FileService {
   }
 
   download(id: number): void {
-    window.open(`/download-update/${id}`, '_blank');
+    this.profileService.getProfileInfo().subscribe(value => {
+      if (value.inDev) {
+        window.open(`http://localhost:8080/download-update/${id}`, '_blank');
+      } else {
+        window.open(`/download-update/${id}`, '_blank');
+      }
+    });
   }
 }

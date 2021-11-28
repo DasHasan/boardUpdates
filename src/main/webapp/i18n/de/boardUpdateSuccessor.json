@@ -1,0 +1,25 @@
+{
+  "boardUpdatesApp": {
+    "boardUpdateSuccessor": {
+      "home": {
+        "title": "Update Nachfolger",
+        "refreshListLabel": "Liste aktualisieren",
+        "createLabel": "Update Nachfolger erstellen",
+        "createOrEditLabel": "Update Nachfolger erstellen oder bearbeiten",
+        "notFound": "Keine Update Nachfolger gefunden"
+      },
+      "created": "Update Nachfolger erstellt mit ID {{ param }}",
+      "updated": "Update Nachfolger aktualisiert mit ID {{ param }}",
+      "deleted": "Update Nachfolger gelöscht mit ID {{ param }}",
+      "delete": {
+        "question": "Soll Update Nachfolger {{ id }} wirklich dauerhaft gelöscht werden?"
+      },
+      "detail": {
+        "title": "Update Nachfolger"
+      },
+      "id": "ID",
+      "from": "From",
+      "to": "To"
+    }
+  }
+}

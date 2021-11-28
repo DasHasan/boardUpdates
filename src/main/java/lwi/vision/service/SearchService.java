@@ -1,6 +1,7 @@
 package lwi.vision.service;
 
 import java.util.List;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import lwi.vision.domain.BoardUpdateEntity;
@@ -33,29 +34,26 @@ public class SearchService {
     private SearchUpdateResponse getUpdateResponse(SearchUpdateRequest request, UpdateType type, String version) {
         List<BoardUpdateEntity> updateEntities = getUpdateEntities(request, type, version);
 
-        List<SearchUpdateResponse> responseList = buildUpdateResponse(request, updateEntities);
+        List<SearchUpdateResponse> responseList = updateEntities
+            .stream()
+            .map(toSearchUpdateResponse())
+            .filter(byUpdateKeys(request))
+            .collect(Collectors.toList());
 
         return responseList.size() > 0 ? responseList.get(0) : new SearchUpdateResponse();
     }
 
-    private List<SearchUpdateResponse> buildUpdateResponse(SearchUpdateRequest request, List<BoardUpdateEntity> updateEntities) {
-        return updateEntities
-            .stream()
-            .map(
-                boardUpdateEntity -> {
-                    SearchUpdateResponse response = new SearchUpdateResponse();
-                    response.setVersion(boardUpdateEntity.getVersion());
-                    response.setPath(boardUpdateEntity.getPath());
-                    response.setMandatory("false");
-                    response.getUpdateKeys().addAll(buildUpdateKeys(boardUpdateEntity));
-                    return response;
-                }
-            )
-            .filter(filterByUpdateKeys(request))
-            .collect(Collectors.toList());
+    private Function<BoardUpdateEntity, SearchUpdateResponse> toSearchUpdateResponse() {
+        return boardUpdateEntity ->
+            new SearchUpdateResponse(
+                boardUpdateEntity.getVersion(),
+                "false",
+                buildUpdateKeys(boardUpdateEntity),
+                "/download-update/" + boardUpdateEntity.getId().toString()
+            );
     }
 
-    private Predicate<SearchUpdateResponse> filterByUpdateKeys(SearchUpdateRequest request) {
+    private Predicate<SearchUpdateResponse> byUpdateKeys(SearchUpdateRequest request) {
         return searchUpdateResponse -> searchUpdateResponse.getUpdateKeys().containsAll(request.getUpdateKeys());
     }
 

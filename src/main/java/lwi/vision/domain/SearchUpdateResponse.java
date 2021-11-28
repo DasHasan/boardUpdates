@@ -9,9 +9,16 @@ public class SearchUpdateResponse {
 
     private String mandatory;
 
-    private String path;
-
     private List<String> updateKeys = new ArrayList<>();
+
+    private String downloadUrl;
+
+    public SearchUpdateResponse(String version, String mandatory, List<String> updateKeys, String downloadUrl) {
+        this.version = version;
+        this.mandatory = mandatory;
+        this.updateKeys = updateKeys;
+        this.downloadUrl = downloadUrl;
+    }
 
     public SearchUpdateResponse() {}
 
@@ -31,19 +38,19 @@ public class SearchUpdateResponse {
         this.mandatory = mandatory;
     }
 
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
-
     public List<String> getUpdateKeys() {
         return updateKeys;
     }
 
     public void setUpdateKeys(List<String> updateKeys) {
         this.updateKeys = updateKeys;
+    }
+
+    public String getDownloadUrl() {
+        return downloadUrl;
+    }
+
+    public void setDownloadUrl(String downloadUrl) {
+        this.downloadUrl = downloadUrl;
     }
 }

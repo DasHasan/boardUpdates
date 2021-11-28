@@ -46,7 +46,7 @@ public class BoardUpdateEntity extends AbstractAuditingEntity implements Seriali
     private Set<UpdateKeysEntity> updateKeys = new HashSet<>();
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "firmware", "software" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "boardUpdates" }, allowSetters = true)
     private BoardEntity board;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

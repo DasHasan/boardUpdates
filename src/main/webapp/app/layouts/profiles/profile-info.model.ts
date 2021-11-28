@@ -10,6 +10,7 @@ export class ProfileInfo {
     public activeProfiles?: string[],
     public ribbonEnv?: string,
     public inProduction?: boolean,
+    public inDev?: boolean,
     public openAPIEnabled?: boolean
   ) {}
 }
