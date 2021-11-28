@@ -12,11 +12,19 @@ import { BoardUpdateService } from 'app/entities/board-update/service/board-upda
 
 @Component({
   selector: 'jhi-board-update-successor-update',
+  styles: [
+    `
+      .hidden {
+        display: none;
+      }
+    `,
+  ],
   templateUrl: './board-update-successor-update.component.html',
 })
 export class BoardUpdateSuccessorUpdateComponent implements OnInit {
   isSaving = false;
 
+  boardUpdateSuccessor?: BoardUpdateSuccessor;
   fromsCollection: IBoardUpdate[] = [];
   tosCollection: IBoardUpdate[] = [];
 
@@ -35,6 +43,7 @@ export class BoardUpdateSuccessorUpdateComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ boardUpdateSuccessor }) => {
+      this.boardUpdateSuccessor = boardUpdateSuccessor;
       this.updateForm(boardUpdateSuccessor);
 
       this.loadRelationshipsOptions();

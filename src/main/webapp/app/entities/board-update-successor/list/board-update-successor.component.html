@@ -13,6 +13,7 @@
         data-cy="entityCreateButton"
         class="btn btn-primary jh-create-entity create-board-update-successor"
         [routerLink]="['/board-update-successor/new']"
+        [queryParams]="{ boardUpdateId: boardUpdateId }"
         *ngIf="boardUpdateSuccessors?.length === 0"
       >
         <fa-icon icon="plus"></fa-icon>

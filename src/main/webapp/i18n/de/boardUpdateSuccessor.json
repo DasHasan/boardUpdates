@@ -18,8 +18,8 @@
         "title": "Update Nachfolger"
       },
       "id": "ID",
-      "from": "From",
-      "to": "To"
+      "from": "Von",
+      "to": "Nach"
     }
   }
 }
