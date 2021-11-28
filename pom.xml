@@ -606,6 +606,9 @@
                             <ports>
                                 <port>8080</port>
                             </ports>
+                            <labels>
+                                <org.opencontainers.image.source>https://github.com/dashasan/board-updates</org.opencontainers.image.source>
+                            </labels>
                             <environment>
                                 <SPRING_OUTPUT_ANSI_ENABLED>ALWAYS</SPRING_OUTPUT_ANSI_ENABLED>
                                 <JHIPSTER_SLEEP>0</JHIPSTER_SLEEP>
