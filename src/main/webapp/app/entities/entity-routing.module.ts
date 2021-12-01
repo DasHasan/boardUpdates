@@ -29,6 +29,11 @@ import { RouterModule } from '@angular/router';
         data: { pageTitle: 'boardUpdatesApp.boardUpdateSuccessor.home.title' },
         loadChildren: () => import('./board-update-successor/board-update-successor.module').then(m => m.BoardUpdateSuccessorModule),
       },
+      {
+        path: 'download-url',
+        data: { pageTitle: 'boardUpdatesApp.downloadUrl.home.title' },
+        loadChildren: () => import('./download-url/download-url.module').then(m => m.DownloadUrlModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],

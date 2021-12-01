@@ -1,0 +1,30 @@
+{
+  "fields": [
+    {
+      "fieldName": "expirationDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "url",
+      "fieldType": "String"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipName": "boardUpdate",
+      "otherEntityName": "boardUpdate",
+      "relationshipType": "one-to-one",
+      "otherEntityField": "id",
+      "ownerSide": true,
+      "id": false,
+      "otherEntityRelationshipName": "downloadUrl"
+    }
+  ],
+  "service": "serviceClass",
+  "dto": "no",
+  "jpaMetamodelFiltering": true,
+  "readOnly": false,
+  "pagination": "no",
+  "name": "DownloadUrl",
+  "changelogDate": "20211201154502"
+}

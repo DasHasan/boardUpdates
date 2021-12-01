@@ -1,0 +1,26 @@
+{
+  "boardUpdatesApp": {
+    "downloadUrl": {
+      "home": {
+        "title": "Download Urls",
+        "refreshListLabel": "Liste aktualisieren",
+        "createLabel": "Download Url erstellen",
+        "createOrEditLabel": "Download Url erstellen oder bearbeiten",
+        "notFound": "Keine Download Urls gefunden"
+      },
+      "created": "Download Url erstellt mit ID {{ param }}",
+      "updated": "Download Url aktualisiert mit ID {{ param }}",
+      "deleted": "Download Url gelöscht mit ID {{ param }}",
+      "delete": {
+        "question": "Soll Download Url {{ id }} wirklich dauerhaft gelöscht werden?"
+      },
+      "detail": {
+        "title": "Download Url"
+      },
+      "id": "ID",
+      "expirationDate": "Expiration Date",
+      "url": "Url",
+      "boardUpdate": "Board Update"
+    }
+  }
+}

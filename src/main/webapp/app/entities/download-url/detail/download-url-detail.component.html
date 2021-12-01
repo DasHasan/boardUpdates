@@ -1,0 +1,42 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="downloadUrl">
+      <h2 data-cy="downloadUrlDetailsHeading"><span jhiTranslate="boardUpdatesApp.downloadUrl.detail.title">Download Url</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ downloadUrl.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="boardUpdatesApp.downloadUrl.expirationDate">Expiration Date</span></dt>
+        <dd>
+          <span>{{ downloadUrl.expirationDate | formatMediumDate }}</span>
+        </dd>
+        <dt><span jhiTranslate="boardUpdatesApp.downloadUrl.url">Url</span></dt>
+        <dd>
+          <span>{{ downloadUrl.url }}</span>
+        </dd>
+        <dt><span jhiTranslate="boardUpdatesApp.downloadUrl.boardUpdate">Board Update</span></dt>
+        <dd>
+          <div *ngIf="downloadUrl.boardUpdate">
+            <a [routerLink]="['/board-update', downloadUrl.boardUpdate?.id, 'view']">{{ downloadUrl.boardUpdate?.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/download-url', downloadUrl.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>
