@@ -1,7 +1,7 @@
 package lwi.vision.web.rest;
 
 import lwi.vision.service.BoardUpdateService;
-import lwi.vision.web.rest.errors.ServiceException;
+import lwi.vision.service.ServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.FileSystemResource;
@@ -31,9 +31,11 @@ public class FileDownloadResource {
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     @ResponseBody
     public FileSystemResource download(@PathVariable Long id) {
-        FileSystemResource resource = new FileSystemResource(boardUpdateService.findOne(id).orElseThrow(ServiceException::new).getPath());
+        FileSystemResource resource = new FileSystemResource(
+            boardUpdateService.findOne(id).orElseThrow(() -> new ServiceException("Datei nicht gefunden")).getPath()
+        );
         if (!resource.exists()) {
-            throw new ServiceException();
+            throw new lwi.vision.service.ServiceException("Datei nicht gefunden");
         }
         return resource;
     }

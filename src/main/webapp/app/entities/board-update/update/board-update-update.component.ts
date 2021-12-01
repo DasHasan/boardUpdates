@@ -94,10 +94,16 @@ export class BoardUpdateUpdateComponent implements OnInit {
         this.fileService
           .upload(this.file, `${update.board.serial}/${update.type}`, `autoupdate_${update.version}.zip`)
           .pipe(switchMap(({ path }) => this.boardUpdateService.update({ ...update, path })))
-          .subscribe();
+          .subscribe(
+            value => {
+              this.previousState();
+            },
+            error => {
+              //
+            }
+          );
       }
     }
-    this.previousState();
   }
 
   protected onSaveError(): void {

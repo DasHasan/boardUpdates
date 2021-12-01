@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
+import lwi.vision.web.rest.errors.ServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -33,14 +34,21 @@ public class FileUploadResource {
         Path targetDir = Paths.get("updates", "versions", path);
         Files.createDirectories(targetDir);
 
-        Path targetFile = targetDir.resolve(file.getOriginalFilename());
+        Path targetPath = targetDir.resolve(file.getOriginalFilename());
 
-        Files.copy(file.getInputStream(), targetFile);
-        return targetFile.toString();
-    }
+        if (targetPath.toFile().exists()) {
+            throw new lwi.vision.service.ServiceException("Datei existiert bereits");
+            //            try {
+            //                boolean delete = targetPath.toFile().delete();
+            //                if (!delete) {
+            //                    throw new Exception();
+            //                }
+            //            } catch (Exception e) {
+            //                throw new lwi.vision.service.ServiceException("Datei konnte nicht ersetzt werden");
+            //            }
+        }
 
-    @GetMapping("/a")
-    public String a() {
-        return "a";
+        Files.copy(file.getInputStream(), targetPath);
+        return targetPath.toString();
     }
 }

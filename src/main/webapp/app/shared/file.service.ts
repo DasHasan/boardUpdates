@@ -23,9 +23,9 @@ export class FileService {
   download(id: number): void {
     this.profileService.getProfileInfo().subscribe(value => {
       if (value.inDev) {
-        window.open(`http://localhost:8080/download-update/${id}`, '_blank');
+        window.open(`http://localhost:8080/download/${id}`, '_blank');
       } else {
-        window.open(`/download-update/${id}`, '_blank');
+        window.open(`/download/${id}`, '_blank');
       }
     });
   }

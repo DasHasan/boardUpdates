@@ -131,7 +131,8 @@ public class ExceptionTranslator implements ProblemHandling, SecurityAdviceTrait
 
     @ExceptionHandler
     public ResponseEntity<Problem> handleServiceException(lwi.vision.service.ServiceException ex, NativeWebRequest request) {
-        return create(new ServiceException(), request);
+        ServiceException problem = new ServiceException(ex.getMessage());
+        return create(problem, request);
     }
 
     @ExceptionHandler
