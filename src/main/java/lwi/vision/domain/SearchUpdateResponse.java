@@ -13,12 +13,7 @@ public class SearchUpdateResponse {
 
     private String downloadUrl;
 
-    public SearchUpdateResponse(String version, String mandatory, List<String> updateKeys, String downloadUrl) {
-        this.version = version;
-        this.mandatory = mandatory;
-        this.updateKeys = updateKeys;
-        this.downloadUrl = downloadUrl;
-    }
+    private String status;
 
     public SearchUpdateResponse() {}
 
@@ -52,5 +47,13 @@ public class SearchUpdateResponse {
 
     public void setDownloadUrl(String downloadUrl) {
         this.downloadUrl = downloadUrl;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

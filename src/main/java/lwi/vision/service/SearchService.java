@@ -10,6 +10,7 @@ import lwi.vision.domain.SearchUpdateResponse;
 import lwi.vision.domain.UpdateKeysEntity;
 import lwi.vision.domain.enumeration.UpdateType;
 import lwi.vision.repository.BoardUpdateRepository;
+import lwi.vision.service.criteria.DownloadUrlCriteria;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -22,8 +23,14 @@ public class SearchService {
     private final Logger log = LoggerFactory.getLogger(SearchService.class);
     private final BoardUpdateRepository boardUpdateRepository;
 
-    public SearchService(BoardUpdateRepository boardUpdateRepository) {
+    private final DownloadUrlService downloadUrlService;
+
+    private final DownloadUrlQueryService downloadUrlQueryService;
+
+    public SearchService(BoardUpdateRepository boardUpdateRepository, DownloadUrlService downloadUrlService, DownloadUrlQueryService downloadUrlQueryService) {
         this.boardUpdateRepository = boardUpdateRepository;
+        this.downloadUrlService = downloadUrlService;
+        this.downloadUrlQueryService = downloadUrlQueryService;
     }
 
     public SearchUpdateResponse search(SearchUpdateRequest request, UpdateType updateType) {
@@ -44,13 +51,22 @@ public class SearchService {
     }
 
     private Function<BoardUpdateEntity, SearchUpdateResponse> toSearchUpdateResponse() {
-        return boardUpdateEntity ->
-            new SearchUpdateResponse(
-                boardUpdateEntity.getVersion(),
-                "false",
-                buildUpdateKeys(boardUpdateEntity),
-                "/download-update/" + boardUpdateEntity.getId().toString()
-            );
+        return boardUpdateEntity -> {
+            SearchUpdateResponse response = new SearchUpdateResponse();
+            response.setVersion(boardUpdateEntity.getVersion());
+            response.setMandatory("false");
+            response.setUpdateKeys(buildUpdateKeys(boardUpdateEntity));
+            response.setDownloadUrl(getDownloadUrl(boardUpdateEntity));
+            response.setStatus(boardUpdateEntity.getStatus());
+            return response;
+        };
+    }
+
+    private String getDownloadUrl(BoardUpdateEntity boardUpdateEntity) {
+        DownloadUrlCriteria criteria = new DownloadUrlCriteria();
+        // TODO
+        downloadUrlQueryService.findByCriteria(criteria);
+        return "/download/" + boardUpdateEntity.getId().toString();
     }
 
     private Predicate<SearchUpdateResponse> byUpdateKeys(SearchUpdateRequest request) {
