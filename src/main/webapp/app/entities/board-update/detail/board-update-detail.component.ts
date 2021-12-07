@@ -20,9 +20,9 @@ export class BoardUpdateDetailComponent implements OnInit {
       this.boardUpdate = boardUpdate;
       this.requestBody = {
         serial: this.boardUpdate!.board?.serial,
-        firmware: this.boardUpdate!.type === UpdateType.FIRMWARE ? this.boardUpdate!.version : '',
-        software: this.boardUpdate!.type === UpdateType.SOFTWARE ? this.boardUpdate!.version : '',
-        updateKeys: this.boardUpdate!.updateKeys,
+        firmware: (this.boardUpdate!.type as UpdateType) === UpdateType.FIRMWARE ? this.boardUpdate!.version : '',
+        software: (this.boardUpdate!.type as UpdateType) === UpdateType.SOFTWARE ? this.boardUpdate!.version : '',
+        updateKeys: this.boardUpdate!.updateKeys ?? [],
       };
     });
   }
