@@ -46,4 +46,23 @@ public class SearchUpdateRequest {
     public void setUpdateKeys(List<String> updateKeys) {
         this.updateKeys = updateKeys;
     }
+
+    @Override
+    public String toString() {
+        return (
+            "SearchUpdateRequest{" +
+            "serial='" +
+            serial +
+            '\'' +
+            ", firmware='" +
+            firmware +
+            '\'' +
+            ", software='" +
+            software +
+            '\'' +
+            ", updateKeys=" +
+            updateKeys +
+            '}'
+        );
+    }
 }

@@ -1,9 +1,7 @@
 package lwi.vision.web.rest;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.*;
 import java.util.HashMap;
 import java.util.Map;
 import lwi.vision.web.rest.errors.ServiceException;
@@ -36,19 +34,22 @@ public class FileUploadResource {
 
         Path targetPath = targetDir.resolve(file.getOriginalFilename());
 
-        if (targetPath.toFile().exists()) {
-            throw new lwi.vision.service.ServiceException("Datei existiert bereits");
-            //            try {
-            //                boolean delete = targetPath.toFile().delete();
-            //                if (!delete) {
-            //                    throw new Exception();
-            //                }
-            //            } catch (Exception e) {
-            //                throw new lwi.vision.service.ServiceException("Datei konnte nicht ersetzt werden");
-            //            }
-        }
+        //        if (targetPath.toFile().exists()) {
+        //            try {
+        //                boolean delete = targetPath.toFile().delete();
+        //                if (!delete) {
+        //                    throw new Exception();
+        //                }
+        //            } catch (Exception e) {
+        //                throw new lwi.vision.service.ServiceException("Datei konnte nicht ersetzt werden");
+        //            }
+        //        }
 
-        Files.copy(file.getInputStream(), targetPath);
-        return targetPath.toString();
+        try {
+            Files.copy(file.getInputStream(), targetPath, StandardCopyOption.REPLACE_EXISTING);
+            return targetPath.toString();
+        } catch (IOException e) {
+            throw new lwi.vision.service.ServiceException("Datei '" + targetPath + "' konnte nicht erstellt werden");
+        }
     }
 }

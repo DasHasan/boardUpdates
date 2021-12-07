@@ -1,5 +1,5 @@
 export enum UpdateType {
-  FIRMWARE = 'Firmware',
+  FIRMWARE = 'FIRMWARE',
 
-  SOFTWARE = 'Software',
+  SOFTWARE = 'SOFTWARE',
 }

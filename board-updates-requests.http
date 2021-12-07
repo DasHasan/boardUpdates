@@ -3,8 +3,10 @@ POST http://localhost:8080/search/software
 Content-Type: application/json
 
 {
-    "serial": "Raspberry Pi",
-    "firmware": "1.1",
-    "software": "1.1",
-    "updateKeys": []
+    "serial": "Solutions payment deposit",
+    "firmware": "",
+    "software": "1.0",
+    "updateKeys": [
+        "CW"
+    ]
 }

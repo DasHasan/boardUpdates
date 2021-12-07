@@ -1,16 +1,13 @@
 package lwi.vision.service;
 
 import java.util.List;
-import java.util.function.Function;
+import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import lwi.vision.domain.BoardUpdateEntity;
-import lwi.vision.domain.SearchUpdateRequest;
-import lwi.vision.domain.SearchUpdateResponse;
-import lwi.vision.domain.UpdateKeysEntity;
+import lwi.vision.domain.*;
 import lwi.vision.domain.enumeration.UpdateType;
 import lwi.vision.repository.BoardUpdateRepository;
-import lwi.vision.service.criteria.DownloadUrlCriteria;
+import lwi.vision.repository.BoardUpdateSuccessorRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -25,59 +22,78 @@ public class SearchService {
 
     private final DownloadUrlService downloadUrlService;
 
-    private final DownloadUrlQueryService downloadUrlQueryService;
+    private final BoardUpdateSuccessorRepository boardUpdateSuccessorRepository;
 
-    public SearchService(BoardUpdateRepository boardUpdateRepository, DownloadUrlService downloadUrlService, DownloadUrlQueryService downloadUrlQueryService) {
+    public SearchService(
+        BoardUpdateRepository boardUpdateRepository,
+        DownloadUrlService downloadUrlService,
+        BoardUpdateSuccessorRepository boardUpdateSuccessorRepository
+    ) {
         this.boardUpdateRepository = boardUpdateRepository;
         this.downloadUrlService = downloadUrlService;
-        this.downloadUrlQueryService = downloadUrlQueryService;
+        this.boardUpdateSuccessorRepository = boardUpdateSuccessorRepository;
     }
 
     public SearchUpdateResponse search(SearchUpdateRequest request, UpdateType updateType) {
-        String version = request.getSoftware();
+        String version = updateType == UpdateType.SOFTWARE ? request.getSoftware() : request.getFirmware();
         return getUpdateResponse(request, updateType, version);
     }
 
     private SearchUpdateResponse getUpdateResponse(SearchUpdateRequest request, UpdateType type, String version) {
-        List<BoardUpdateEntity> updateEntities = getUpdateEntities(request, type, version);
+        List<BoardUpdateEntity> updateEntities = boardUpdateRepository.findByBoard_SerialAndVersionAndTypeOrderByReleaseDateAsc(
+            request.getSerial(),
+            version,
+            type
+        );
 
-        List<SearchUpdateResponse> responseList = updateEntities
-            .stream()
-            .map(toSearchUpdateResponse())
-            .filter(byUpdateKeys(request))
-            .collect(Collectors.toList());
+        Optional<BoardUpdateEntity> foundUpdateEntity = updateEntities.stream().filter(byUpdateKeys(request)).findFirst();
 
-        return responseList.size() > 0 ? responseList.get(0) : new SearchUpdateResponse();
+        // angefragtes Update konnte nicht gefunden werden
+        if (foundUpdateEntity.isEmpty()) {
+            log.error("Kein Update gefunden für Anfrage: " + request);
+            return new SearchUpdateResponse();
+        }
+
+        Optional<BoardUpdateSuccessorEntity> updateSuccessor = boardUpdateSuccessorRepository.findFirstByFrom_Id(
+            foundUpdateEntity.get().getId()
+        );
+        // angefragtes update hat keinen Nachfolger definiert
+        if (updateSuccessor.isEmpty()) {
+            log.error("Kein Nachfolger definiert für Update: " + foundUpdateEntity.get());
+            return new SearchUpdateResponse();
+        }
+
+        BoardUpdateEntity update = updateSuccessor.get().getTo();
+        return toSearchUpdateResponse(update);
     }
 
-    private Function<BoardUpdateEntity, SearchUpdateResponse> toSearchUpdateResponse() {
-        return boardUpdateEntity -> {
-            SearchUpdateResponse response = new SearchUpdateResponse();
-            response.setVersion(boardUpdateEntity.getVersion());
-            response.setMandatory("false");
-            response.setUpdateKeys(buildUpdateKeys(boardUpdateEntity));
-            response.setDownloadUrl(getDownloadUrl(boardUpdateEntity));
-            response.setStatus(boardUpdateEntity.getStatus());
-            return response;
-        };
+    private SearchUpdateResponse toSearchUpdateResponse(BoardUpdateEntity update) {
+        SearchUpdateResponse response = new SearchUpdateResponse();
+        response.setVersion(update.getVersion());
+        response.setMandatory("false");
+        response.setUpdateKeys(buildUpdateKeys(update));
+        response.setDownloadUrl(getDownloadUrl(update));
+        response.setStatus(update.getStatus());
+        response.setUpdateType(update.getType());
+        return response;
     }
 
     private String getDownloadUrl(BoardUpdateEntity boardUpdateEntity) {
-        DownloadUrlCriteria criteria = new DownloadUrlCriteria();
-        // TODO
-        downloadUrlQueryService.findByCriteria(criteria);
-        return "/download/" + boardUpdateEntity.getId().toString();
-    }
-
-    private Predicate<SearchUpdateResponse> byUpdateKeys(SearchUpdateRequest request) {
-        return searchUpdateResponse -> searchUpdateResponse.getUpdateKeys().containsAll(request.getUpdateKeys());
+        DownloadUrlEntity entity = downloadUrlService.getOrCreateByBoardUpdate(boardUpdateEntity);
+        return "/download/" + entity.getUrl();
     }
 
     private List<String> buildUpdateKeys(BoardUpdateEntity boardUpdateEntity) {
         return boardUpdateEntity.getUpdateKeys().stream().map(UpdateKeysEntity::getKey).collect(Collectors.toList());
     }
 
-    private List<BoardUpdateEntity> getUpdateEntities(SearchUpdateRequest request, UpdateType type, String version) {
-        return boardUpdateRepository.findByBoard_SerialAndVersionAndTypeOrderByReleaseDateAsc(request.getSerial(), version, type);
+    private Predicate<BoardUpdateEntity> byUpdateKeys(SearchUpdateRequest request) {
+        return updateEntity -> {
+            List<String> updateKeys = updateEntity.getUpdateKeys().stream().map(UpdateKeysEntity::getKey).collect(Collectors.toList());
+            return (
+                updateKeys.size() == request.getUpdateKeys().size() && // equal size
+                updateKeys.containsAll(request.getUpdateKeys())
+            ); // equal content
+        };
     }
 }

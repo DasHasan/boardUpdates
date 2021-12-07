@@ -191,16 +191,42 @@ public class BoardUpdateEntity extends AbstractAuditingEntity implements Seriali
         return getClass().hashCode();
     }
 
-    // prettier-ignore
     @Override
     public String toString() {
-        return "BoardUpdateEntity{" +
-            "id=" + getId() +
-            ", version='" + getVersion() + "'" +
-            ", path='" + getPath() + "'" +
-            ", type='" + getType() + "'" +
-            ", releaseDate='" + getReleaseDate() + "'" +
-            ", status='" + getStatus() + "'" +
-            "}";
+        return (
+            "BoardUpdateEntity{" +
+            "id=" +
+            id +
+            ", version='" +
+            version +
+            '\'' +
+            ", path='" +
+            path +
+            '\'' +
+            ", type=" +
+            type +
+            ", releaseDate=" +
+            releaseDate +
+            ", status='" +
+            status +
+            '\'' +
+            ", updateKeys=" +
+            updateKeys +
+            ", board=" +
+            board +
+            '}'
+        );
     }
+    //    // prettier-ignore
+    //    @Override
+    //    public String toString() {
+    //        return "BoardUpdateEntity{" +
+    //            "id=" + getId() +
+    //            ", version='" + getVersion() + "'" +
+    //            ", path='" + getPath() + "'" +
+    //            ", type='" + getType() + "'" +
+    //            ", releaseDate='" + getReleaseDate() + "'" +
+    //            ", status='" + getStatus() + "'" +
+    //            "}";
+    //    }
 }

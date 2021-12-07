@@ -2,6 +2,7 @@ package lwi.vision.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import lwi.vision.domain.enumeration.UpdateType;
 
 public class SearchUpdateResponse {
 
@@ -14,6 +15,8 @@ public class SearchUpdateResponse {
     private String downloadUrl;
 
     private String status;
+
+    private UpdateType updateType;
 
     public SearchUpdateResponse() {}
 
@@ -55,5 +58,13 @@ public class SearchUpdateResponse {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public UpdateType getUpdateType() {
+        return updateType;
+    }
+
+    public void setUpdateType(UpdateType updateType) {
+        this.updateType = updateType;
     }
 }
