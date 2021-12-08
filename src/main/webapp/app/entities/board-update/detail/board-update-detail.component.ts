@@ -11,19 +11,23 @@ import { FileService } from 'app/shared/file.service';
 })
 export class BoardUpdateDetailComponent implements OnInit {
   boardUpdate: IBoardUpdate | null = null;
-  requestBody = {};
+  requestBody: any = {};
+  currentHost = '';
 
   constructor(protected activatedRoute: ActivatedRoute, protected fileService: FileService) {}
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ boardUpdate }) => {
       this.boardUpdate = boardUpdate;
+      this.currentHost = `${window.location.protocol}//${window.location.host}`;
       this.requestBody = {
         serial: this.boardUpdate!.board?.serial,
         firmware: (this.boardUpdate!.type as UpdateType) === UpdateType.FIRMWARE ? this.boardUpdate!.version : '',
         software: (this.boardUpdate!.type as UpdateType) === UpdateType.SOFTWARE ? this.boardUpdate!.version : '',
-        updateKeys: (this.boardUpdate!.updateKeys ?? []).map(value => value.key),
+        updateKeys: (this.boardUpdate!.updateKeys ?? []).map(value => value.key).map(value => `\\"${value as string}\\"`),
       };
+      // eslint-disable-next-line no-debugger
+      debugger;
     });
   }
 

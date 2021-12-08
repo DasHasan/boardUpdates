@@ -11,5 +11,6 @@ import { DownloadUrlRoutingModule } from './route/download-url-routing.module';
   imports: [SharedModule, DownloadUrlRoutingModule],
   declarations: [DownloadUrlComponent, DownloadUrlDetailComponent, DownloadUrlUpdateComponent, DownloadUrlDeleteDialogComponent],
   entryComponents: [DownloadUrlDeleteDialogComponent],
+  exports: [DownloadUrlComponent],
 })
 export class DownloadUrlModule {}

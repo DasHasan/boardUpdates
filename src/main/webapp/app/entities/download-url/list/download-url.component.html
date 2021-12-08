@@ -13,6 +13,7 @@
         data-cy="entityCreateButton"
         class="btn btn-primary jh-create-entity create-download-url"
         [routerLink]="['/download-url/new']"
+        [queryParams]="{ boardUpdateId: boardUpdateId }"
       >
         <fa-icon icon="plus"></fa-icon>
         <span jhiTranslate="boardUpdatesApp.downloadUrl.home.createLabel"> Create a new Download Url </span>

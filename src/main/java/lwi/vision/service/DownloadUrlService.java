@@ -100,10 +100,12 @@ public class DownloadUrlService {
     public DownloadUrlEntity getOrCreateByBoardUpdate(BoardUpdateEntity boardUpdate) {
         log.debug("Request to get or create by board update : {}", boardUpdate);
         Optional<DownloadUrlEntity> optional = downloadUrlRepository.findFirstByBoardUpdate_Id(boardUpdate.getId());
+        // todo kann nicht zweimal aufgerufen werden
         return optional.orElse(save(buildFromBoardUpdate(boardUpdate)));
     }
 
     private DownloadUrlEntity buildFromBoardUpdate(BoardUpdateEntity boardUpdateEntity) {
+        log.info("Generating new DownloadUrl for : {}", boardUpdateEntity);
         DownloadUrlEntity downloadUrlEntity = new DownloadUrlEntity();
         downloadUrlEntity.setBoardUpdate(boardUpdateEntity);
         downloadUrlEntity.setExpirationDate(ZonedDateTime.now().plusDays(1).toLocalDate());

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import javax.persistence.*;
 import lwi.vision.domain.enumeration.UpdateType;
@@ -41,7 +42,7 @@ public class BoardUpdateEntity extends AbstractAuditingEntity implements Seriali
     private String status;
 
     @OneToMany(mappedBy = "boardUpdate", cascade = CascadeType.ALL)
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @Cache(usage = CacheConcurrencyStrategy.NONE) // fix entity changes
     @JsonIgnoreProperties(value = { "boardUpdate" }, allowSetters = true)
     private Set<UpdateKeysEntity> updateKeys = new HashSet<>();
 

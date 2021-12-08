@@ -11,5 +11,6 @@ import org.springframework.stereotype.Repository;
 @SuppressWarnings("unused")
 @Repository
 public interface DownloadUrlRepository extends JpaRepository<DownloadUrlEntity, Long>, JpaSpecificationExecutor<DownloadUrlEntity> {
+    Optional<DownloadUrlEntity> findFirstByUrl(String url);
     Optional<DownloadUrlEntity> findFirstByBoardUpdate_Id(Long id);
 }

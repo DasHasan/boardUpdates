@@ -25,6 +25,7 @@ export class BoardUpdateSuccessorUpdateComponent implements OnInit {
     from: [],
     to: [],
   });
+  boardUpdateSuccessor?: BoardUpdateSuccessor;
 
   constructor(
     protected boardUpdateSuccessorService: BoardUpdateSuccessorService,
@@ -36,6 +37,7 @@ export class BoardUpdateSuccessorUpdateComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ boardUpdateSuccessor }) => {
       this.updateForm(boardUpdateSuccessor);
+      this.boardUpdateSuccessor = boardUpdateSuccessor;
 
       this.loadRelationshipsOptions();
     });
@@ -100,8 +102,14 @@ export class BoardUpdateSuccessorUpdateComponent implements OnInit {
       )
       .subscribe((boardUpdates: IBoardUpdate[]) => (this.fromsCollection = boardUpdates));
 
+    // todo irgendwas mit boardUpdates id ist falsch
+    const toReq = this.boardUpdateSuccessor?.from?.board?.id
+      ? { 'boardUpdateSuccessorId.specified': 'false', 'boardId.equals': this.boardUpdateSuccessor.from.board.id }
+      : { 'boardUpdateSuccessorId.specified': 'false' };
+    // eslint-disable-next-line no-debugger
+    debugger;
     this.boardUpdateService
-      .query({ 'boardUpdateSuccessorId.specified': 'false' })
+      .query(toReq)
       .pipe(map((res: HttpResponse<IBoardUpdate[]>) => res.body ?? []))
       .pipe(
         map((boardUpdates: IBoardUpdate[]) =>

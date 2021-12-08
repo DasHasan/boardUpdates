@@ -18,7 +18,7 @@
         "title": "Download Url"
       },
       "id": "ID",
-      "expirationDate": "Expiration Date",
+      "expirationDate": "Ablaufdatum",
       "url": "Url",
       "boardUpdate": "Board Update"
     }

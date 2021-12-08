@@ -1,6 +1,7 @@
 package lwi.vision.repository;
 
 import java.util.Optional;
+import lwi.vision.domain.BoardUpdateEntity;
 import lwi.vision.domain.BoardUpdateSuccessorEntity;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;

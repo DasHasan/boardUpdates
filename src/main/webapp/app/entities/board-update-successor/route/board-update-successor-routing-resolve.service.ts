@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { Resolve, ActivatedRouteSnapshot, Router } from '@angular/router';
-import { Observable, of, EMPTY } from 'rxjs';
+import { ActivatedRouteSnapshot, Resolve, Router } from '@angular/router';
+import { EMPTY, Observable, of } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 
-import { IBoardUpdateSuccessor, BoardUpdateSuccessor } from '../board-update-successor.model';
+import { BoardUpdateSuccessor, IBoardUpdateSuccessor } from '../board-update-successor.model';
 import { BoardUpdateSuccessorService } from '../service/board-update-successor.service';
 import { BoardUpdateService } from 'app/entities/board-update/service/board-update.service';
 import { BoardUpdate } from 'app/entities/board-update/board-update.model';
@@ -32,12 +32,7 @@ export class BoardUpdateSuccessorRoutingResolveService implements Resolve<IBoard
       return this.boardUpdateService.find(boardUpdateId).pipe(
         mergeMap((boardUpdate: HttpResponse<BoardUpdate>) => {
           if (boardUpdate.body) {
-            const boardUpdateSuccessor = new BoardUpdateSuccessor(undefined, boardUpdate.body, undefined);
-            // eslint-disable-next-line no-console
-            console.log('boardUpdateSuccessor');
-            // eslint-disable-next-line no-console
-            console.log(boardUpdateSuccessor);
-            return of(boardUpdateSuccessor);
+            return of(new BoardUpdateSuccessor(undefined, boardUpdate.body, undefined));
           } else {
             this.router.navigate(['404']);
             return EMPTY;

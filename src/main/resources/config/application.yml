@@ -125,6 +125,10 @@ spring:
   output:
     ansi:
       console-available: true
+  servlet:
+    multipart:
+      max-file-size: -1
+      max-request-size: -1
 
 server:
   servlet:

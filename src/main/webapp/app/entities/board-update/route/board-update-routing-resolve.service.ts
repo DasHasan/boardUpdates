@@ -19,6 +19,8 @@ export class BoardUpdateRoutingResolveService implements Resolve<IBoardUpdate> {
       return this.service.find(id).pipe(
         mergeMap((boardUpdate: HttpResponse<BoardUpdate>) => {
           if (boardUpdate.body) {
+            // eslint-disable-next-line no-debugger
+            debugger;
             return of(boardUpdate.body);
           } else {
             this.router.navigate(['404']);

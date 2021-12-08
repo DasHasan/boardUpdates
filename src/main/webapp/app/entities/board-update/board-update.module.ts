@@ -8,9 +8,10 @@ import { BoardUpdateDeleteDialogComponent } from './delete/board-update-delete-d
 import { BoardUpdateRoutingModule } from './route/board-update-routing.module';
 import { UpdateKeysModule } from 'app/entities/update-keys/update-keys.module';
 import { BoardUpdateSuccessorModule } from 'app/entities/board-update-successor/board-update-successor.module';
+import { DownloadUrlModule } from 'app/entities/download-url/download-url.module';
 
 @NgModule({
-  imports: [SharedModule, BoardUpdateRoutingModule, UpdateKeysModule, BoardUpdateSuccessorModule],
+  imports: [SharedModule, BoardUpdateRoutingModule, UpdateKeysModule, BoardUpdateSuccessorModule, DownloadUrlModule],
   declarations: [BoardUpdateComponent, BoardUpdateDetailComponent, BoardUpdateUpdateComponent, BoardUpdateDeleteDialogComponent],
   entryComponents: [BoardUpdateDeleteDialogComponent],
   exports: [BoardUpdateComponent],

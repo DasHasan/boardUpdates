@@ -57,12 +57,23 @@
       <jhi-update-keys [boardUpdate]="boardUpdate"></jhi-update-keys>
 
       <div>
-        <h2 id="page-heading" data-cy="UpdateKeysHeading">
-          <span>Request-Body</span>
+        <h2 id="page-heading">
+          <span>Request-Example</span>
         </h2>
 
-        <pre>{{ requestBody | json }}</pre>
+        <pre><code>curl -X POST --location "{{currentHost}}/search/software" \
+  -H "Content-Type: application/json" \
+  -d "{{ "{" }}
+    \"serial\": \"{{requestBody.serial}}\",
+    \"firmware\": \"{{requestBody.firmware}}\",
+    \"software\": \"{{requestBody.software}}\",
+    \"updateKeys\": [
+      {{requestBody.updateKeys.join(", ")}}
+    ]
+  }"</code></pre>
       </div>
+
+      <jhi-download-url [boardUpdateId]="boardUpdate.id"></jhi-download-url>
 
       <jhi-board-update-successor [boardUpdateId]="boardUpdate.id"></jhi-board-update-successor>
     </div>
