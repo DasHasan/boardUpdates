@@ -8,7 +8,10 @@ import lwi.vision.service.ServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -31,38 +34,42 @@ public class FileDownloadResource {
     /**
      * GET download
      *
-     * @return File to download
      * @param id of the BoardUpdate
+     * @return File to download
      */
     @GetMapping(value = "/id/{id}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     @ResponseBody
-    public FileSystemResource downloadById(@PathVariable Long id) {
-        FileSystemResource resource = new FileSystemResource(
-            boardUpdateService.findOne(id).orElseThrow(() -> new ServiceException("Datei nicht gefunden")).getPath()
-        );
-        if (!resource.exists()) {
-            throw new lwi.vision.service.ServiceException("Datei nicht gefunden");
-        }
-        return resource;
+    public ResponseEntity<FileSystemResource> downloadById(@PathVariable Long id) {
+        BoardUpdateEntity boardUpdate = boardUpdateService.findOne(id).orElseThrow(ServiceException::updateNotFound);
+        return buildResponse(boardUpdate);
     }
 
     /**
      * GET download
      *
-     * @return File to download
      * @param uuid of the BoardUpdate URL
+     * @return File to download
      */
     @GetMapping(value = "/{uuid}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     @ResponseBody
-    public FileSystemResource downloadByUuid(@PathVariable String uuid) {
+    public ResponseEntity<FileSystemResource> downloadByUuid(@PathVariable String uuid) {
         BoardUpdateEntity boardUpdate = downloadUrlRepository
             .findFirstByUrl(uuid)
             .map(DownloadUrlEntity::getBoardUpdate)
-            .orElseThrow(ServiceException::fileNotFound);
-        FileSystemResource resource = new FileSystemResource(boardUpdate.getPath());
-        if (!resource.exists()) {
-            throw new lwi.vision.service.ServiceException("Datei nicht gefunden");
+            .orElseThrow(ServiceException::updateNotFound);
+        return buildResponse(boardUpdate);
+    }
+
+    private ResponseEntity<FileSystemResource> buildResponse(BoardUpdateEntity boardUpdate) {
+        try {
+            FileSystemResource resource = new FileSystemResource(boardUpdate.getPath());
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentDisposition(
+                ContentDisposition.attachment().filename("autoupdate_" + boardUpdate.getVersion() + ".zip").build()
+            );
+            return ResponseEntity.ok().headers(headers).body(resource);
+        } catch (Exception e) {
+            throw ServiceException.fileNotFound();
         }
-        return resource;
     }
 }

@@ -26,8 +26,6 @@ export class BoardUpdateDetailComponent implements OnInit {
         software: (this.boardUpdate!.type as UpdateType) === UpdateType.SOFTWARE ? this.boardUpdate!.version : '',
         updateKeys: (this.boardUpdate!.updateKeys ?? []).map(value => value.key).map(value => `\\"${value as string}\\"`),
       };
-      // eslint-disable-next-line no-debugger
-      debugger;
     });
   }
 

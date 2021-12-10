@@ -103,6 +103,8 @@ export class BoardUpdateUpdateComponent implements OnInit {
             }
           );
       }
+    } else {
+      this.previousState();
     }
   }
 

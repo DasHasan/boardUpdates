@@ -21,12 +21,8 @@ export class FileService {
   }
 
   download(id: number): void {
-    this.profileService.getProfileInfo().subscribe(value => {
-      if (value.inDev) {
-        window.open(`http://localhost:8080/download/${id}`, '_blank');
-      } else {
-        window.open(`/download/${id}`, '_blank');
-      }
+    this.profileService.getProfileInfo().subscribe(profileInfo => {
+      window.open(`${profileInfo.inDev ? 'http://localhost:8080' : ''}/download/id/${id}`, '_blank');
     });
   }
 }

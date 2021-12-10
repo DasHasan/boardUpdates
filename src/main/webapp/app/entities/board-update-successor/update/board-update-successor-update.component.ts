@@ -106,8 +106,6 @@ export class BoardUpdateSuccessorUpdateComponent implements OnInit {
     const toReq = this.boardUpdateSuccessor?.from?.board?.id
       ? { 'boardUpdateSuccessorId.specified': 'false', 'boardId.equals': this.boardUpdateSuccessor.from.board.id }
       : { 'boardUpdateSuccessorId.specified': 'false' };
-    // eslint-disable-next-line no-debugger
-    debugger;
     this.boardUpdateService
       .query(toReq)
       .pipe(map((res: HttpResponse<IBoardUpdate[]>) => res.body ?? []))
