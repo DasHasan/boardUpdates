@@ -101,7 +101,7 @@ public class DownloadUrlService {
         log.debug("Request to get or create by board update : {}", boardUpdate);
         Optional<DownloadUrlEntity> optional = downloadUrlRepository.findFirstByBoardUpdate_Id(boardUpdate.getId());
         // todo kann nicht zweimal aufgerufen werden
-        return optional.orElse(save(buildFromBoardUpdate(boardUpdate)));
+        return optional.orElseGet(() -> save(buildFromBoardUpdate(boardUpdate)));
     }
 
     private DownloadUrlEntity buildFromBoardUpdate(BoardUpdateEntity boardUpdateEntity) {
