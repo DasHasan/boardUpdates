@@ -102,7 +102,6 @@ export class BoardUpdateSuccessorUpdateComponent implements OnInit {
       )
       .subscribe((boardUpdates: IBoardUpdate[]) => (this.fromsCollection = boardUpdates));
 
-    // todo irgendwas mit boardUpdates id ist falsch
     const toReq = this.boardUpdateSuccessor?.from?.board?.id
       ? { 'boardUpdateSuccessorId.specified': 'false', 'boardId.equals': this.boardUpdateSuccessor.from.board.id }
       : { 'boardUpdateSuccessorId.specified': 'false' };
