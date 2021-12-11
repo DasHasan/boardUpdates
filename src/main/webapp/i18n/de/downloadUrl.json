@@ -2,7 +2,7 @@
   "boardUpdatesApp": {
     "downloadUrl": {
       "home": {
-        "title": "Download Urls",
+        "title": "Download Url",
         "refreshListLabel": "Liste aktualisieren",
         "createLabel": "Download Url erstellen",
         "createOrEditLabel": "Download Url erstellen oder bearbeiten",

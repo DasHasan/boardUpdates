@@ -3,7 +3,7 @@ import { HttpResponse } from '@angular/common/http';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { iif, Observable, of } from 'rxjs';
-import { catchError, finalize, map, switchMap } from 'rxjs/operators';
+import { finalize, map, switchMap } from 'rxjs/operators';
 
 import * as dayjs from 'dayjs';
 import { DATE_TIME_FORMAT } from 'app/config/input.constants';
@@ -14,7 +14,7 @@ import { IBoard } from 'app/entities/board/board.model';
 import { BoardService } from 'app/entities/board/service/board.service';
 import { FileService } from 'app/shared/file.service';
 import { DownloadUrlService } from 'app/entities/download-url/service/download-url.service';
-import { DownloadUrl } from 'app/entities/download-url/download-url.model';
+import { DownloadUrl, IDownloadUrl } from 'app/entities/download-url/download-url.model';
 
 @Component({
   selector: 'jhi-board-update-update',
@@ -174,7 +174,7 @@ export class BoardUpdateUpdateComponent implements OnInit {
       .pipe(map(() => response));
     this.downloadUrlService
       .query({ 'boardUpdateId.equals': response.body.id })
-      .pipe(switchMap(value => iif(() => value.body!.length > 0, of(response), observable)));
+      .pipe(switchMap((value: HttpResponse<IDownloadUrl[]>) => iif(() => value.body!.length > 0, of(response), observable)));
     return observable;
   }
 }

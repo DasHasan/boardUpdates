@@ -36,21 +36,21 @@
     <table class="table table-striped" aria-describedby="page-heading">
       <thead>
         <tr>
-          <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
+          <th scope="col" *ngIf="!boardUpdateId"><span jhiTranslate="global.field.id">ID</span></th>
           <th scope="col"><span jhiTranslate="boardUpdatesApp.downloadUrl.expirationDate">Expiration Date</span></th>
           <th scope="col"><span jhiTranslate="boardUpdatesApp.downloadUrl.url">Url</span></th>
-          <th scope="col"><span jhiTranslate="boardUpdatesApp.downloadUrl.boardUpdate">Board Update</span></th>
+          <th scope="col" *ngIf="!boardUpdateId"><span jhiTranslate="boardUpdatesApp.downloadUrl.boardUpdate">Board Update</span></th>
           <th scope="col"></th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let downloadUrl of downloadUrls; trackBy: trackId" data-cy="entityTable">
-          <td>
+          <td *ngIf="!boardUpdateId">
             <a [routerLink]="['/download-url', downloadUrl.id, 'view']">{{ downloadUrl.id }}</a>
           </td>
           <td>{{ downloadUrl.expirationDate | formatMediumDate }}</td>
           <td>/download/{{ downloadUrl.url }}</td>
-          <td>
+          <td *ngIf="!boardUpdateId">
             <div *ngIf="downloadUrl.boardUpdate">
               <a [routerLink]="['/board-update', downloadUrl.boardUpdate?.id, 'view']">{{ downloadUrl.boardUpdate?.id }}</a>
             </div>
