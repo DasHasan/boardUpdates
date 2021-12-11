@@ -4,6 +4,10 @@
     {
       "fieldName": "serial",
       "fieldType": "String"
+    },
+    {
+      "fieldName": "version",
+      "fieldType": "String"
     }
   ],
   "relationships": [

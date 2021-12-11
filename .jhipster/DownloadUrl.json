@@ -11,13 +11,11 @@
   ],
   "relationships": [
     {
-      "relationshipName": "boardUpdate",
-      "otherEntityName": "boardUpdate",
       "relationshipType": "one-to-one",
-      "otherEntityField": "id",
-      "ownerSide": true,
-      "id": false,
-      "otherEntityRelationshipName": "downloadUrl"
+      "otherEntityName": "boardUpdate",
+      "otherEntityRelationshipName": "downloadUrl",
+      "relationshipName": "boardUpdate",
+      "ownerSide": true
     }
   ],
   "service": "serviceClass",
@@ -26,5 +24,9 @@
   "readOnly": false,
   "pagination": "no",
   "name": "DownloadUrl",
-  "changelogDate": "20211201154502"
+  "changelogDate": "20211201154502",
+  "entityTableName": "download_url",
+  "fluentMethods": true,
+  "embedded": false,
+  "applications": ["boardUpdates"]
 }

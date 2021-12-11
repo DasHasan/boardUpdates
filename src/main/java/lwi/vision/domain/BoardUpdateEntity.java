@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.Set;
 import javax.persistence.*;
 import lwi.vision.domain.enumeration.UpdateType;
@@ -192,6 +191,7 @@ public class BoardUpdateEntity extends AbstractAuditingEntity implements Seriali
         return getClass().hashCode();
     }
 
+    // prettier-ignore
     @Override
     public String toString() {
         return (
@@ -218,16 +218,4 @@ public class BoardUpdateEntity extends AbstractAuditingEntity implements Seriali
             '}'
         );
     }
-    //    // prettier-ignore
-    //    @Override
-    //    public String toString() {
-    //        return "BoardUpdateEntity{" +
-    //            "id=" + getId() +
-    //            ", version='" + getVersion() + "'" +
-    //            ", path='" + getPath() + "'" +
-    //            ", type='" + getType() + "'" +
-    //            ", releaseDate='" + getReleaseDate() + "'" +
-    //            ", status='" + getStatus() + "'" +
-    //            "}";
-    //    }
 }

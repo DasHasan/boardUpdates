@@ -34,6 +34,7 @@
         <tr>
           <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
           <th scope="col"><span jhiTranslate="boardUpdatesApp.board.serial">Serial</span></th>
+          <th scope="col"><span jhiTranslate="boardUpdatesApp.board.version">Version</span></th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -43,6 +44,7 @@
             <a [routerLink]="['/board', board.id, 'view']">{{ board.id }}</a>
           </td>
           <td>{{ board.serial }}</td>
+          <td>{{ board.version }}</td>
           <td class="text-right">
             <div class="btn-group">
               <button type="submit" [routerLink]="['/board', board.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">

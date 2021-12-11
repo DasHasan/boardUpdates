@@ -51,6 +51,9 @@ public class BoardService {
                     if (boardEntity.getSerial() != null) {
                         existingBoard.setSerial(boardEntity.getSerial());
                     }
+                    if (boardEntity.getVersion() != null) {
+                        existingBoard.setVersion(boardEntity.getVersion());
+                    }
 
                     return existingBoard;
                 }

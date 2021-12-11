@@ -19,6 +19,7 @@
       },
       "id": "ID",
       "serial": "Serial",
+      "version": "Version",
       "boardUpdate": "Board Update"
     }
   }

@@ -17,6 +17,9 @@
             <column name="serial" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
+            <column name="version" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
             <column name="created_by" type="varchar(50)"/>
             <column name="created_date" type="timestamp"/>
@@ -42,6 +45,7 @@
                   tableName="board">
             <column name="id" type="numeric"/>
             <column name="serial" type="string"/>
+            <column name="version" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

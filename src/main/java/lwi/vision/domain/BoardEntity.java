@@ -25,7 +25,10 @@ public class BoardEntity extends AbstractAuditingEntity implements Serializable 
     @Column(name = "serial")
     private String serial;
 
-    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Column(name = "version")
+    private String version;
+
+    @OneToMany(mappedBy = "board")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "updateKeys", "board" }, allowSetters = true)
     private Set<BoardUpdateEntity> boardUpdates = new HashSet<>();
@@ -55,6 +58,19 @@ public class BoardEntity extends AbstractAuditingEntity implements Serializable 
 
     public void setSerial(String serial) {
         this.serial = serial;
+    }
+
+    public String getVersion() {
+        return this.version;
+    }
+
+    public BoardEntity version(String version) {
+        this.version = version;
+        return this;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
     }
 
     public Set<BoardUpdateEntity> getBoardUpdates() {
@@ -113,6 +129,7 @@ public class BoardEntity extends AbstractAuditingEntity implements Serializable 
         return "BoardEntity{" +
             "id=" + getId() +
             ", serial='" + getSerial() + "'" +
+            ", version='" + getVersion() + "'" +
             "}";
     }
 }

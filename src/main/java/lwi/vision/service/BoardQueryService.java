@@ -84,6 +84,9 @@ public class BoardQueryService extends QueryService<BoardEntity> {
             if (criteria.getSerial() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getSerial(), BoardEntity_.serial));
             }
+            if (criteria.getVersion() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getVersion(), BoardEntity_.version));
+            }
             if (criteria.getBoardUpdateId() != null) {
                 specification =
                     specification.and(

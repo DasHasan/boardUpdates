@@ -28,6 +28,8 @@ public class BoardCriteria implements Serializable, Criteria {
 
     private StringFilter serial;
 
+    private StringFilter version;
+
     private LongFilter boardUpdateId;
 
     public BoardCriteria() {}
@@ -35,6 +37,7 @@ public class BoardCriteria implements Serializable, Criteria {
     public BoardCriteria(BoardCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
         this.serial = other.serial == null ? null : other.serial.copy();
+        this.version = other.version == null ? null : other.version.copy();
         this.boardUpdateId = other.boardUpdateId == null ? null : other.boardUpdateId.copy();
     }
 
@@ -73,6 +76,21 @@ public class BoardCriteria implements Serializable, Criteria {
         this.serial = serial;
     }
 
+    public StringFilter getVersion() {
+        return version;
+    }
+
+    public StringFilter version() {
+        if (version == null) {
+            version = new StringFilter();
+        }
+        return version;
+    }
+
+    public void setVersion(StringFilter version) {
+        this.version = version;
+    }
+
     public LongFilter getBoardUpdateId() {
         return boardUpdateId;
     }
@@ -97,12 +115,17 @@ public class BoardCriteria implements Serializable, Criteria {
             return false;
         }
         final BoardCriteria that = (BoardCriteria) o;
-        return Objects.equals(id, that.id) && Objects.equals(serial, that.serial) && Objects.equals(boardUpdateId, that.boardUpdateId);
+        return (
+            Objects.equals(id, that.id) &&
+            Objects.equals(serial, that.serial) &&
+            Objects.equals(version, that.version) &&
+            Objects.equals(boardUpdateId, that.boardUpdateId)
+        );
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, serial, boardUpdateId);
+        return Objects.hash(id, serial, version, boardUpdateId);
     }
 
     // prettier-ignore
@@ -111,6 +134,7 @@ public class BoardCriteria implements Serializable, Criteria {
         return "BoardCriteria{" +
             (id != null ? "id=" + id + ", " : "") +
             (serial != null ? "serial=" + serial + ", " : "") +
+            (version != null ? "version=" + version + ", " : "") +
             (boardUpdateId != null ? "boardUpdateId=" + boardUpdateId + ", " : "") +
             "}";
     }

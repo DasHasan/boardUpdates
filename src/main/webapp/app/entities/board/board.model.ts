@@ -3,11 +3,17 @@ import { IBoardUpdate } from 'app/entities/board-update/board-update.model';
 export interface IBoard {
   id?: number;
   serial?: string | null;
+  version?: string | null;
   boardUpdates?: IBoardUpdate[] | null;
 }
 
 export class Board implements IBoard {
-  constructor(public id?: number, public serial?: string | null, public boardUpdates?: IBoardUpdate[] | null) {}
+  constructor(
+    public id?: number,
+    public serial?: string | null,
+    public version?: string | null,
+    public boardUpdates?: IBoardUpdate[] | null
+  ) {}
 }
 
 export function getBoardIdentifier(board: IBoard): number | undefined {

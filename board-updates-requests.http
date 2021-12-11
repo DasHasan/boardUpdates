@@ -5,8 +5,8 @@ Content-Type: application/json
 {
     "serial": "Solutions payment deposit",
     "firmware": "",
-    "software": "1.0",
+    "software": "1.1",
     "updateKeys": [
-        "CW"
+
     ]
 }

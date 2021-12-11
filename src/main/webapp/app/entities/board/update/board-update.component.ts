@@ -18,6 +18,7 @@ export class BoardUpdateComponent implements OnInit {
   editForm = this.fb.group({
     id: [],
     serial: [],
+    version: [],
   });
 
   constructor(protected boardService: BoardService, protected activatedRoute: ActivatedRoute, protected fb: FormBuilder) {}
@@ -65,6 +66,7 @@ export class BoardUpdateComponent implements OnInit {
     this.editForm.patchValue({
       id: board.id,
       serial: board.serial,
+      version: board.version,
     });
   }
 
@@ -73,6 +75,7 @@ export class BoardUpdateComponent implements OnInit {
       ...new Board(),
       id: this.editForm.get(['id'])!.value,
       serial: this.editForm.get(['serial'])!.value,
+      version: this.editForm.get(['version'])!.value,
     };
   }
 }
