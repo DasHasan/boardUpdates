@@ -42,10 +42,18 @@
 
         <div class="form-group">
           <label class="form-control-label" jhiTranslate="boardUpdatesApp.downloadUrl.url" for="field_url">Url</label>
-          <input type="text" class="form-control" name="url" id="field_url" data-cy="url" formControlName="url" />
+          <input
+            type="text"
+            class="form-control"
+            name="url"
+            id="field_url"
+            data-cy="url"
+            formControlName="url"
+            placeholder="Frei lassen für UUID"
+          />
         </div>
 
-        <div class="form-group" [class.display-none]="">
+        <div class="form-group" [hidden]="editForm.get('boardUpdate')!.value !== null">
           <label class="form-control-label" jhiTranslate="boardUpdatesApp.downloadUrl.boardUpdate" for="field_boardUpdate"
             >Board Update</label
           >

@@ -2,17 +2,19 @@ import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
-import { finalize, map, switchMap } from 'rxjs/operators';
+import { iif, Observable, of } from 'rxjs';
+import { catchError, finalize, map, switchMap } from 'rxjs/operators';
 
 import * as dayjs from 'dayjs';
 import { DATE_TIME_FORMAT } from 'app/config/input.constants';
 
-import { IBoardUpdate, BoardUpdate } from '../board-update.model';
+import { BoardUpdate, IBoardUpdate } from '../board-update.model';
 import { BoardUpdateService } from '../service/board-update.service';
 import { IBoard } from 'app/entities/board/board.model';
 import { BoardService } from 'app/entities/board/service/board.service';
 import { FileService } from 'app/shared/file.service';
+import { DownloadUrlService } from 'app/entities/download-url/service/download-url.service';
+import { DownloadUrl } from 'app/entities/download-url/download-url.model';
 
 @Component({
   selector: 'jhi-board-update-update',
@@ -32,10 +34,12 @@ export class BoardUpdateUpdateComponent implements OnInit {
     status: [],
     board: [],
   });
+  boardUpdate?: BoardUpdate;
   private file: File | undefined;
 
   constructor(
     protected boardUpdateService: BoardUpdateService,
+    protected downloadUrlService: DownloadUrlService,
     protected boardService: BoardService,
     protected activatedRoute: ActivatedRoute,
     protected fb: FormBuilder,
@@ -50,6 +54,7 @@ export class BoardUpdateUpdateComponent implements OnInit {
       }
 
       this.updateForm(boardUpdate);
+      this.boardUpdate = boardUpdate;
 
       this.loadRelationshipsOptions();
     });
@@ -82,30 +87,20 @@ export class BoardUpdateUpdateComponent implements OnInit {
   }
 
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IBoardUpdate>>): void {
-    result.pipe(finalize(() => this.onSaveFinalize())).subscribe(
-      ({ body: update }) => this.onSaveSuccess(update),
-      () => this.onSaveError()
-    );
+    result
+      .pipe(
+        switchMap(boardUpdate => this.uploadFile(boardUpdate)),
+        switchMap(boardUpdate => this.createDownloadUrlIfMissing(boardUpdate)),
+        finalize(() => this.onSaveFinalize())
+      )
+      .subscribe(
+        () => this.onSaveSuccess(),
+        () => this.onSaveError()
+      );
   }
 
-  protected onSaveSuccess(update: IBoardUpdate | null): void {
-    if (this.file) {
-      if (update?.board?.serial && update.type && update.version) {
-        this.fileService
-          .upload(this.file, `${update.board.serial}/${update.type}`, `autoupdate_${update.version}.zip`)
-          .pipe(switchMap(({ path }) => this.boardUpdateService.update({ ...update, path })))
-          .subscribe(
-            value => {
-              this.previousState();
-            },
-            error => {
-              //
-            }
-          );
-      }
-    } else {
-      this.previousState();
-    }
+  protected onSaveSuccess(): void {
+    this.previousState();
   }
 
   protected onSaveError(): void {
@@ -151,5 +146,35 @@ export class BoardUpdateUpdateComponent implements OnInit {
       status: this.editForm.get(['status'])!.value,
       board: this.editForm.get(['board'])!.value,
     };
+  }
+
+  private uploadFile(response: HttpResponse<IBoardUpdate>): Observable<HttpResponse<IBoardUpdate>> {
+    const update = response.body;
+
+    if (update?.board?.serial && update.type && update.version) {
+      return this.fileService
+        .upload(this.file, `${update.board.serial}/${update.type}`, `autoupdate_${update.version}.zip`)
+        .pipe(switchMap(({ path }) => this.boardUpdateService.update({ ...update, path })));
+    }
+
+    return of(response);
+  }
+
+  private createDownloadUrlIfMissing(response: HttpResponse<IBoardUpdate>): Observable<HttpResponse<IBoardUpdate>> {
+    if (!response.body) {
+      return of(response);
+    }
+
+    if (this.boardUpdate?.id) {
+      return of(response);
+    }
+
+    const observable = this.downloadUrlService
+      .create(new DownloadUrl(undefined, dayjs().startOf('day').add(1, 'day'), undefined, response.body))
+      .pipe(map(() => response));
+    this.downloadUrlService
+      .query({ 'boardUpdateId.equals': response.body.id })
+      .pipe(switchMap(value => iif(() => value.body!.length > 0, of(response), observable)));
+    return observable;
   }
 }

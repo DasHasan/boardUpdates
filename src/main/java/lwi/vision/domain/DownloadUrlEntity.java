@@ -3,6 +3,7 @@ package lwi.vision.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.UUID;
 import javax.persistence.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -25,7 +26,7 @@ public class DownloadUrlEntity implements Serializable {
     private LocalDate expirationDate;
 
     @Column(name = "url")
-    private String url;
+    private String url = UUID.randomUUID().toString();
 
     @JsonIgnoreProperties(value = { "updateKeys", "board" }, allowSetters = true)
     @OneToOne
