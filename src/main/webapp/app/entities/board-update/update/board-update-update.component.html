@@ -92,6 +92,10 @@
         >
           <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
         </button>
+
+        <div *ngIf="isSaving" class="spinner-border" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
       </div>
     </form>
   </div>
