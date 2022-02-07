@@ -1,10 +1,12 @@
 # This configuration is intended for development purpose, it's **your** responsibility to harden it for production
 version: '3.8'
+volumes:
+  boardupdates-mysql:
 services:
   boardupdates-mysql:
     image: mysql:8.0.23
-    # volumes:
-    #   - ~/volumes/jhipster/boardUpdates/mysql/:/var/lib/mysql/
+    volumes:
+       - boardupdates-mysql:/var/lib/mysql/
     environment:
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
       - MYSQL_DATABASE=boardupdates

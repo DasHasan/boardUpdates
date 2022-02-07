@@ -1,5 +1,6 @@
 package lwi.vision.config;
 
+import lwi.vision.web.rest.LoggerInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.LocaleResolver;
@@ -22,5 +23,6 @@ public class LocaleConfiguration implements WebMvcConfigurer {
         LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
         localeChangeInterceptor.setParamName("language");
         registry.addInterceptor(localeChangeInterceptor);
+        registry.addInterceptor(new LoggerInterceptor());
     }
 }
