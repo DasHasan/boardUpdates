@@ -39,4 +39,4 @@ jobs:
             - name: Build and publish docker image
               run: |
                   GIT_TAG=:${GITHUB_REF#refs/tags/}
-                  ./mvnw -ntp jib:build -Djib.to.image=ghcr.io/dashasan/board-updates:latest -Djib.to.auth.username="${{ github.actor }}" -Djib.to.auth.password="${{ secrets.GITHUB_TOKEN }}"
+                  ./mvnw -ntp jib:build -Djib.to.image=ghcr.io/dashasan/board-updates:latest"
