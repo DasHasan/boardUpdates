@@ -27,6 +27,13 @@ jobs:
                   chmod +x mvnw
                   ./mvnw -Pprod -ntp package -DskipTests --batch-mode
 
+            - name: Docker Login
+              uses: docker/login-action@6af3c118c8376c675363897acf1757f7a9be6583
+              with:
+                registry: ${{ env.REGISTRY }}
+                username: ${{ github.actor }}
+                password: ${{ secrets.GITHUB_TOKEN }}
+
             - name: Build and publish docker image
               run: |
                   GIT_TAG=:${GITHUB_REF#refs/tags/}
