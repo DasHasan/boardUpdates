@@ -29,4 +29,4 @@ jobs:
               run: |
                   GIT_TAG=:${GITHUB_REF#refs/tags/}
                   DOCKER_TAG=${GIT_TAG#:refs/heads/master}
-                  ./mvnw -ntp jib:build -Djib.to.image=ghcr.io/dashasan/board-updates:latest -Djib.to.auth.username="${{ github.actor }}" -Djib.to.auth.password="${{ secrets.GITHUB_TOKEN }}"
+                  ./mvnw -ntp jib:build -Djib.to.image=ghcr.io/dashasan/boardUpdates:latest -Djib.to.auth.username="${{ github.actor }}" -Djib.to.auth.password="${{ secrets.GITHUB_TOKEN }}"
