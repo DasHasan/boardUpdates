@@ -49,6 +49,18 @@ public class BoardUpdateEntity extends AbstractAuditingEntity implements Seriali
     @JsonIgnoreProperties(value = { "boardUpdates" }, allowSetters = true)
     private BoardEntity board;
 
+    @OneToOne(mappedBy = "from", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value = { "from", "to" }, allowSetters = true)
+    private BoardUpdateSuccessorEntity boardUpdateSuccessorFrom;
+
+    @OneToOne(mappedBy = "to", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value = { "from", "to" }, allowSetters = true)
+    private BoardUpdateSuccessorEntity boardUpdateSuccessorTo;
+
+    @OneToOne(mappedBy = "boardUpdate", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value = { "boardUpdate" }, allowSetters = true)
+    private DownloadUrlEntity downloadUrlEntity;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
         return id;
@@ -170,6 +182,30 @@ public class BoardUpdateEntity extends AbstractAuditingEntity implements Seriali
 
     public void setBoard(BoardEntity board) {
         this.board = board;
+    }
+
+    public BoardUpdateSuccessorEntity getBoardUpdateSuccessorFrom() {
+        return boardUpdateSuccessorFrom;
+    }
+
+    public void setBoardUpdateSuccessorFrom(BoardUpdateSuccessorEntity boardUpdateSuccessorFrom) {
+        this.boardUpdateSuccessorFrom = boardUpdateSuccessorFrom;
+    }
+
+    public BoardUpdateSuccessorEntity getBoardUpdateSuccessorTo() {
+        return boardUpdateSuccessorTo;
+    }
+
+    public void setBoardUpdateSuccessorTo(BoardUpdateSuccessorEntity boardUpdateSuccessorTo) {
+        this.boardUpdateSuccessorTo = boardUpdateSuccessorTo;
+    }
+
+    public DownloadUrlEntity getDownloadUrlEntity() {
+        return downloadUrlEntity;
+    }
+
+    public void setDownloadUrlEntity(DownloadUrlEntity downloadUrlEntity) {
+        this.downloadUrlEntity = downloadUrlEntity;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
