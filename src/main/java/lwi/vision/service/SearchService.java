@@ -40,8 +40,9 @@ public class SearchService {
     }
 
     private SearchUpdateResponse getUpdateResponse(SearchUpdateRequest request, UpdateType type, String version) {
-        List<BoardUpdateEntity> updateEntities = boardUpdateRepository.findByBoard_SerialAndVersionAndTypeOrderByReleaseDateAsc(
+        List<BoardUpdateEntity> updateEntities = boardUpdateRepository.findByBoard_SerialAndBoard_VersionAndVersionAndTypeOrderByReleaseDateAsc(
             request.getSerial(),
+            request.getVersion(),
             version,
             type
         );

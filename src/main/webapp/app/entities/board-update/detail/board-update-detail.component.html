@@ -65,6 +65,7 @@
   -H "Content-Type: application/json" \
   -d "{{ "{" }}
     \"serial\": \"{{requestBody.serial}}\",
+    \"version\": \"{{requestBody.version}}\",
     \"firmware\": \"{{requestBody.firmware}}\",
     \"software\": \"{{requestBody.software}}\",
     \"updateKeys\": [

@@ -7,6 +7,8 @@ public class SearchUpdateRequest {
 
     private String serial;
 
+    private String version;
+
     private String firmware;
 
     private String software;
@@ -21,6 +23,14 @@ public class SearchUpdateRequest {
 
     public void setSerial(String serial) {
         this.serial = serial;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
     }
 
     public String getFirmware() {

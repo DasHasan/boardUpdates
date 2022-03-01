@@ -14,4 +14,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BoardUpdateRepository extends JpaRepository<BoardUpdateEntity, Long>, JpaSpecificationExecutor<BoardUpdateEntity> {
     List<BoardUpdateEntity> findByBoard_SerialAndVersionAndTypeOrderByReleaseDateAsc(String serial, String version, UpdateType type);
+
+    List<BoardUpdateEntity> findByBoard_SerialAndBoard_VersionAndVersionAndTypeOrderByReleaseDateAsc(String serial, String version, String version1, UpdateType type);
 }
