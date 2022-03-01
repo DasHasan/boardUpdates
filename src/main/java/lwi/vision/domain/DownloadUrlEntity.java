@@ -29,7 +29,7 @@ public class DownloadUrlEntity implements Serializable {
     private String url = UUID.randomUUID().toString();
 
     @JsonIgnoreProperties(value = { "updateKeys", "board" }, allowSetters = true)
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(unique = true)
     private BoardUpdateEntity boardUpdate;
 

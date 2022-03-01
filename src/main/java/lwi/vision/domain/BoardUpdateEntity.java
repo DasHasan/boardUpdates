@@ -40,7 +40,7 @@ public class BoardUpdateEntity extends AbstractAuditingEntity implements Seriali
     @Column(name = "status")
     private String status;
 
-    @OneToMany(mappedBy = "boardUpdate", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "boardUpdate", cascade = CascadeType.REMOVE)
     @Cache(usage = CacheConcurrencyStrategy.NONE) // fix entity changes
     @JsonIgnoreProperties(value = { "boardUpdate" }, allowSetters = true)
     private Set<UpdateKeysEntity> updateKeys = new HashSet<>();
@@ -49,11 +49,15 @@ public class BoardUpdateEntity extends AbstractAuditingEntity implements Seriali
     @JsonIgnoreProperties(value = { "boardUpdates" }, allowSetters = true)
     private BoardEntity board;
 
-    @OneToOne(mappedBy = "from", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "from", cascade = CascadeType.REMOVE)
     @JsonIgnoreProperties(value = { "from", "to" }, allowSetters = true)
-    private BoardUpdateSuccessorEntity updateSuccessor;
+    private BoardUpdateSuccessorEntity updateSuccessorFrom;
 
-    @OneToOne(mappedBy = "boardUpdate", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "to", cascade = CascadeType.REMOVE)
+    @JsonIgnoreProperties(value = { "from", "to" }, allowSetters = true)
+    private BoardUpdateSuccessorEntity updateSuccessorTo;
+
+    @OneToOne(mappedBy = "boardUpdate", cascade = CascadeType.REMOVE)
     @JsonIgnoreProperties(value = { "boardUpdate" }, allowSetters = true)
     private DownloadUrlEntity downloadUrlEntity;
 
@@ -180,12 +184,20 @@ public class BoardUpdateEntity extends AbstractAuditingEntity implements Seriali
         this.board = board;
     }
 
-    public BoardUpdateSuccessorEntity getUpdateSuccessor() {
-        return updateSuccessor;
+    public BoardUpdateSuccessorEntity getUpdateSuccessorFrom() {
+        return updateSuccessorFrom;
     }
 
-    public void setUpdateSuccessor(BoardUpdateSuccessorEntity boardUpdateSuccessorFrom) {
-        this.updateSuccessor = boardUpdateSuccessorFrom;
+    public void setUpdateSuccessorFrom(BoardUpdateSuccessorEntity boardUpdateSuccessorFrom) {
+        this.updateSuccessorFrom = boardUpdateSuccessorFrom;
+    }
+
+    public BoardUpdateSuccessorEntity getUpdateSuccessorTo() {
+        return updateSuccessorTo;
+    }
+
+    public void setUpdateSuccessorTo(BoardUpdateSuccessorEntity updateSuccessorTo) {
+        this.updateSuccessorTo = updateSuccessorTo;
     }
 
     public DownloadUrlEntity getDownloadUrlEntity() {
@@ -227,7 +239,7 @@ public class BoardUpdateEntity extends AbstractAuditingEntity implements Seriali
             ", status='" + status + '\'' +
             ", updateKeys=" + updateKeys +
             ", board=" + board +
-            ", updateSuccessor=" + updateSuccessor +
+            ", updateSuccessor=" + updateSuccessorFrom +
             ", downloadUrlEntity=" + downloadUrlEntity +
             '}';
     }

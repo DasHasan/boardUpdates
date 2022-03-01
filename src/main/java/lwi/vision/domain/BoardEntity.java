@@ -28,7 +28,7 @@ public class BoardEntity extends AbstractAuditingEntity implements Serializable 
     @Column(name = "version")
     private String version;
 
-    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
+@OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "updateKeys", "board" }, allowSetters = true)
     private Set<BoardUpdateEntity> boardUpdates = new HashSet<>();
