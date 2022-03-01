@@ -37,4 +37,4 @@ jobs:
                 password: ${{ secrets.GITHUB_TOKEN }}
 
             - name: Build and publish docker image
-              run: ./mvnw -ntp jib:build -Djib.to.image=ghcr.io/dashasan/boardupdates:latest
+              run: ./mvnw -ntp jib:build -Djib.to.image=ghcr.io/dashasan/boardupdates:latest  -Djib.to.auth.username=${{ github.actor }} -Djib.to.auth.password=${{ secrets.GITHUB_TOKEN }}
