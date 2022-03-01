@@ -21,12 +21,12 @@ public class BoardUpdateSuccessorEntity implements Serializable {
     private Long id;
 
     @JsonIgnoreProperties(value = { "updateKeys", "board" }, allowSetters = true)
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne()
     @JoinColumn(unique = true)
     private BoardUpdateEntity from;
 
     @JsonIgnoreProperties(value = { "updateKeys", "board" }, allowSetters = true)
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne()
     @JoinColumn(unique = true)
     private BoardUpdateEntity to;
 

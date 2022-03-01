@@ -51,11 +51,7 @@ public class BoardUpdateEntity extends AbstractAuditingEntity implements Seriali
 
     @OneToOne(mappedBy = "from", cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = { "from", "to" }, allowSetters = true)
-    private BoardUpdateSuccessorEntity boardUpdateSuccessorFrom;
-
-    @OneToOne(mappedBy = "to", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties(value = { "from", "to" }, allowSetters = true)
-    private BoardUpdateSuccessorEntity boardUpdateSuccessorTo;
+    private BoardUpdateSuccessorEntity updateSuccessor;
 
     @OneToOne(mappedBy = "boardUpdate", cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = { "boardUpdate" }, allowSetters = true)
@@ -184,20 +180,12 @@ public class BoardUpdateEntity extends AbstractAuditingEntity implements Seriali
         this.board = board;
     }
 
-    public BoardUpdateSuccessorEntity getBoardUpdateSuccessorFrom() {
-        return boardUpdateSuccessorFrom;
+    public BoardUpdateSuccessorEntity getUpdateSuccessor() {
+        return updateSuccessor;
     }
 
-    public void setBoardUpdateSuccessorFrom(BoardUpdateSuccessorEntity boardUpdateSuccessorFrom) {
-        this.boardUpdateSuccessorFrom = boardUpdateSuccessorFrom;
-    }
-
-    public BoardUpdateSuccessorEntity getBoardUpdateSuccessorTo() {
-        return boardUpdateSuccessorTo;
-    }
-
-    public void setBoardUpdateSuccessorTo(BoardUpdateSuccessorEntity boardUpdateSuccessorTo) {
-        this.boardUpdateSuccessorTo = boardUpdateSuccessorTo;
+    public void setUpdateSuccessor(BoardUpdateSuccessorEntity boardUpdateSuccessorFrom) {
+        this.updateSuccessor = boardUpdateSuccessorFrom;
     }
 
     public DownloadUrlEntity getDownloadUrlEntity() {
@@ -230,28 +218,17 @@ public class BoardUpdateEntity extends AbstractAuditingEntity implements Seriali
     // prettier-ignore
     @Override
     public String toString() {
-        return (
-            "BoardUpdateEntity{" +
-            "id=" +
-            id +
-            ", version='" +
-            version +
-            '\'' +
-            ", path='" +
-            path +
-            '\'' +
-            ", type=" +
-            type +
-            ", releaseDate=" +
-            releaseDate +
-            ", status='" +
-            status +
-            '\'' +
-            ", updateKeys=" +
-            updateKeys +
-            ", board=" +
-            board +
-            '}'
-        );
+        return "BoardUpdateEntity{" +
+            "id=" + id +
+            ", version='" + version + '\'' +
+            ", path='" + path + '\'' +
+            ", type=" + type +
+            ", releaseDate=" + releaseDate +
+            ", status='" + status + '\'' +
+            ", updateKeys=" + updateKeys +
+            ", board=" + board +
+            ", updateSuccessor=" + updateSuccessor +
+            ", downloadUrlEntity=" + downloadUrlEntity +
+            '}';
     }
 }
