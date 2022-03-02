@@ -1,12 +1,26 @@
-### Search API
+# curl -X POST --location "http://localhost:9000/search/software"
+#  -H "Content-Type: application/json"
+#  -d "{
+#    \"serial\": \"Test\",
+#    \"version\": \"1.0\",
+#    \"firmware\": \"\",
+#    \"software\": \"1.0\",
+#    \"updateKeys\": [
+#
+#    ]
+#  }"
 POST http://localhost:8080/search/software
 Content-Type: application/json
 
 {
-    "serial": "Solutions payment deposit",
+    "serial": "Test",
+    "version": "1.0",
     "firmware": "",
-    "software": "1.1",
+    "software": "1.0",
     "updateKeys": [
 
     ]
-}
+  }
+
+###
+
