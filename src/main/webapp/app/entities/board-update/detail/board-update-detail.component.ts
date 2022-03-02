@@ -22,6 +22,8 @@ export class BoardUpdateDetailComponent implements OnInit {
       this.currentHost = `${window.location.protocol}//${window.location.host}`;
       this.requestBody = {
         serial: this.boardUpdate!.board?.serial,
+        version: this.boardUpdate!.board?.version,
+        status: this.boardUpdate!.status,
         firmware: (this.boardUpdate!.type as UpdateType) === UpdateType.FIRMWARE ? this.boardUpdate!.version : '',
         software: (this.boardUpdate!.type as UpdateType) === UpdateType.SOFTWARE ? this.boardUpdate!.version : '',
         updateKeys: (this.boardUpdate!.updateKeys ?? []).map(value => value.key).map(value => `\\"${value as string}\\"`),
