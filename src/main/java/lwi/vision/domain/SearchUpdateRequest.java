@@ -13,6 +13,8 @@ public class SearchUpdateRequest {
 
     private String software;
 
+    private String status;
+
     private List<String> updateKeys = new ArrayList<>();
 
     public SearchUpdateRequest() {}
@@ -51,6 +53,14 @@ public class SearchUpdateRequest {
 
     public List<String> getUpdateKeys() {
         return updateKeys;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public void setUpdateKeys(List<String> updateKeys) {
