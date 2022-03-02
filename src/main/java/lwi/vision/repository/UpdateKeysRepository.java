@@ -2,6 +2,7 @@ package lwi.vision.repository;
 
 import lwi.vision.domain.UpdateKeysEntity;
 import org.springframework.data.jpa.repository.*;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -9,4 +10,4 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface UpdateKeysRepository extends JpaRepository<UpdateKeysEntity, Long>, JpaSpecificationExecutor<UpdateKeysEntity> {}
+public interface UpdateKeysRepository extends JpaRepository<UpdateKeysEntity, Long>, JpaSpecificationExecutor<UpdateKeysEntity>, QuerydslPredicateExecutor<UpdateKeysEntity> {}
