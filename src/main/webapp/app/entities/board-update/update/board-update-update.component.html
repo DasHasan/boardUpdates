@@ -19,7 +19,7 @@
 
         <div class="form-group">
           <label class="form-control-label" jhiTranslate="boardUpdatesApp.boardUpdate.version" for="field_version">Version</label>
-          <input type="text" class="form-control" name="version" id="field_version" data-cy="version" formControlName="version" />
+          <input required type="text" class="form-control" name="version" id="field_version" data-cy="version" formControlName="version" />
         </div>
 
         <div class="form-group">
@@ -34,7 +34,7 @@
 
         <div class="form-group">
           <label class="form-control-label" jhiTranslate="boardUpdatesApp.boardUpdate.type" for="field_type">Type</label>
-          <select class="form-control" name="type" formControlName="type" id="field_type" data-cy="type">
+          <select class="form-control" name="type" formControlName="type" id="field_type" data-cy="type" required>
             <option [ngValue]="null">{{ 'boardUpdatesApp.UpdateType.null' | translate }}</option>
             <option value="FIRMWARE">{{ 'boardUpdatesApp.UpdateType.FIRMWARE' | translate }}</option>
             <option value="SOFTWARE">{{ 'boardUpdatesApp.UpdateType.SOFTWARE' | translate }}</option>
@@ -47,6 +47,7 @@
           >
           <div class="d-flex">
             <input
+              required
               id="field_releaseDate"
               data-cy="releaseDate"
               type="datetime-local"
