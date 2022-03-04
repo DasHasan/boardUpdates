@@ -25,20 +25,20 @@ public class BoardUpdateEntity extends AbstractAuditingEntity implements Seriali
     private Long id;
 
     @Column(name = "version")
-    private String version;
+    private String version = "";
 
     @Column(name = "path")
-    private String path;
+    private String path = "";
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type")
     private UpdateType type;
 
     @Column(name = "release_date")
-    private ZonedDateTime releaseDate;
+    private ZonedDateTime releaseDate = ZonedDateTime.now();
 
     @Column(name = "status")
-    private String status;
+    private String status = "";
 
     @OneToMany(mappedBy = "boardUpdate", cascade = CascadeType.REMOVE)
     @Cache(usage = CacheConcurrencyStrategy.NONE) // fix entity changes

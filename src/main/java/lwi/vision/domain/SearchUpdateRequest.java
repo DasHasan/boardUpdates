@@ -5,15 +5,15 @@ import java.util.List;
 
 public class SearchUpdateRequest {
 
-    private String serial;
+    private String serial = "";
 
-    private String version;
+    private String version = "";
 
-    private String firmware;
+    private String firmware = "";
 
-    private String software;
+    private String software = "";
 
-    private String status;
+    private String status = "";
 
     private List<String> updateKeys = new ArrayList<>();
 
@@ -69,20 +69,13 @@ public class SearchUpdateRequest {
 
     @Override
     public String toString() {
-        return (
-            "SearchUpdateRequest{" +
-            "serial='" +
-            serial +
-            '\'' +
-            ", firmware='" +
-            firmware +
-            '\'' +
-            ", software='" +
-            software +
-            '\'' +
-            ", updateKeys=" +
-            updateKeys +
-            '}'
-        );
+        return "SearchUpdateRequest{" +
+            "serial='" + serial + '\'' +
+            ", version='" + version + '\'' +
+            ", firmware='" + firmware + '\'' +
+            ", software='" + software + '\'' +
+            ", status='" + status + '\'' +
+            ", updateKeys=" + updateKeys +
+            '}';
     }
 }

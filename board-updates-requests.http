@@ -17,8 +17,9 @@ Content-Type: application/json
     "version": "1.0",
     "firmware": "",
     "software": "1.0",
+    "status": "test",
     "updateKeys": [
-
+      "test"
     ]
   }
 

@@ -15,6 +15,7 @@ import org.springframework.data.querydsl.QPageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -47,29 +48,8 @@ public class SearchService {
     private SearchUpdateResponse getUpdateResponse(SearchUpdateRequest request, UpdateType type, String version) {
         List<BoardUpdateEntity> siblingUpdates = findAllSiblingUpdates(request, type, version);
 
-        Optional<BoardUpdateEntity> filteredUpdates = siblingUpdates.stream()
-            .filter(byUpdateKeys(request))
-            .findFirst();
-
-        return siblingUpdates.stream().map(this::toSearchUpdateResponse).findFirst().orElse(new SearchUpdateResponse());
-
-        // angefragtes Update konnte nicht gefunden werden
-//        if (filteredUpdates.isEmpty()) {
-//            log.error("Kein Update gefunden für Anfrage: " + request);
-//            return new SearchUpdateResponse();
-//        }
-//
-//        Optional<BoardUpdateSuccessorEntity> updateSuccessor = boardUpdateSuccessorRepository.findFirstByFrom_Id(
-//            filteredUpdates.get().getId()
-//        );
-//        // angefragtes update hat keinen Nachfolger definiert
-//        if (updateSuccessor.isEmpty()) {
-//            log.error("Kein Nachfolger definiert für Update: " + filteredUpdates.get());
-//            return new SearchUpdateResponse();
-//        }
-//
-//        BoardUpdateEntity update = updateSuccessor.get().getTo();
-//        return toSearchUpdateResponse(update);
+        Optional<SearchUpdateResponse> first = siblingUpdates.stream().map(this::toSearchUpdateResponse).findFirst();
+        return first.orElse(new SearchUpdateResponse());
     }
 
     private List<BoardUpdateEntity> findAllSiblingUpdates(SearchUpdateRequest request, UpdateType type, String version) {
@@ -77,33 +57,31 @@ public class SearchService {
         StringPath boardSerial = QBoardUpdateEntity.boardUpdateEntity.board.serial;
         EnumPath<UpdateType> updateType = QBoardUpdateEntity.boardUpdateEntity.type;
         StringPath updateVersion = QBoardUpdateEntity.boardUpdateEntity.version;
-        OrderSpecifier<ZonedDateTime> orderByReleaseDate = QBoardUpdateEntity.boardUpdateEntity.releaseDate.desc();
         BooleanExpression isReleased = QBoardUpdateEntity.boardUpdateEntity.releaseDate.before(ZonedDateTime.now());
-        StringPath updateStatus = QBoardUpdateEntity.boardUpdateEntity.status;
+        OrderSpecifier<ZonedDateTime> orderByReleaseDate = QBoardUpdateEntity.boardUpdateEntity.releaseDate.desc();
+        OrderSpecifier<Instant> orderByLastModified = QBoardUpdateEntity.boardUpdateEntity.lastModifiedDate.desc();
+
         Page<BoardUpdateEntity> updateEntities = boardUpdateRepository.findAll(
             boardSerial.eq(request.getSerial())
                 .and(boardVersion.eq(request.getVersion()))
                 .and(updateType.eq(type))
                 .and(updateKeysEq(request.getUpdateKeys()))
-                .and(updateStatus.eq(request.getStatus()))
+                .and(updateStatusEq(request))
                 .and(isReleased)
-                //.and(updateVersion.eq(version))
-            , QPageRequest.of(0, 10, orderByReleaseDate));
+            , QPageRequest.of(0, 10, orderByReleaseDate, orderByLastModified));
 
         return updateEntities.toList();
+    }
 
-//        return boardUpdateRepository.findByBoard_SerialAndBoard_VersionAndVersionAndTypeOrderByReleaseDateAsc(
-//            request.getSerial(),
-//            request.getVersion(),
-//            version,
-//            type
-//        );
+    private BooleanExpression updateStatusEq(SearchUpdateRequest request) {
+        return request.getStatus() == null ? null : QBoardUpdateEntity.boardUpdateEntity.status.eq(request.getStatus());
     }
 
     private BooleanExpression updateKeysEq(List<String> updateKeys) {
         BooleanExpression expression = QBoardUpdateEntity.boardUpdateEntity.updateKeys.size().eq(updateKeys.size());
+//        updateKeys.stream().map(s -> QBoardUpdateEntity.boardUpdateEntity.updateKeys.any().key.eq(s)).reduce(BooleanExpression::and)
         for (String updateKey : updateKeys) {
-            expression = expression.and(QUpdateKeysEntity.updateKeysEntity.key.eq(updateKey));
+            expression = expression.and(QBoardUpdateEntity.boardUpdateEntity.updateKeys.any().key.eq(updateKey));
         }
         return expression;
     }
