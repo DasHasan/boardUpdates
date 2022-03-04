@@ -32,4 +32,6 @@ jobs:
 #                  ./mvnw -Pprod -ntp package -DskipTests --batch-mode
 
             - name: Build and publish docker image
-              run: ./mvnw -ntp jib:build -Djib.to.image=ghcr.io/dashasan/${{ env.IMAGE_NAME }}:latest  -Djib.to.auth.username=${{ env.USERNAME }} -Djib.to.auth.password=${{ env.PASSWORD }}
+              run: |
+                chmod +x mvnw
+                ./mvnw -ntp jib:build -Djib.to.image=ghcr.io/dashasan/${{ env.IMAGE_NAME }}:latest  -Djib.to.auth.username=${{ env.USERNAME }} -Djib.to.auth.password=${{ env.PASSWORD }}
