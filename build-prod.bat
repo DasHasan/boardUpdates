@@ -1,2 +1,4 @@
 
-mvn -Pprod -DskipTests clean package jib:build -Djib.from.image=boardUpdates:latest -Djib.to.image=gcr.io/dashasan/boardUpdates:latest -Djib.to.auth.username="DasHasan" -Djib.to.auth.password="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"
+mvn -Pprod -DskipTests clean package
+mvn jib:build -Djib.from.image=board-updates:latest -Djib.to.image=ghcr.io/dashasan/board-updates:latest -Djib.to.auth.username=DasHasan -Djib.to.auth.password=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
+mvn jib:build -Djib.to.auth.username=DasHasan -Djib.to.auth.password=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
