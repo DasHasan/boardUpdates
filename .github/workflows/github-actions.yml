@@ -34,4 +34,4 @@ jobs:
             - name: Build and publish docker image
               run: |
                 chmod +x mvnw
-                ./mvnw -ntp jib:build -Djib.to.image=ghcr.io/dashasan/${{ env.IMAGE_NAME }}:latest  -Djib.to.auth.username=${{ env.USERNAME }} -Djib.to.auth.password=${{ env.PASSWORD }}
+                ./mvnw -ntp jib:build -Djib.to.image=ghcr.io/dashasan/board-updates:latest  -Djib.to.auth.username=${{ env.USERNAME }} -Djib.to.auth.password=${{ env.PASSWORD }}
