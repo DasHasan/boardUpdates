@@ -34,7 +34,7 @@ jobs:
               with:
                 registry: ${{ env.REGISTRY }}
                 username: ${{ github.actor }}
-                password: ${{ secrets.GITHUB_TOKEN }}
+                password: ${{ secrets.TOKEN }}
 
             - name: Build and publish docker image
-              run: ./mvnw -ntp jib:build -Djib.to.auth.username=${{ github.actor }} -Djib.to.auth.password=${{ secrets.TOKEN }}
+              run: ./mvnw -ntp jib:build -Djib.to.image=dashasan/board-updates:latest  -Djib.to.auth.username=${{ github.actor }} -Djib.to.auth.password=${{ secrets.TOKEN }}
