@@ -29,11 +29,5 @@ jobs:
                   chmod +x mvnw
                   ./mvnw -Pprod -ntp package -DskipTests --batch-mode
 
-            - name: Docker Login
-              uses: docker/login-action@6af3c118c8376c675363897acf1757f7a9be6583
-              with:
-                username: ${{ github.actor }}
-                password: ${{ secrets.TOKEN }}
-
             - name: Build and publish docker image
               run: ./mvnw -ntp jib:build -Djib.to.image=dashasan/board-updates:latest  -Djib.to.auth.username=${{ github.actor }} -Djib.to.auth.password=${{ secrets.TOKEN }}
