@@ -32,7 +32,6 @@ jobs:
             - name: Docker Login
               uses: docker/login-action@6af3c118c8376c675363897acf1757f7a9be6583
               with:
-                registry: ${{ env.REGISTRY }}
                 username: ${{ github.actor }}
                 password: ${{ secrets.TOKEN }}
 
