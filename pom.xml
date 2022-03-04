@@ -593,7 +593,7 @@
                             <image>adoptopenjdk:11-jre-hotspot</image>
                         </from>
                         <to>
-                            <image>ghcr.io/dashasan/board-updates:latest</image>
+                            <image>ghcr.io/dashasan/boardupdates:latest</image>
                         </to>
                         <container>
                             <entrypoint>
@@ -605,7 +605,7 @@
                                 <port>8080</port>
                             </ports>
                             <labels>
-                                <org.opencontainers.image.source>https://github.com/dashasan/board-updates</org.opencontainers.image.source>
+                                <org.opencontainers.image.source>https://github.com/dashasan/boardupdates</org.opencontainers.image.source>
                             </labels>
                             <environment>
                                 <SPRING_OUTPUT_ANSI_ENABLED>ALWAYS</SPRING_OUTPUT_ANSI_ENABLED>
