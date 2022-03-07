@@ -48,8 +48,11 @@ public class SearchService {
     private SearchUpdateResponse getUpdateResponse(SearchUpdateRequest request, UpdateType type, String version) {
         List<BoardUpdateEntity> siblingUpdates = findAllSiblingUpdates(request, type, version);
 
-        Optional<SearchUpdateResponse> first = siblingUpdates.stream().map(this::toSearchUpdateResponse).findFirst();
-        return first.orElse(new SearchUpdateResponse());
+        Optional<BoardUpdateEntity> latestUpdate = siblingUpdates.stream().findFirst();
+        return latestUpdate
+            .filter(boardUpdateEntity -> !boardUpdateEntity.getVersion().equals(version))
+            .map(this::toSearchUpdateResponse)
+            .orElse(new SearchUpdateResponse());
     }
 
     private List<BoardUpdateEntity> findAllSiblingUpdates(SearchUpdateRequest request, UpdateType type, String version) {
