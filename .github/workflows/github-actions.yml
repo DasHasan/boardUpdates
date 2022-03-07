@@ -26,12 +26,13 @@ jobs:
               with:
                   java-version: '11.x'
 
-#            - name: Package application
-#              run: |
-#                  chmod +x mvnw
-#                  ./mvnw -Pprod -ntp package -DskipTests --batch-mode
+            - name: Package application
+              run: |
+                  chmod +x mvnw
+                  ./mvnw -Pprod -ntp package -DskipTests --batch-mode
 
             - name: Build and publish docker image
               run: |
                 chmod +x mvnw
                 ./mvnw -ntp compile -DskipTests jib:build -Djib.to.image=ghcr.io/dashasan/boardupdates:latest  -Djib.to.auth.username=${{ env.USERNAME }} -Djib.to.auth.password=${{ env.PASSWORD }}
+#                mvn -Pprod -ntp package -DskipTests jib:build -Djib.to.image=dashasan/boardupdates:latest  -Djib.to.auth.username=dashasan -Djib.to.auth.password=08e1afdd-271d-4003-b60a-ddafd0c27da2
