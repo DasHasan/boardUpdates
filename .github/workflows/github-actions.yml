@@ -26,10 +26,10 @@ jobs:
               with:
                   java-version: '11.x'
 
-#            - name: Package application
-#              run: |
-#                  chmod +x mvnw
-#                  ./mvnw -Pprod -ntp package -DskipTests --batch-mode
+            - name: Package application
+              run: |
+                  chmod +x mvnw
+                  ./mvnw -Pprod -ntp package -DskipTests --batch-mode
 
             - name: Build and publish docker image
               run: |

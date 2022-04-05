@@ -1,3 +1,59 @@
+# curl -X POST --location "http://h2948331.stratoserver.net:9090/search/software"
+#  -H "Content-Type: application/json"
+#  -d "{
+#    \"serial\": \"Test\",
+#    \"version\": \"1.0\",
+#    \"status\": \"\",
+#    \"firmware\": \"\",
+#    \"software\": \"1.0\",
+#    \"updateKeys\": [
+#
+#    ]
+#  }"
+POST http://h2948331.stratoserver.net:9090/search/software
+Content-Type: application/json
+
+{
+    "serial": "Test",
+    "version": "1.0",
+    "status": "",
+    "firmware": "",
+    "software": "1.0",
+    "updateKeys": [
+
+    ]
+  }
+
+###
+
+# curl -X POST --location "http://h2948331.stratoserver.net:9090/search/software"
+#  -H "Content-Type: application/json"
+#  -d "{
+#    \"serial\": \"LWI-V 2022-1-9\",
+#    \"version\": \"1.90.283 4035R.6\",
+#    \"status\": \"Release\",
+#    \"firmware\": \"\",
+#    \"software\": \"1.90.283 4035R.6\",
+#    \"updateKeys\": [
+#
+#    ]
+#  }"
+POST http://h2948331.stratoserver.net:9090/search/software
+Content-Type: application/json
+
+{
+    "serial": "LWI-V 2022-1-9",
+    "version": "1.90.283 4035R.6",
+    "status": "Release",
+    "firmware": "",
+    "software": "1.90.283 4035R.6",
+    "updateKeys": [
+
+    ]
+  }
+
+###
+
 # curl -X POST --location "http://localhost:9000/search/software"
 #  -H "Content-Type: application/json"
 #  -d "{
