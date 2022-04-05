@@ -151,9 +151,9 @@ export class BoardUpdateUpdateComponent implements OnInit {
   private uploadFile(response: HttpResponse<IBoardUpdate>): Observable<HttpResponse<IBoardUpdate>> {
     const update = response.body;
 
-    if (update?.board?.serial && update.type && update.version) {
+    if (update?.board?.serial && update.type && update.version && this.file) {
       return this.fileService
-        .upload(this.file, `${update.board.serial}/${update.type}`, `autoupdate_${update.version}.zip`)
+        .upload(this.file, `${update.board.serial}/${update.type}`, this.file.name)
         .pipe(switchMap(({ path }) => this.boardUpdateService.update({ ...update, path })));
     }
 

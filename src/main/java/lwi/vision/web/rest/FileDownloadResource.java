@@ -14,6 +14,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.file.Paths;
+
 /**
  * FileDownloadResource controller
  */
@@ -65,7 +67,7 @@ public class FileDownloadResource {
             FileSystemResource resource = new FileSystemResource(boardUpdate.getPath());
             HttpHeaders headers = new HttpHeaders();
             headers.setContentDisposition(
-                ContentDisposition.attachment().filename("autoupdate_" + boardUpdate.getVersion() + ".zip").build()
+                ContentDisposition.attachment().filename(Paths.get(boardUpdate.getPath()).toFile().getName()).build()
             );
             return ResponseEntity.ok().headers(headers).body(resource);
         } catch (Exception e) {
