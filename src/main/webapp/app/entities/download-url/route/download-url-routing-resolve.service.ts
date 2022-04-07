@@ -1,15 +1,13 @@
-import { Injectable } from '@angular/core';
-import { HttpResponse } from '@angular/common/http';
-import { Resolve, ActivatedRouteSnapshot, Router } from '@angular/router';
-import { Observable, of, EMPTY } from 'rxjs';
-import { mergeMap } from 'rxjs/operators';
+import {Injectable} from '@angular/core';
+import {HttpResponse} from '@angular/common/http';
+import {ActivatedRouteSnapshot, Resolve, Router} from '@angular/router';
+import {EMPTY, Observable, of} from 'rxjs';
+import {mergeMap} from 'rxjs/operators';
 
-import { IDownloadUrl, DownloadUrl } from '../download-url.model';
-import { DownloadUrlService } from '../service/download-url.service';
-import { Board } from 'app/entities/board/board.model';
-import { BoardUpdate } from 'app/entities/board-update/board-update.model';
-import { BoardService } from 'app/entities/board/service/board.service';
-import { BoardUpdateService } from 'app/entities/board-update/service/board-update.service';
+import {DownloadUrl, IDownloadUrl} from '../download-url.model';
+import {DownloadUrlService} from '../service/download-url.service';
+import {BoardUpdate} from 'app/entities/board-update/board-update.model';
+import {BoardUpdateService} from 'app/entities/board-update/service/board-update.service';
 
 @Injectable({ providedIn: 'root' })
 export class DownloadUrlRoutingResolveService implements Resolve<IDownloadUrl> {

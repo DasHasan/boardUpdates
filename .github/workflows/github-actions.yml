@@ -4,16 +4,9 @@ jobs:
     pipeline:
         name: boardUpdates pipeline
         runs-on: ubuntu-latest
-        permissions:
-          contents: read
-          packages: write
         if: "!contains(github.event.head_commit.message, '[ci skip]') && !contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.pull_request.title, '[skip ci]') && !contains(github.event.pull_request.title, '[ci skip]')"
         timeout-minutes: 40
         env:
-            REGISTRY: ghcr.io
-            USERNAME: ${{ secrets.DOCKER_USERNAME }}
-            PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-            IMAGE_NAME: ${{ github.repository }}
             NODE_VERSION: 14.16.0
             SPRING_OUTPUT_ANSI_ENABLED: DETECT
             SPRING_JPA_SHOW_SQL: false
@@ -26,12 +19,14 @@ jobs:
               with:
                   java-version: '11.x'
 
-#            - name: Package application
-#              run: |
-#                  chmod +x mvnw
-#                  ./mvnw -Pprod -ntp package -DskipTests --batch-mode
+            - name: Package application
+              run: |
+                  chmod +x mvnw
+                  ./mvnw -Pprod -ntp package -DskipTests --batch-mode
 
             - name: Build and publish docker image
+              if: github.event_name == 'push' && (github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/'))
               run: |
-                chmod +x mvnw
-                ./mvnw -ntp compile -DskipTests jib:build -Djib.to.image=dashasan/boardupdates:latest  -Djib.to.auth.username=${{ env.USERNAME }} -Djib.to.auth.password=${{ env.PASSWORD }}
+                  GIT_TAG=:${GITHUB_REF#refs/tags/}
+                  DOCKER_TAG=${GIT_TAG#:refs/heads/master}
+                  ./mvnw -ntp jib:build -Djib.to.image=ghcr.io/dashasan/board-updates:latest -Djib.to.auth.username="${{ secrets.DOCKER_USERNAME }}" -Djib.to.auth.password="${{ secrets.DOCKER_PASSWORD }}"

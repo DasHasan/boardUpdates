@@ -1,0 +1,18 @@
+<div>
+  <h2 id="page-heading">
+    <span>Request-Example</span>
+  </h2>
+
+  <pre><code>curl -X POST --location "{{currentHost}}/search/software" \
+  -H "Content-Type: application/json" \
+  -d "{{ "{" }}
+    \"serial\": \"{{requestBody.serial}}\",
+    \"version\": \"{{requestBody.version}}\",
+    \"status\": \"{{requestBody.status}}\",
+    \"firmware\": \"{{requestBody.firmware}}\",
+    \"software\": \"{{requestBody.software}}\",
+    \"updateKeys\": [
+    {{requestBody.updateKeys.join(", ")}}
+    ]
+  }"</code></pre>
+</div>

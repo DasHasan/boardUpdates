@@ -41,7 +41,7 @@ public class BoardUpdateEntity extends AbstractAuditingEntity implements Seriali
     private String status = "";
 
     @OneToMany(mappedBy = "boardUpdate", cascade = CascadeType.REMOVE)
-    @Cache(usage = CacheConcurrencyStrategy.NONE) // fix entity changes
+//    @Cache(usage = CacheConcurrencyStrategy.NONE) // fix entity changes
     @JsonIgnoreProperties(value = { "boardUpdate" }, allowSetters = true)
     private Set<UpdateKeysEntity> updateKeys = new HashSet<>();
 

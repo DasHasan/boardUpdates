@@ -6,6 +6,8 @@ import { isPresent } from 'app/core/util/operators';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
 import { IUpdateKeys, getUpdateKeysIdentifier } from '../update-keys.model';
+import {EventManager, EventWithContent} from "app/core/util/event-manager.service";
+import {tap} from "rxjs/operators";
 
 export type EntityResponseType = HttpResponse<IUpdateKeys>;
 export type EntityArrayResponseType = HttpResponse<IUpdateKeys[]>;
@@ -14,7 +16,8 @@ export type EntityArrayResponseType = HttpResponse<IUpdateKeys[]>;
 export class UpdateKeysService {
   public resourceUrl = this.applicationConfigService.getEndpointFor('api/update-keys');
 
-  constructor(protected http: HttpClient, private applicationConfigService: ApplicationConfigService) {}
+  constructor(protected http: HttpClient, private applicationConfigService: ApplicationConfigService,
+              private eventManager: EventManager) {}
 
   create(updateKeys: IUpdateKeys): Observable<EntityResponseType> {
     return this.http.post<IUpdateKeys>(this.resourceUrl, updateKeys, { observe: 'response' });
@@ -42,7 +45,8 @@ export class UpdateKeysService {
   }
 
   delete(id: number): Observable<HttpResponse<{}>> {
-    return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
+    return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' })
+      .pipe(tap(() => this.eventManager.broadcast(new EventWithContent('updateKeys.delete', id))));
   }
 
   addUpdateKeysToCollectionIfMissing(
