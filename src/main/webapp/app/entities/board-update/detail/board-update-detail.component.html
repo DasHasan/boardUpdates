@@ -42,6 +42,8 @@
         </dd>
       </dl>
 
+      <jhi-download-url [boardUpdateId]="boardUpdate.id"></jhi-download-url>
+
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
         <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
       </button>
@@ -53,6 +55,10 @@
       <button type="button" class="btn btn-primary" (click)="download()">
         <fa-icon icon="download"></fa-icon>&nbsp;Update&nbsp;<span jhiTranslate="entity.action.download">Download</span>
       </button>
+
+      <div>
+        <h2>Vorbedingungen für dieses Update</h2>
+      </div>
 
       <jhi-update-keys [boardUpdate]="boardUpdate"></jhi-update-keys>
 
@@ -73,8 +79,6 @@
 <!--    ]-->
 <!--  }"</code></pre>-->
 <!--      </div>-->
-
-      <jhi-download-url [boardUpdateId]="boardUpdate.id"></jhi-download-url>
 
 <!--      <jhi-board-update-successor [boardUpdateId]="boardUpdate.id"></jhi-board-update-successor>-->
     </div>
