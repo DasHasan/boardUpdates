@@ -1,0 +1,11 @@
+{
+  "fields": [],
+  "relationships": [],
+  "service": "serviceClass",
+  "dto": "no",
+  "jpaMetamodelFiltering": false,
+  "readOnly": false,
+  "pagination": "no",
+  "name": "UpdatePrecondition",
+  "changelogDate": "20220408065120"
+}

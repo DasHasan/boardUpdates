@@ -34,6 +34,11 @@ import { RouterModule } from '@angular/router';
         data: { pageTitle: 'boardUpdatesApp.downloadUrl.home.title' },
         loadChildren: () => import('./download-url/download-url.module').then(m => m.DownloadUrlModule),
       },
+      {
+        path: 'update-precondition',
+        data: { pageTitle: 'boardUpdatesApp.updatePrecondition.home.title' },
+        loadChildren: () => import('./update-precondition/update-precondition.module').then(m => m.UpdatePreconditionModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],

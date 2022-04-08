@@ -1,0 +1,23 @@
+{
+  "boardUpdatesApp": {
+    "updatePrecondition": {
+      "home": {
+        "title": "Update Preconditions",
+        "refreshListLabel": "Liste aktualisieren",
+        "createLabel": "Update Precondition erstellen",
+        "createOrEditLabel": "Update Precondition erstellen oder bearbeiten",
+        "notFound": "Keine Update Preconditions gefunden"
+      },
+      "created": "Update Precondition erstellt mit ID {{ param }}",
+      "updated": "Update Precondition aktualisiert mit ID {{ param }}",
+      "deleted": "Update Precondition gelöscht mit ID {{ param }}",
+      "delete": {
+        "question": "Soll Update Precondition {{ id }} wirklich dauerhaft gelöscht werden?"
+      },
+      "detail": {
+        "title": "Update Precondition"
+      },
+      "id": "ID"
+    }
+  }
+}

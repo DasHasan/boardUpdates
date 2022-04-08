@@ -30,7 +30,7 @@
         <a class="nav-link" routerLink="board-update" (click)="collapseNavbar()">
           <span>
             <fa-icon icon="asterisk"></fa-icon>
-          <span jhiTranslate="global.menu.entities.boardUpdate">Board Update</span>
+            <span jhiTranslate="global.menu.entities.boardUpdate">Board Update</span>
           </span>
         </a>
       </li>
@@ -128,6 +128,18 @@
             >
               <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
               <span jhiTranslate="global.menu.entities.downloadUrl">Download Url</span>
+            </a>
+          </li>
+          <li>
+            <a
+              class="dropdown-item"
+              routerLink="update-precondition"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+              (click)="collapseNavbar()"
+            >
+              <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+              <span jhiTranslate="global.menu.entities.updatePrecondition">Update Precondition</span>
             </a>
           </li>
           <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
