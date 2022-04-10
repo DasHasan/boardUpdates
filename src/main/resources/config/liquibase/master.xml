@@ -27,6 +27,7 @@
     <include file="config/liquibase/changelog/20211012153951_added_entity_constraints_UpdateKeys.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20211127181215_added_entity_constraints_BoardUpdateSuccessor.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20211201154502_added_entity_constraints_DownloadUrl.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20220408065120_added_entity_constraints_UpdatePrecondition.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
     <!-- jhipster-needle-liquibase-add-incremental-changelog - JHipster will add incremental liquibase changelogs here -->
 </databaseChangeLog>

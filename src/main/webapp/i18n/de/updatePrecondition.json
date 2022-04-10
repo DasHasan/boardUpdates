@@ -17,7 +17,8 @@
       "detail": {
         "title": "Update Precondition"
       },
-      "id": "ID"
+      "id": "ID",
+      "boardUpdate": "Board Update"
     }
   }
 }

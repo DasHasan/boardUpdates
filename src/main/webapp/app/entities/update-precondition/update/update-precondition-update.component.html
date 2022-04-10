@@ -16,6 +16,23 @@
           <label class="form-control-label" jhiTranslate="global.field.id" for="field_id">ID</label>
           <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
         </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="boardUpdatesApp.updatePrecondition.boardUpdate" for="field_boardUpdate"
+            >Board Update</label
+          >
+          <select class="form-control" id="field_boardUpdate" data-cy="boardUpdate" name="boardUpdate" formControlName="boardUpdate">
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="
+                boardUpdateOption.id === editForm.get('boardUpdate')!.value?.id ? editForm.get('boardUpdate')!.value : boardUpdateOption
+              "
+              *ngFor="let boardUpdateOption of boardUpdatesSharedCollection; trackBy: trackBoardUpdateById"
+            >
+              {{ boardUpdateOption.id }}
+            </option>
+          </select>
+        </div>
       </div>
 
       <div>

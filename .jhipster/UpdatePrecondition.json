@@ -1,6 +1,13 @@
 {
   "fields": [],
-  "relationships": [],
+  "relationships": [
+    {
+      "relationshipName": "boardUpdate",
+      "otherEntityName": "boardUpdate",
+      "relationshipType": "many-to-one",
+      "otherEntityField": "id"
+    }
+  ],
   "service": "serviceClass",
   "dto": "no",
   "jpaMetamodelFiltering": false,

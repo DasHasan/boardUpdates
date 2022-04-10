@@ -1,5 +1,6 @@
 package lwi.vision.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import javax.persistence.*;
 import org.hibernate.annotations.Cache;
@@ -19,6 +20,10 @@ public class UpdatePreconditionEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne
+    @JsonIgnoreProperties(value = { "updateKeys", "board" }, allowSetters = true)
+    private BoardUpdateEntity boardUpdate;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
         return id;
@@ -31,6 +36,19 @@ public class UpdatePreconditionEntity implements Serializable {
     public UpdatePreconditionEntity id(Long id) {
         this.id = id;
         return this;
+    }
+
+    public BoardUpdateEntity getBoardUpdate() {
+        return this.boardUpdate;
+    }
+
+    public UpdatePreconditionEntity boardUpdate(BoardUpdateEntity boardUpdate) {
+        this.setBoardUpdate(boardUpdate);
+        return this;
+    }
+
+    public void setBoardUpdate(BoardUpdateEntity boardUpdate) {
+        this.boardUpdate = boardUpdate;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
