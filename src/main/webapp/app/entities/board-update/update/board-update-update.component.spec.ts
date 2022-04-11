@@ -46,10 +46,10 @@ describe('Component Tests', () => {
     describe('ngOnInit', () => {
       it('Should call updatePrecondition query and add missing value', () => {
         const boardUpdate: IBoardUpdate = { id: 456 };
-        const updatePrecondition: IUpdatePrecondition = { id: 1056 };
+        const updatePrecondition: IUpdatePrecondition = { id: 27072 };
         boardUpdate.updatePrecondition = updatePrecondition;
 
-        const updatePreconditionCollection: IUpdatePrecondition[] = [{ id: 47947 }];
+        const updatePreconditionCollection: IUpdatePrecondition[] = [{ id: 24941 }];
         spyOn(updatePreconditionService, 'query').and.returnValue(of(new HttpResponse({ body: updatePreconditionCollection })));
         const expectedCollection: IUpdatePrecondition[] = [updatePrecondition, ...updatePreconditionCollection];
         spyOn(updatePreconditionService, 'addUpdatePreconditionToCollectionIfMissing').and.returnValue(expectedCollection);
@@ -85,7 +85,7 @@ describe('Component Tests', () => {
 
       it('Should update editForm', () => {
         const boardUpdate: IBoardUpdate = { id: 456 };
-        const updatePrecondition: IUpdatePrecondition = { id: 18278 };
+        const updatePrecondition: IUpdatePrecondition = { id: 90808 };
         boardUpdate.updatePrecondition = updatePrecondition;
         const downloadUrl: IDownloadUrl = { id: 58458 };
         boardUpdate.downloadUrl = downloadUrl;

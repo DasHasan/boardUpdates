@@ -1,0 +1,42 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="updateVersionPrecondition">
+      <h2 data-cy="updateVersionPreconditionDetailsHeading">
+        <span jhiTranslate="boardUpdatesApp.updateVersionPrecondition.detail.title">Update Version Precondition</span>
+      </h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ updateVersionPrecondition.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="boardUpdatesApp.updateVersionPrecondition.version">Version</span></dt>
+        <dd>
+          <span>{{ updateVersionPrecondition.version }}</span>
+        </dd>
+        <dt><span jhiTranslate="boardUpdatesApp.updateVersionPrecondition.updatePrecondition">Update Precondition</span></dt>
+        <dd>
+          <div *ngIf="updateVersionPrecondition.updatePrecondition">
+            <a [routerLink]="['/update-precondition', updateVersionPrecondition.updatePrecondition?.id, 'view']">{{
+              updateVersionPrecondition.updatePrecondition?.id
+            }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/update-version-precondition', updateVersionPrecondition.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

@@ -11,11 +11,10 @@
         "board": "Board",
         "boardUpdate": "Updates",
         "updateKeys": "Update Keys",
-        "boardUpdateSuccessor": "Board Update Successors",
         "downloadUrl": "Download Url",
         "updatePrecondition": "Update Vorbedingung",
+        "updateVersionPrecondition": "Update Version Precondition",
         "boardUpdate": "Board Update",
-        "boardUpdateSuccessor": "Board Update Successor",
         "updatePrecondition": "Update Precondition",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },

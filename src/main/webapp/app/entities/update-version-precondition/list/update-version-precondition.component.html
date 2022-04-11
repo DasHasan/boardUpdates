@@ -1,0 +1,86 @@
+<div>
+  <h2 id="page-heading" data-cy="UpdateVersionPreconditionHeading">
+    <span jhiTranslate="boardUpdatesApp.updateVersionPrecondition.home.title">Update Version Preconditions</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="boardUpdatesApp.updateVersionPrecondition.home.refreshListLabel">Refresh List</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-update-version-precondition"
+        [routerLink]="['/update-version-precondition/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="boardUpdatesApp.updateVersionPrecondition.home.createLabel"> Create a new Update Version Precondition </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="updateVersionPreconditions?.length === 0">
+    <span jhiTranslate="boardUpdatesApp.updateVersionPrecondition.home.notFound">No updateVersionPreconditions found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="updateVersionPreconditions && updateVersionPreconditions.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr>
+          <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
+          <th scope="col"><span jhiTranslate="boardUpdatesApp.updateVersionPrecondition.version">Version</span></th>
+          <th scope="col"><span jhiTranslate="boardUpdatesApp.updateVersionPrecondition.updatePrecondition">Update Precondition</span></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let updateVersionPrecondition of updateVersionPreconditions; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/update-version-precondition', updateVersionPrecondition.id, 'view']">{{ updateVersionPrecondition.id }}</a>
+          </td>
+          <td>{{ updateVersionPrecondition.version }}</td>
+          <td>
+            <div *ngIf="updateVersionPrecondition.updatePrecondition">
+              <a [routerLink]="['/update-precondition', updateVersionPrecondition.updatePrecondition?.id, 'view']">{{
+                updateVersionPrecondition.updatePrecondition?.id
+              }}</a>
+            </div>
+          </td>
+          <td class="text-right">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/update-version-precondition', updateVersionPrecondition.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/update-version-precondition', updateVersionPrecondition.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(updateVersionPrecondition)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

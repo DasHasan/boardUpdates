@@ -1,0 +1,23 @@
+{
+  "fields": [
+    {
+      "fieldName": "version",
+      "fieldType": "String"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipName": "updatePrecondition",
+      "otherEntityName": "updatePrecondition",
+      "relationshipType": "many-to-one",
+      "otherEntityField": "id"
+    }
+  ],
+  "service": "serviceClass",
+  "dto": "no",
+  "jpaMetamodelFiltering": false,
+  "readOnly": false,
+  "pagination": "no",
+  "name": "UpdateVersionPrecondition",
+  "changelogDate": "20220411114724"
+}

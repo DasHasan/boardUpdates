@@ -37,11 +37,11 @@
     "reactive": false,
     "skipServer": false,
     "entitySuffix": "Entity",
-    "entities": ["Group", "Board", "BoardUpdate", "UpdateKeys", "BoardUpdateSuccessor", "DownloadUrl", "UpdatePrecondition"],
+    "entities": ["Group", "Board", "BoardUpdate", "UpdateKeys", "DownloadUrl", "UpdatePrecondition", "UpdateVersionPrecondition"],
     "clientThemeVariant": "",
     "skipCheckLengthOfIdentifier": false,
     "skipFakeData": false,
     "pages": [],
-    "lastLiquibaseTimestamp": 1649400680000
+    "lastLiquibaseTimestamp": 1649677644000
   }
 }

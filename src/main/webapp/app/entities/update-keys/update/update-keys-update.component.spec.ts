@@ -42,10 +42,10 @@ describe('Component Tests', () => {
     describe('ngOnInit', () => {
       it('Should call UpdatePrecondition query and add missing value', () => {
         const updateKeys: IUpdateKeys = { id: 456 };
-        const updatePrecondition: IUpdatePrecondition = { id: 27072 };
+        const updatePrecondition: IUpdatePrecondition = { id: 14589 };
         updateKeys.updatePrecondition = updatePrecondition;
 
-        const updatePreconditionCollection: IUpdatePrecondition[] = [{ id: 24941 }];
+        const updatePreconditionCollection: IUpdatePrecondition[] = [{ id: 68815 }];
         spyOn(updatePreconditionService, 'query').and.returnValue(of(new HttpResponse({ body: updatePreconditionCollection })));
         const additionalUpdatePreconditions = [updatePrecondition];
         const expectedCollection: IUpdatePrecondition[] = [...additionalUpdatePreconditions, ...updatePreconditionCollection];
@@ -64,7 +64,7 @@ describe('Component Tests', () => {
 
       it('Should update editForm', () => {
         const updateKeys: IUpdateKeys = { id: 456 };
-        const updatePrecondition: IUpdatePrecondition = { id: 90808 };
+        const updatePrecondition: IUpdatePrecondition = { id: 71193 };
         updateKeys.updatePrecondition = updatePrecondition;
 
         activatedRoute.data = of({ updateKeys });
