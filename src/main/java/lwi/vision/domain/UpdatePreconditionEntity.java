@@ -2,6 +2,8 @@ package lwi.vision.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -23,6 +25,11 @@ public class UpdatePreconditionEntity implements Serializable {
     @ManyToOne
     @JsonIgnoreProperties(value = { "updateKeys", "board", "updatePrecondition" }, allowSetters = true)
     private BoardUpdateEntity boardUpdate;
+
+    @OneToMany(mappedBy = "updatePrecondition")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(value = { "boardUpdate", "updatePrecondition" }, allowSetters = true)
+    private Set<UpdateKeysEntity> updateKeys = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -49,6 +56,37 @@ public class UpdatePreconditionEntity implements Serializable {
 
     public void setBoardUpdate(BoardUpdateEntity boardUpdate) {
         this.boardUpdate = boardUpdate;
+    }
+
+    public Set<UpdateKeysEntity> getUpdateKeys() {
+        return this.updateKeys;
+    }
+
+    public UpdatePreconditionEntity updateKeys(Set<UpdateKeysEntity> updateKeys) {
+        this.setUpdateKeys(updateKeys);
+        return this;
+    }
+
+    public UpdatePreconditionEntity addUpdateKeys(UpdateKeysEntity updateKeys) {
+        this.updateKeys.add(updateKeys);
+        updateKeys.setUpdatePrecondition(this);
+        return this;
+    }
+
+    public UpdatePreconditionEntity removeUpdateKeys(UpdateKeysEntity updateKeys) {
+        this.updateKeys.remove(updateKeys);
+        updateKeys.setUpdatePrecondition(null);
+        return this;
+    }
+
+    public void setUpdateKeys(Set<UpdateKeysEntity> updateKeys) {
+        if (this.updateKeys != null) {
+            this.updateKeys.forEach(i -> i.setUpdatePrecondition(null));
+        }
+        if (updateKeys != null) {
+            updateKeys.forEach(i -> i.setUpdatePrecondition(this));
+        }
+        this.updateKeys = updateKeys;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

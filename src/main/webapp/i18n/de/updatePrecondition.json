@@ -18,7 +18,8 @@
         "title": "Update Precondition"
       },
       "id": "ID",
-      "boardUpdate": "Board Update"
+      "boardUpdate": "Board Update",
+      "updateKeys": "Update Keys"
     }
   }
 }
