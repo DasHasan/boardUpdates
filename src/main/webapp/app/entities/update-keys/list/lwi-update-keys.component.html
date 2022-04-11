@@ -1,5 +1,3 @@
-foo
-{{keys | json}}
 <div>
   <h2 id="page-heading" data-cy="UpdateKeysHeading">
     <span jhiTranslate="boardUpdatesApp.updateKeys.home.title">Update Keys</span>
@@ -15,6 +13,8 @@ foo
         data-cy="entityCreateButton"
         class="btn btn-primary jh-create-entity create-update-keys"
         [routerLink]="['/update-keys/new']"
+        [queryParams]="{updatePreconditionId: updatePrecondition.id}"
+        *ngIf="updatePrecondition"
       >
         <fa-icon icon="plus"></fa-icon>
         <span jhiTranslate="boardUpdatesApp.updateKeys.home.createLabel"> Create a new Update Keys </span>

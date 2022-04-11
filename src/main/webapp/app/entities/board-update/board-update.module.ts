@@ -9,10 +9,14 @@ import { BoardUpdateRoutingModule } from './route/board-update-routing.module';
 import {LwiBoardUpdateComponent} from "app/entities/board-update/list/lwi-board-update.component";
 import {LwiBoardUpdateDetailComponent} from "app/entities/board-update/detail/lwi-board-update-detail.component";
 import {UpdatePreconditionModule} from "app/entities/update-precondition/update-precondition.module";
+import {LwiBoardUpdateUpdateComponent} from "app/entities/board-update/update/lwi-board-update-update.component";
 
 @NgModule({
   imports: [SharedModule, BoardUpdateRoutingModule, UpdatePreconditionModule],
-  declarations: [BoardUpdateComponent, BoardUpdateDetailComponent, BoardUpdateUpdateComponent, BoardUpdateDeleteDialogComponent, LwiBoardUpdateComponent, LwiBoardUpdateDetailComponent],
+  declarations: [BoardUpdateComponent, BoardUpdateDetailComponent, BoardUpdateUpdateComponent, BoardUpdateDeleteDialogComponent,
+    LwiBoardUpdateComponent,
+    LwiBoardUpdateDetailComponent,
+    LwiBoardUpdateUpdateComponent],
   entryComponents: [BoardUpdateDeleteDialogComponent],
 })
 export class BoardUpdateModule {}

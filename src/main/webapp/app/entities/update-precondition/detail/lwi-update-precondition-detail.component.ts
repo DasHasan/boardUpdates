@@ -15,5 +15,7 @@ export class LwiUpdatePreconditionDetailComponent extends UpdatePreconditionDeta
   ngOnInit(): void {
     super.ngOnInit();
     this.updatePrecondition = this.precondition;
+    // eslint-disable-next-line no-console
+    console.log(this.updatePrecondition);
   }
 }

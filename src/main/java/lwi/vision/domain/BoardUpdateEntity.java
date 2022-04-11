@@ -38,8 +38,8 @@ public class BoardUpdateEntity implements Serializable {
     @Column(name = "status")
     private String status;
 
-    @JsonIgnoreProperties(value = { "boardUpdate", "updateKeys", "boards" }, allowSetters = true)
-    @OneToOne
+    @JsonIgnoreProperties(value = { "boardUpdate", "boards" }, allowSetters = true)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(unique = true)
     private UpdatePreconditionEntity updatePrecondition;
 

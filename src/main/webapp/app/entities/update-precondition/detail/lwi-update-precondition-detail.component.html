@@ -39,7 +39,6 @@
   </div>
 </div>
 
-<ng-container *ngIf="updatePrecondition && updatePrecondition.updateKeys">
-  {{updatePrecondition.updateKeys | json}}
-  <jhi-lwi-update-keys [keys]="updatePrecondition.updateKeys"></jhi-lwi-update-keys>
+<ng-container *ngIf="updatePrecondition">
+  <jhi-lwi-update-keys [updatePrecondition]="updatePrecondition"></jhi-lwi-update-keys>
 </ng-container>
