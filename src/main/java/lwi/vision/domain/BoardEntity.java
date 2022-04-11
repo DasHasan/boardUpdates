@@ -28,9 +28,9 @@ public class BoardEntity extends AbstractAuditingEntity implements Serializable 
     @Column(name = "version")
     private String version;
 
-@OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "updateKeys", "board" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "updateKeys", "board", "updatePrecondition" }, allowSetters = true)
     private Set<BoardUpdateEntity> boardUpdates = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

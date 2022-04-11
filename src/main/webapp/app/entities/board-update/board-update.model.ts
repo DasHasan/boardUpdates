@@ -1,6 +1,7 @@
 import * as dayjs from 'dayjs';
 import { IUpdateKeys } from 'app/entities/update-keys/update-keys.model';
 import { IBoard } from 'app/entities/board/board.model';
+import { IUpdatePrecondition } from 'app/entities/update-precondition/update-precondition.model';
 import { UpdateType } from 'app/entities/enumerations/update-type.model';
 
 export interface IBoardUpdate {
@@ -12,6 +13,7 @@ export interface IBoardUpdate {
   status?: string | null;
   updateKeys?: IUpdateKeys[] | null;
   board?: IBoard | null;
+  updatePrecondition?: IUpdatePrecondition | null;
 }
 
 export class BoardUpdate implements IBoardUpdate {
@@ -23,7 +25,8 @@ export class BoardUpdate implements IBoardUpdate {
     public releaseDate?: dayjs.Dayjs | null,
     public status?: string | null,
     public updateKeys?: IUpdateKeys[] | null,
-    public board?: IBoard | null
+    public board?: IBoard | null,
+    public updatePrecondition?: IUpdatePrecondition | null
   ) {}
 }
 

@@ -114,6 +114,15 @@ public class BoardUpdateQueryService extends QueryService<BoardUpdateEntity> {
                         )
                     );
             }
+            if (criteria.getUpdatePreconditionId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(
+                            criteria.getUpdatePreconditionId(),
+                            root -> root.join(BoardUpdateEntity_.updatePrecondition, JoinType.LEFT).get(UpdatePreconditionEntity_.id)
+                        )
+                    );
+            }
         }
         return specification;
     }

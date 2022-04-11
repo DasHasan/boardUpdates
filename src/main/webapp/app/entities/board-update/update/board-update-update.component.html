@@ -76,6 +76,31 @@
             </option>
           </select>
         </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="boardUpdatesApp.boardUpdate.updatePrecondition" for="field_updatePrecondition"
+            >Update Precondition</label
+          >
+          <select
+            class="form-control"
+            id="field_updatePrecondition"
+            data-cy="updatePrecondition"
+            name="updatePrecondition"
+            formControlName="updatePrecondition"
+          >
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="
+                updatePreconditionOption.id === editForm.get('updatePrecondition')!.value?.id
+                  ? editForm.get('updatePrecondition')!.value
+                  : updatePreconditionOption
+              "
+              *ngFor="let updatePreconditionOption of updatePreconditionsCollection; trackBy: trackUpdatePreconditionById"
+            >
+              {{ updatePreconditionOption.id }}
+            </option>
+          </select>
+        </div>
       </div>
 
       <div>

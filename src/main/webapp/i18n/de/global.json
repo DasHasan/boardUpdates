@@ -13,9 +13,7 @@
         "updateKeys": "Update Keys",
         "boardUpdateSuccessor": "Board Update Successors",
         "downloadUrl": "Download Url",
-        "boardUpdateSuccessor": "Board Update Successor",
         "updatePrecondition": "Update Vorbedingung",
-        "boardUpdate": "Board Update",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

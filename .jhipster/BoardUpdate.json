@@ -36,6 +36,15 @@
       "otherEntityRelationshipName": "boardUpdate",
       "relationshipName": "board",
       "otherEntityField": "serial"
+    },
+    {
+      "relationshipName": "updatePrecondition",
+      "otherEntityName": "updatePrecondition",
+      "relationshipType": "one-to-one",
+      "otherEntityField": "id",
+      "ownerSide": true,
+      "id": false,
+      "otherEntityRelationshipName": "update"
     }
   ],
   "entityTableName": "board_update",

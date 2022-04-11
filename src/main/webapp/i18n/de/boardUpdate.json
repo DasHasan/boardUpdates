@@ -24,7 +24,8 @@
       "releaseDate": "Release-Datum",
       "status": "Status",
       "updateKeys": "Update Keys",
-      "board": "Board"
+      "board": "Board",
+      "updatePrecondition": "Update Precondition"
     }
   }
 }

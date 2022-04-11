@@ -12,6 +12,8 @@ import { BoardUpdate, IBoardUpdate } from '../board-update.model';
 import { BoardUpdateService } from '../service/board-update.service';
 import { IBoard } from 'app/entities/board/board.model';
 import { BoardService } from 'app/entities/board/service/board.service';
+import { IUpdatePrecondition } from 'app/entities/update-precondition/update-precondition.model';
+import { UpdatePreconditionService } from 'app/entities/update-precondition/service/update-precondition.service';
 import { FileService } from 'app/shared/file.service';
 import { DownloadUrlService } from 'app/entities/download-url/service/download-url.service';
 import { DownloadUrl, IDownloadUrl } from 'app/entities/download-url/download-url.model';
@@ -24,6 +26,7 @@ export class BoardUpdateUpdateComponent implements OnInit {
   isSaving = false;
 
   boardsSharedCollection: IBoard[] = [];
+  updatePreconditionsCollection: IUpdatePrecondition[] = [];
 
   editForm = this.fb.group({
     id: [],
@@ -33,6 +36,7 @@ export class BoardUpdateUpdateComponent implements OnInit {
     releaseDate: [],
     status: [],
     board: [],
+    updatePrecondition: [],
   });
   boardUpdate?: BoardUpdate;
   private file: File | undefined;
@@ -41,6 +45,7 @@ export class BoardUpdateUpdateComponent implements OnInit {
     protected boardUpdateService: BoardUpdateService,
     protected downloadUrlService: DownloadUrlService,
     protected boardService: BoardService,
+    protected updatePreconditionService: UpdatePreconditionService,
     protected activatedRoute: ActivatedRoute,
     protected fb: FormBuilder,
     protected fileService: FileService
@@ -75,6 +80,10 @@ export class BoardUpdateUpdateComponent implements OnInit {
   }
 
   trackBoardById(index: number, item: IBoard): number {
+    return item.id!;
+  }
+
+  trackUpdatePreconditionById(index: number, item: IUpdatePrecondition): number {
     return item.id!;
   }
 
@@ -120,9 +129,14 @@ export class BoardUpdateUpdateComponent implements OnInit {
       releaseDate: boardUpdate.releaseDate ? boardUpdate.releaseDate.format(DATE_TIME_FORMAT) : null,
       status: boardUpdate.status,
       board: boardUpdate.board,
+      updatePrecondition: boardUpdate.updatePrecondition,
     });
 
     this.boardsSharedCollection = this.boardService.addBoardToCollectionIfMissing(this.boardsSharedCollection, boardUpdate.board);
+    this.updatePreconditionsCollection = this.updatePreconditionService.addUpdatePreconditionToCollectionIfMissing(
+      this.updatePreconditionsCollection,
+      boardUpdate.updatePrecondition
+    );
   }
 
   protected loadRelationshipsOptions(): void {
@@ -131,6 +145,19 @@ export class BoardUpdateUpdateComponent implements OnInit {
       .pipe(map((res: HttpResponse<IBoard[]>) => res.body ?? []))
       .pipe(map((boards: IBoard[]) => this.boardService.addBoardToCollectionIfMissing(boards, this.editForm.get('board')!.value)))
       .subscribe((boards: IBoard[]) => (this.boardsSharedCollection = boards));
+
+    this.updatePreconditionService
+      .query({ filter: 'update-is-null' })
+      .pipe(map((res: HttpResponse<IUpdatePrecondition[]>) => res.body ?? []))
+      .pipe(
+        map((updatePreconditions: IUpdatePrecondition[]) =>
+          this.updatePreconditionService.addUpdatePreconditionToCollectionIfMissing(
+            updatePreconditions,
+            this.editForm.get('updatePrecondition')!.value
+          )
+        )
+      )
+      .subscribe((updatePreconditions: IUpdatePrecondition[]) => (this.updatePreconditionsCollection = updatePreconditions));
   }
 
   protected createFromForm(): IBoardUpdate {
@@ -145,6 +172,7 @@ export class BoardUpdateUpdateComponent implements OnInit {
         : undefined,
       status: this.editForm.get(['status'])!.value,
       board: this.editForm.get(['board'])!.value,
+      updatePrecondition: this.editForm.get(['updatePrecondition'])!.value,
     };
   }
 

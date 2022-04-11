@@ -40,6 +40,14 @@
             <a [routerLink]="['/board', boardUpdate.board?.id, 'view']">{{ boardUpdate.board?.serial }}</a>
           </div>
         </dd>
+        <dt><span jhiTranslate="boardUpdatesApp.boardUpdate.updatePrecondition">Update Precondition</span></dt>
+        <dd>
+          <div *ngIf="boardUpdate.updatePrecondition">
+            <a [routerLink]="['/update-precondition', boardUpdate.updatePrecondition?.id, 'view']">{{
+              boardUpdate.updatePrecondition?.id
+            }}</a>
+          </div>
+        </dd>
       </dl>
 
       <jhi-download-url [boardUpdateId]="boardUpdate.id"></jhi-download-url>
@@ -49,7 +57,7 @@
       </button>
 
       <button type="button" [routerLink]="['/board-update', boardUpdate.id, 'edit']" class="btn btn-primary">
-        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;Update&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
       </button>
 
       <button type="button" class="btn btn-primary" (click)="download()">

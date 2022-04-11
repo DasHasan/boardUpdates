@@ -28,7 +28,7 @@ public class DownloadUrlEntity implements Serializable {
     @Column(name = "url")
     private String url = UUID.randomUUID().toString();
 
-    @JsonIgnoreProperties(value = { "updateKeys", "board" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "updateKeys", "board", "updatePrecondition" }, allowSetters = true)
     @OneToOne
     @JoinColumn(unique = true)
     private BoardUpdateEntity boardUpdate;

@@ -42,6 +42,7 @@
           <th scope="col"><span jhiTranslate="boardUpdatesApp.boardUpdate.releaseDate">Release Date</span></th>
           <th scope="col"><span jhiTranslate="boardUpdatesApp.boardUpdate.status">Status</span></th>
           <th scope="col" [classList]="board ? 'hidden' : ''"><span jhiTranslate="boardUpdatesApp.boardUpdate.board">Board</span></th>
+          <th scope="col"><span jhiTranslate="boardUpdatesApp.boardUpdate.updatePrecondition">Update Precondition</span></th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -58,6 +59,13 @@
           <td [classList]="board ? 'hidden' : ''">
             <div *ngIf="boardUpdate.board">
               <a [routerLink]="['/board', boardUpdate.board?.id, 'view']">{{ boardUpdate.board?.serial }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="boardUpdate.updatePrecondition">
+              <a [routerLink]="['/update-precondition', boardUpdate.updatePrecondition?.id, 'view']">{{
+                boardUpdate.updatePrecondition?.id
+              }}</a>
             </div>
           </td>
           <td class="text-right">

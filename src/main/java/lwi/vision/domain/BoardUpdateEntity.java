@@ -1,14 +1,15 @@
 package lwi.vision.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lwi.vision.domain.enumeration.UpdateType;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Set;
-import javax.persistence.*;
-import lwi.vision.domain.enumeration.UpdateType;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * A BoardUpdateEntity.
@@ -49,13 +50,10 @@ public class BoardUpdateEntity extends AbstractAuditingEntity implements Seriali
     @JsonIgnoreProperties(value = { "boardUpdates" }, allowSetters = true)
     private BoardEntity board;
 
-    @OneToOne(mappedBy = "from", cascade = CascadeType.REMOVE)
-    @JsonIgnoreProperties(value = { "from", "to" }, allowSetters = true)
-    private BoardUpdateSuccessorEntity updateSuccessorFrom;
-
-    @OneToOne(mappedBy = "to", cascade = CascadeType.REMOVE)
-    @JsonIgnoreProperties(value = { "from", "to" }, allowSetters = true)
-    private BoardUpdateSuccessorEntity updateSuccessorTo;
+    @JsonIgnoreProperties(value = { "boardUpdate" }, allowSetters = true)
+    @OneToOne
+    @JoinColumn(unique = true)
+    private UpdatePreconditionEntity updatePrecondition;
 
     @OneToOne(mappedBy = "boardUpdate", cascade = CascadeType.REMOVE)
     @JsonIgnoreProperties(value = { "boardUpdate" }, allowSetters = true)
@@ -184,20 +182,17 @@ public class BoardUpdateEntity extends AbstractAuditingEntity implements Seriali
         this.board = board;
     }
 
-    public BoardUpdateSuccessorEntity getUpdateSuccessorFrom() {
-        return updateSuccessorFrom;
+    public UpdatePreconditionEntity getUpdatePrecondition() {
+        return this.updatePrecondition;
     }
 
-    public void setUpdateSuccessorFrom(BoardUpdateSuccessorEntity boardUpdateSuccessorFrom) {
-        this.updateSuccessorFrom = boardUpdateSuccessorFrom;
+    public BoardUpdateEntity updatePrecondition(UpdatePreconditionEntity updatePrecondition) {
+        this.setUpdatePrecondition(updatePrecondition);
+        return this;
     }
 
-    public BoardUpdateSuccessorEntity getUpdateSuccessorTo() {
-        return updateSuccessorTo;
-    }
-
-    public void setUpdateSuccessorTo(BoardUpdateSuccessorEntity updateSuccessorTo) {
-        this.updateSuccessorTo = updateSuccessorTo;
+    public void setUpdatePrecondition(UpdatePreconditionEntity updatePrecondition) {
+        this.updatePrecondition = updatePrecondition;
     }
 
     public DownloadUrlEntity getDownloadUrlEntity() {
@@ -227,7 +222,6 @@ public class BoardUpdateEntity extends AbstractAuditingEntity implements Seriali
         return getClass().hashCode();
     }
 
-    // prettier-ignore
     @Override
     public String toString() {
         return "BoardUpdateEntity{" +
@@ -239,7 +233,7 @@ public class BoardUpdateEntity extends AbstractAuditingEntity implements Seriali
             ", status='" + status + '\'' +
             ", updateKeys=" + updateKeys +
             ", board=" + board +
-            ", updateSuccessor=" + updateSuccessorFrom +
+            ", updatePrecondition=" + updatePrecondition +
             ", downloadUrlEntity=" + downloadUrlEntity +
             '}';
     }
