@@ -43,7 +43,7 @@ public class BoardUpdateEntity extends AbstractAuditingEntity implements Seriali
 
     @OneToMany(mappedBy = "boardUpdate", cascade = CascadeType.REMOVE)
     @Cache(usage = CacheConcurrencyStrategy.NONE) // fix entity changes
-    @JsonIgnoreProperties(value = { "boardUpdate" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "boardUpdate", "updatePrecondition" }, allowSetters = true)
     private Set<UpdateKeysEntity> updateKeys = new HashSet<>();
 
     @ManyToOne

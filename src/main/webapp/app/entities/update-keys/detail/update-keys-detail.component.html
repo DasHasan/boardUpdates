@@ -24,6 +24,14 @@
             <a [routerLink]="['/board-update', updateKeys.boardUpdate?.id, 'view']">{{ updateKeys.boardUpdate?.id }}</a>
           </div>
         </dd>
+        <dt><span jhiTranslate="boardUpdatesApp.updateKeys.updatePrecondition">Update Precondition</span></dt>
+        <dd>
+          <div *ngIf="updateKeys.updatePrecondition">
+            <a [routerLink]="['/update-precondition', updateKeys.updatePrecondition?.id, 'view']">{{
+              updateKeys.updatePrecondition?.id
+            }}</a>
+          </div>
+        </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

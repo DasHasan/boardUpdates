@@ -27,6 +27,10 @@ public class UpdateKeysEntity extends AbstractAuditingEntity implements Serializ
     @JsonIgnoreProperties(value = { "updateKeys", "board", "updatePrecondition" }, allowSetters = true)
     private BoardUpdateEntity boardUpdate;
 
+    @ManyToOne
+    @JsonIgnoreProperties(value = { "boardUpdate" }, allowSetters = true)
+    private UpdatePreconditionEntity updatePrecondition;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
         return id;
@@ -65,6 +69,19 @@ public class UpdateKeysEntity extends AbstractAuditingEntity implements Serializ
 
     public void setBoardUpdate(BoardUpdateEntity boardUpdate) {
         this.boardUpdate = boardUpdate;
+    }
+
+    public UpdatePreconditionEntity getUpdatePrecondition() {
+        return this.updatePrecondition;
+    }
+
+    public UpdateKeysEntity updatePrecondition(UpdatePreconditionEntity updatePrecondition) {
+        this.setUpdatePrecondition(updatePrecondition);
+        return this;
+    }
+
+    public void setUpdatePrecondition(UpdatePreconditionEntity updatePrecondition) {
+        this.updatePrecondition = updatePrecondition;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

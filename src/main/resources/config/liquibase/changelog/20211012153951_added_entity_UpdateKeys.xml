@@ -20,6 +20,9 @@
             <column name="board_update_id" type="bigint">
                 <constraints nullable="true" />
             </column>
+            <column name="update_precondition_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
             <column name="created_by" type="varchar(50)"/>
             <column name="created_date" type="timestamp"/>
             <column name="last_modified_by" type="varchar(50)"/>

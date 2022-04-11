@@ -11,6 +11,12 @@
       "otherEntityName": "boardUpdate",
       "otherEntityRelationshipName": "updateKeys",
       "relationshipName": "boardUpdate"
+    },
+    {
+      "relationshipName": "updatePrecondition",
+      "otherEntityName": "updatePrecondition",
+      "relationshipType": "many-to-one",
+      "otherEntityField": "id"
     }
   ],
   "service": "serviceClass",

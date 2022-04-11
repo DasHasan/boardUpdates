@@ -19,7 +19,8 @@
       },
       "id": "ID",
       "key": "Key",
-      "boardUpdate": "Board Update"
+      "boardUpdate": "Board Update",
+      "updatePrecondition": "Update Precondition"
     }
   }
 }

@@ -37,7 +37,8 @@
         <tr>
           <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
           <th scope="col"><span jhiTranslate="boardUpdatesApp.updateKeys.key">Key</span></th>
-          <!--          <th scope="col"><span jhiTranslate="boardUpdatesApp.updateKeys.boardUpdate">Board Update</span></th>-->
+          <th scope="col"><span jhiTranslate="boardUpdatesApp.updateKeys.boardUpdate">Board Update</span></th>
+          <th scope="col"><span jhiTranslate="boardUpdatesApp.updateKeys.updatePrecondition">Update Precondition</span></th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -47,11 +48,18 @@
             <a [routerLink]="['/update-keys', updateKeys.id, 'view']">{{ updateKeys.id }}</a>
           </td>
           <td>{{ updateKeys.key }}</td>
-          <!--          <td>-->
-          <!--            <div *ngIf="updateKeys.boardUpdate">-->
-          <!--              <a [routerLink]="['/board-update', updateKeys.boardUpdate?.id, 'view']">{{ updateKeys.boardUpdate?.id }}</a>-->
-          <!--            </div>-->
-          <!--          </td>-->
+          <td>
+            <div *ngIf="updateKeys.boardUpdate">
+              <a [routerLink]="['/board-update', updateKeys.boardUpdate?.id, 'view']">{{ updateKeys.boardUpdate?.id }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="updateKeys.updatePrecondition">
+              <a [routerLink]="['/update-precondition', updateKeys.updatePrecondition?.id, 'view']">{{
+                updateKeys.updatePrecondition?.id
+              }}</a>
+            </div>
+          </td>
           <td class="text-right">
             <div class="btn-group">
               <button
