@@ -32,6 +32,8 @@ public class BoardCriteria implements Serializable, Criteria {
 
     private LongFilter boardUpdateId;
 
+    private LongFilter updatePreconditionId;
+
     public BoardCriteria() {}
 
     public BoardCriteria(BoardCriteria other) {
@@ -39,6 +41,7 @@ public class BoardCriteria implements Serializable, Criteria {
         this.serial = other.serial == null ? null : other.serial.copy();
         this.version = other.version == null ? null : other.version.copy();
         this.boardUpdateId = other.boardUpdateId == null ? null : other.boardUpdateId.copy();
+        this.updatePreconditionId = other.updatePreconditionId == null ? null : other.updatePreconditionId.copy();
     }
 
     @Override
@@ -106,6 +109,21 @@ public class BoardCriteria implements Serializable, Criteria {
         this.boardUpdateId = boardUpdateId;
     }
 
+    public LongFilter getUpdatePreconditionId() {
+        return updatePreconditionId;
+    }
+
+    public LongFilter updatePreconditionId() {
+        if (updatePreconditionId == null) {
+            updatePreconditionId = new LongFilter();
+        }
+        return updatePreconditionId;
+    }
+
+    public void setUpdatePreconditionId(LongFilter updatePreconditionId) {
+        this.updatePreconditionId = updatePreconditionId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -119,13 +137,14 @@ public class BoardCriteria implements Serializable, Criteria {
             Objects.equals(id, that.id) &&
             Objects.equals(serial, that.serial) &&
             Objects.equals(version, that.version) &&
-            Objects.equals(boardUpdateId, that.boardUpdateId)
+            Objects.equals(boardUpdateId, that.boardUpdateId) &&
+            Objects.equals(updatePreconditionId, that.updatePreconditionId)
         );
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, serial, version, boardUpdateId);
+        return Objects.hash(id, serial, version, boardUpdateId, updatePreconditionId);
     }
 
     // prettier-ignore
@@ -136,6 +155,7 @@ public class BoardCriteria implements Serializable, Criteria {
             (serial != null ? "serial=" + serial + ", " : "") +
             (version != null ? "version=" + version + ", " : "") +
             (boardUpdateId != null ? "boardUpdateId=" + boardUpdateId + ", " : "") +
+            (updatePreconditionId != null ? "updatePreconditionId=" + updatePreconditionId + ", " : "") +
             "}";
     }
 }

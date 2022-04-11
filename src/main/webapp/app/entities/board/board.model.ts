@@ -1,10 +1,12 @@
 import { IBoardUpdate } from 'app/entities/board-update/board-update.model';
+import { IUpdatePrecondition } from 'app/entities/update-precondition/update-precondition.model';
 
 export interface IBoard {
   id?: number;
   serial?: string | null;
   version?: string | null;
   boardUpdates?: IBoardUpdate[] | null;
+  updatePrecondition?: IUpdatePrecondition | null;
 }
 
 export class Board implements IBoard {
@@ -12,7 +14,8 @@ export class Board implements IBoard {
     public id?: number,
     public serial?: string | null,
     public version?: string | null,
-    public boardUpdates?: IBoardUpdate[] | null
+    public boardUpdates?: IBoardUpdate[] | null,
+    public updatePrecondition?: IUpdatePrecondition | null
   ) {}
 }
 

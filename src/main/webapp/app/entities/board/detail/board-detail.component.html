@@ -22,9 +22,13 @@
         <dd>
           <span>{{ board.version }}</span>
         </dd>
+        <dt><span jhiTranslate="boardUpdatesApp.board.updatePrecondition">Update Precondition</span></dt>
+        <dd>
+          <div *ngIf="board.updatePrecondition">
+            <a [routerLink]="['/update-precondition', board.updatePrecondition?.id, 'view']">{{ board.updatePrecondition?.id }}</a>
+          </div>
+        </dd>
       </dl>
-
-      <jhi-board-update-list [board]="board"></jhi-board-update-list>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
         <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>

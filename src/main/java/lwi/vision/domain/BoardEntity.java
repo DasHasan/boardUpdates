@@ -28,10 +28,14 @@ public class BoardEntity extends AbstractAuditingEntity implements Serializable 
     @Column(name = "version")
     private String version;
 
-    @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "board")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "updateKeys", "board", "updatePrecondition" }, allowSetters = true)
     private Set<BoardUpdateEntity> boardUpdates = new HashSet<>();
+
+    @ManyToOne
+    @JsonIgnoreProperties(value = { "boardUpdate", "updateKeys" }, allowSetters = true)
+    private UpdatePreconditionEntity updatePrecondition;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -102,6 +106,19 @@ public class BoardEntity extends AbstractAuditingEntity implements Serializable 
             boardUpdates.forEach(i -> i.setBoard(this));
         }
         this.boardUpdates = boardUpdates;
+    }
+
+    public UpdatePreconditionEntity getUpdatePrecondition() {
+        return this.updatePrecondition;
+    }
+
+    public BoardEntity updatePrecondition(UpdatePreconditionEntity updatePrecondition) {
+        this.setUpdatePrecondition(updatePrecondition);
+        return this;
+    }
+
+    public void setUpdatePrecondition(UpdatePreconditionEntity updatePrecondition) {
+        this.updatePrecondition = updatePrecondition;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

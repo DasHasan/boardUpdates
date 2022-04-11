@@ -35,6 +35,7 @@
           <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
           <th scope="col"><span jhiTranslate="boardUpdatesApp.board.serial">Serial</span></th>
           <th scope="col"><span jhiTranslate="boardUpdatesApp.board.version">Version</span></th>
+          <th scope="col"><span jhiTranslate="boardUpdatesApp.board.updatePrecondition">Update Precondition</span></th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -45,6 +46,11 @@
           </td>
           <td>{{ board.serial }}</td>
           <td>{{ board.version }}</td>
+          <td>
+            <div *ngIf="board.updatePrecondition">
+              <a [routerLink]="['/update-precondition', board.updatePrecondition?.id, 'view']">{{ board.updatePrecondition?.id }}</a>
+            </div>
+          </td>
           <td class="text-right">
             <div class="btn-group">
               <button type="submit" [routerLink]="['/board', board.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">

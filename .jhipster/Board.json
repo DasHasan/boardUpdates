@@ -16,6 +16,12 @@
       "otherEntityName": "boardUpdate",
       "otherEntityRelationshipName": "board",
       "relationshipName": "boardUpdate"
+    },
+    {
+      "relationshipName": "updatePrecondition",
+      "otherEntityName": "updatePrecondition",
+      "relationshipType": "many-to-one",
+      "otherEntityField": "id"
     }
   ],
   "entityTableName": "board",
