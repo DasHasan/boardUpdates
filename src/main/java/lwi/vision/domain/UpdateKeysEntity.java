@@ -28,7 +28,7 @@ public class UpdateKeysEntity extends AbstractAuditingEntity implements Serializ
     private BoardUpdateEntity boardUpdate;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "boardUpdate", "updateKeys" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "boardUpdate", "updateKeys", "boards" }, allowSetters = true)
     private UpdatePreconditionEntity updatePrecondition;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

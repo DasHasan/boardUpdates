@@ -19,7 +19,8 @@
       },
       "id": "ID",
       "boardUpdate": "Board Update",
-      "updateKeys": "Update Keys"
+      "updateKeys": "Update Keys",
+      "boards": "Boards"
     }
   }
 }

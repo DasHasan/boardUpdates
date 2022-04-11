@@ -47,10 +47,10 @@ public class BoardUpdateEntity extends AbstractAuditingEntity implements Seriali
     private Set<UpdateKeysEntity> updateKeys = new HashSet<>();
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "boardUpdates" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "boardUpdates", "updatePrecondition" }, allowSetters = true)
     private BoardEntity board;
 
-    @JsonIgnoreProperties(value = { "boardUpdate" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "boardUpdate", "updateKeys", "boards" }, allowSetters = true)
     @OneToOne
     @JoinColumn(unique = true)
     private UpdatePreconditionEntity updatePrecondition;
