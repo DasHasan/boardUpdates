@@ -55,11 +55,9 @@ public class BoardUpdateCriteria implements Serializable, Criteria {
 
     private StringFilter status;
 
-    private LongFilter updateKeysId;
-
-    private LongFilter boardId;
-
     private LongFilter updatePreconditionId;
+
+    private LongFilter downloadUrlId;
 
     public BoardUpdateCriteria() {}
 
@@ -70,9 +68,8 @@ public class BoardUpdateCriteria implements Serializable, Criteria {
         this.type = other.type == null ? null : other.type.copy();
         this.releaseDate = other.releaseDate == null ? null : other.releaseDate.copy();
         this.status = other.status == null ? null : other.status.copy();
-        this.updateKeysId = other.updateKeysId == null ? null : other.updateKeysId.copy();
-        this.boardId = other.boardId == null ? null : other.boardId.copy();
         this.updatePreconditionId = other.updatePreconditionId == null ? null : other.updatePreconditionId.copy();
+        this.downloadUrlId = other.downloadUrlId == null ? null : other.downloadUrlId.copy();
     }
 
     @Override
@@ -170,36 +167,6 @@ public class BoardUpdateCriteria implements Serializable, Criteria {
         this.status = status;
     }
 
-    public LongFilter getUpdateKeysId() {
-        return updateKeysId;
-    }
-
-    public LongFilter updateKeysId() {
-        if (updateKeysId == null) {
-            updateKeysId = new LongFilter();
-        }
-        return updateKeysId;
-    }
-
-    public void setUpdateKeysId(LongFilter updateKeysId) {
-        this.updateKeysId = updateKeysId;
-    }
-
-    public LongFilter getBoardId() {
-        return boardId;
-    }
-
-    public LongFilter boardId() {
-        if (boardId == null) {
-            boardId = new LongFilter();
-        }
-        return boardId;
-    }
-
-    public void setBoardId(LongFilter boardId) {
-        this.boardId = boardId;
-    }
-
     public LongFilter getUpdatePreconditionId() {
         return updatePreconditionId;
     }
@@ -213,6 +180,21 @@ public class BoardUpdateCriteria implements Serializable, Criteria {
 
     public void setUpdatePreconditionId(LongFilter updatePreconditionId) {
         this.updatePreconditionId = updatePreconditionId;
+    }
+
+    public LongFilter getDownloadUrlId() {
+        return downloadUrlId;
+    }
+
+    public LongFilter downloadUrlId() {
+        if (downloadUrlId == null) {
+            downloadUrlId = new LongFilter();
+        }
+        return downloadUrlId;
+    }
+
+    public void setDownloadUrlId(LongFilter downloadUrlId) {
+        this.downloadUrlId = downloadUrlId;
     }
 
     @Override
@@ -231,15 +213,14 @@ public class BoardUpdateCriteria implements Serializable, Criteria {
             Objects.equals(type, that.type) &&
             Objects.equals(releaseDate, that.releaseDate) &&
             Objects.equals(status, that.status) &&
-            Objects.equals(updateKeysId, that.updateKeysId) &&
-            Objects.equals(boardId, that.boardId) &&
-            Objects.equals(updatePreconditionId, that.updatePreconditionId)
+            Objects.equals(updatePreconditionId, that.updatePreconditionId) &&
+            Objects.equals(downloadUrlId, that.downloadUrlId)
         );
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, version, path, type, releaseDate, status, updateKeysId, boardId, updatePreconditionId);
+        return Objects.hash(id, version, path, type, releaseDate, status, updatePreconditionId, downloadUrlId);
     }
 
     // prettier-ignore
@@ -252,9 +233,8 @@ public class BoardUpdateCriteria implements Serializable, Criteria {
             (type != null ? "type=" + type + ", " : "") +
             (releaseDate != null ? "releaseDate=" + releaseDate + ", " : "") +
             (status != null ? "status=" + status + ", " : "") +
-            (updateKeysId != null ? "updateKeysId=" + updateKeysId + ", " : "") +
-            (boardId != null ? "boardId=" + boardId + ", " : "") +
             (updatePreconditionId != null ? "updatePreconditionId=" + updatePreconditionId + ", " : "") +
+            (downloadUrlId != null ? "downloadUrlId=" + downloadUrlId + ", " : "") +
             "}";
     }
 }

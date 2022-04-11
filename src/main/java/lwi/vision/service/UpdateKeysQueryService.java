@@ -84,15 +84,6 @@ public class UpdateKeysQueryService extends QueryService<UpdateKeysEntity> {
             if (criteria.getKey() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getKey(), UpdateKeysEntity_.key));
             }
-            if (criteria.getBoardUpdateId() != null) {
-                specification =
-                    specification.and(
-                        buildSpecification(
-                            criteria.getBoardUpdateId(),
-                            root -> root.join(UpdateKeysEntity_.boardUpdate, JoinType.LEFT).get(BoardUpdateEntity_.id)
-                        )
-                    );
-            }
             if (criteria.getUpdatePreconditionId() != null) {
                 specification =
                     specification.and(

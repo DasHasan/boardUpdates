@@ -25,11 +25,6 @@ import { RouterModule } from '@angular/router';
         loadChildren: () => import('./update-keys/update-keys.module').then(m => m.UpdateKeysModule),
       },
       {
-        path: 'board-update-successor',
-        data: { pageTitle: 'boardUpdatesApp.boardUpdateSuccessor.home.title' },
-        loadChildren: () => import('./board-update-successor/board-update-successor.module').then(m => m.BoardUpdateSuccessorModule),
-      },
-      {
         path: 'download-url',
         data: { pageTitle: 'boardUpdatesApp.downloadUrl.home.title' },
         loadChildren: () => import('./download-url/download-url.module').then(m => m.DownloadUrlModule),

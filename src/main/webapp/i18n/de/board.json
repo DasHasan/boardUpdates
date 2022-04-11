@@ -20,7 +20,6 @@
       "id": "ID",
       "serial": "Serial",
       "version": "Version",
-      "boardUpdate": "Board Update",
       "updatePrecondition": "Update Precondition"
     }
   }

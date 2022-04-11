@@ -87,6 +87,7 @@ public class BoardUpdateService {
      * @param id the id of the entity.
      * @return the entity.
      */
+    @Transactional(readOnly = true)
     public Optional<BoardUpdateEntity> findOne(Long id) {
         log.debug("Request to get BoardUpdate : {}", id);
         return boardUpdateRepository.findById(id);

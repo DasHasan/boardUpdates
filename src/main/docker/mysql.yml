@@ -5,8 +5,8 @@ volumes:
 services:
   boardupdates-mysql:
     image: mysql:8.0.23
-    volumes:
-       - boardupdates-mysql:/var/lib/mysql/
+#    volumes:
+#       - boardupdates-mysql:/var/lib/mysql/
     environment:
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
       - MYSQL_DATABASE=boardupdates

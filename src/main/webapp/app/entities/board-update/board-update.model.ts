@@ -1,7 +1,6 @@
 import * as dayjs from 'dayjs';
-import { IUpdateKeys } from 'app/entities/update-keys/update-keys.model';
-import { IBoard } from 'app/entities/board/board.model';
 import { IUpdatePrecondition } from 'app/entities/update-precondition/update-precondition.model';
+import { IDownloadUrl } from 'app/entities/download-url/download-url.model';
 import { UpdateType } from 'app/entities/enumerations/update-type.model';
 
 export interface IBoardUpdate {
@@ -11,9 +10,8 @@ export interface IBoardUpdate {
   type?: UpdateType | null;
   releaseDate?: dayjs.Dayjs | null;
   status?: string | null;
-  updateKeys?: IUpdateKeys[] | null;
-  board?: IBoard | null;
   updatePrecondition?: IUpdatePrecondition | null;
+  downloadUrl?: IDownloadUrl | null;
 }
 
 export class BoardUpdate implements IBoardUpdate {
@@ -24,9 +22,8 @@ export class BoardUpdate implements IBoardUpdate {
     public type?: UpdateType | null,
     public releaseDate?: dayjs.Dayjs | null,
     public status?: string | null,
-    public updateKeys?: IUpdateKeys[] | null,
-    public board?: IBoard | null,
-    public updatePrecondition?: IUpdatePrecondition | null
+    public updatePrecondition?: IUpdatePrecondition | null,
+    public downloadUrl?: IDownloadUrl | null
   ) {}
 }
 

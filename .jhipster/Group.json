@@ -1,11 +1,6 @@
 {
   "name": "Group",
-  "fields": [
-    {
-      "fieldName": "name",
-      "fieldType": "String"
-    }
-  ],
+  "fields": [],
   "relationships": [],
   "entityTableName": "jhi_group",
   "dto": "no",

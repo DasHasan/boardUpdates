@@ -33,7 +33,6 @@
       <thead>
         <tr>
           <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
-          <th scope="col"><span jhiTranslate="boardUpdatesApp.group.name">Name</span></th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -42,7 +41,6 @@
           <td>
             <a [routerLink]="['/group', group.id, 'view']">{{ group.id }}</a>
           </td>
-          <td>{{ group.name }}</td>
           <td class="text-right">
             <div class="btn-group">
               <button type="submit" [routerLink]="['/group', group.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">

@@ -12,7 +12,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Entity
 @Table(name = "update_keys")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class UpdateKeysEntity extends AbstractAuditingEntity implements Serializable {
+public class UpdateKeysEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -22,10 +22,6 @@ public class UpdateKeysEntity extends AbstractAuditingEntity implements Serializ
 
     @Column(name = "jhi_key")
     private String key;
-
-    @ManyToOne
-    @JsonIgnoreProperties(value = { "updateKeys", "board", "updatePrecondition" }, allowSetters = true)
-    private BoardUpdateEntity boardUpdate;
 
     @ManyToOne
     @JsonIgnoreProperties(value = { "boardUpdate", "updateKeys", "boards" }, allowSetters = true)
@@ -56,19 +52,6 @@ public class UpdateKeysEntity extends AbstractAuditingEntity implements Serializ
 
     public void setKey(String key) {
         this.key = key;
-    }
-
-    public BoardUpdateEntity getBoardUpdate() {
-        return this.boardUpdate;
-    }
-
-    public UpdateKeysEntity boardUpdate(BoardUpdateEntity boardUpdate) {
-        this.setBoardUpdate(boardUpdate);
-        return this;
-    }
-
-    public void setBoardUpdate(BoardUpdateEntity boardUpdate) {
-        this.boardUpdate = boardUpdate;
     }
 
     public UpdatePreconditionEntity getUpdatePrecondition() {

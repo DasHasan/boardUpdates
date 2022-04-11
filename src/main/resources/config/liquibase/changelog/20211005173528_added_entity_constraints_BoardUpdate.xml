@@ -8,16 +8,16 @@
     -->
     <changeSet id="20211005173528-2" author="jhipster">
 
-        <addForeignKeyConstraint baseColumnNames="board_id"
-                                 baseTableName="board_update"
-                                 constraintName="fk_board_update__board_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="board"/>
-
         <addForeignKeyConstraint baseColumnNames="update_precondition_id"
                                  baseTableName="board_update"
                                  constraintName="fk_board_update__update_precondition_id"
                                  referencedColumnNames="id"
                                  referencedTableName="update_precondition"/>
+
+        <addForeignKeyConstraint baseColumnNames="download_url_id"
+                                 baseTableName="board_update"
+                                 constraintName="fk_board_update__download_url_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="download_url"/>
     </changeSet>
 </databaseChangeLog>

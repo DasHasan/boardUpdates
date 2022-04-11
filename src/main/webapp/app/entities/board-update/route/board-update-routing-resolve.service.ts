@@ -6,12 +6,10 @@ import { mergeMap } from 'rxjs/operators';
 
 import { IBoardUpdate, BoardUpdate } from '../board-update.model';
 import { BoardUpdateService } from '../service/board-update.service';
-import { BoardService } from 'app/entities/board/service/board.service';
-import { Board } from 'app/entities/board/board.model';
 
 @Injectable({ providedIn: 'root' })
 export class BoardUpdateRoutingResolveService implements Resolve<IBoardUpdate> {
-  constructor(protected service: BoardUpdateService, protected boardService: BoardService, protected router: Router) {}
+  constructor(protected service: BoardUpdateService, protected router: Router) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<IBoardUpdate> | Observable<never> {
     const id = route.params['id'];
@@ -27,21 +25,6 @@ export class BoardUpdateRoutingResolveService implements Resolve<IBoardUpdate> {
         })
       );
     }
-
-    const boardId = route.queryParams['boardId'];
-    if (boardId) {
-      return this.boardService.find(boardId).pipe(
-        mergeMap((boardResponse: HttpResponse<Board>) => {
-          if (boardResponse.body) {
-            return of(new BoardUpdate(undefined, undefined, undefined, undefined, undefined, undefined, undefined, boardResponse.body));
-          } else {
-            this.router.navigate(['404']);
-            return EMPTY;
-          }
-        })
-      );
-    }
-
     return of(new BoardUpdate());
   }
 }

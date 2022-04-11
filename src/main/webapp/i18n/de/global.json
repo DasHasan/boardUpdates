@@ -14,6 +14,9 @@
         "boardUpdateSuccessor": "Board Update Successors",
         "downloadUrl": "Download Url",
         "updatePrecondition": "Update Vorbedingung",
+        "boardUpdate": "Board Update",
+        "boardUpdateSuccessor": "Board Update Successor",
+        "updatePrecondition": "Update Precondition",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

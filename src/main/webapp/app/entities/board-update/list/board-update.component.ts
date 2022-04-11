@@ -1,25 +1,16 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { IBoardUpdate } from '../board-update.model';
 import { BoardUpdateService } from '../service/board-update.service';
 import { BoardUpdateDeleteDialogComponent } from '../delete/board-update-delete-dialog.component';
-import { IBoard } from 'app/entities/board/board.model';
 
 @Component({
-  selector: 'jhi-board-update-list',
-  styles: [
-    `
-      .hidden {
-        display: none;
-      }
-    `,
-  ],
+  selector: 'jhi-board-update',
   templateUrl: './board-update.component.html',
 })
 export class BoardUpdateComponent implements OnInit {
-  @Input() board?: IBoard;
   boardUpdates?: IBoardUpdate[];
   isLoading = false;
 
@@ -28,8 +19,7 @@ export class BoardUpdateComponent implements OnInit {
   loadAll(): void {
     this.isLoading = true;
 
-    const query = this.boardUpdateService.query(this.board?.id ? { 'boardId.equals': this.board.id } : {});
-    query.subscribe(
+    this.boardUpdateService.query().subscribe(
       (res: HttpResponse<IBoardUpdate[]>) => {
         this.isLoading = false;
         this.boardUpdates = res.body ?? [];

@@ -17,16 +17,9 @@
             <column name="jhi_key" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="board_update_id" type="bigint">
-                <constraints nullable="true" />
-            </column>
             <column name="update_precondition_id" type="bigint">
                 <constraints nullable="true" />
             </column>
-            <column name="created_by" type="varchar(50)"/>
-            <column name="created_date" type="timestamp"/>
-            <column name="last_modified_by" type="varchar(50)"/>
-            <column name="last_modified_date" type="timestamp"/>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
     </changeSet>

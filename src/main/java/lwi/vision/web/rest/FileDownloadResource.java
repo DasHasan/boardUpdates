@@ -2,6 +2,8 @@ package lwi.vision.web.rest;
 
 import lwi.vision.domain.BoardUpdateEntity;
 import lwi.vision.domain.DownloadUrlEntity;
+import lwi.vision.domain.QDownloadUrlEntity;
+import lwi.vision.repository.DownloadUrlQueryRepository;
 import lwi.vision.repository.DownloadUrlRepository;
 import lwi.vision.service.BoardUpdateService;
 import lwi.vision.service.ServiceException;
@@ -26,9 +28,9 @@ public class FileDownloadResource {
     private final Logger log = LoggerFactory.getLogger(FileDownloadResource.class);
     private final BoardUpdateService boardUpdateService;
 
-    private final DownloadUrlRepository downloadUrlRepository;
+    private final DownloadUrlQueryRepository downloadUrlRepository;
 
-    public FileDownloadResource(BoardUpdateService boardUpdateService, DownloadUrlRepository downloadUrlRepository) {
+    public FileDownloadResource(BoardUpdateService boardUpdateService, DownloadUrlQueryRepository downloadUrlRepository) {
         this.boardUpdateService = boardUpdateService;
         this.downloadUrlRepository = downloadUrlRepository;
     }
@@ -56,7 +58,7 @@ public class FileDownloadResource {
     @ResponseBody
     public ResponseEntity<FileSystemResource> downloadByUuid(@PathVariable String uuid) {
         BoardUpdateEntity boardUpdate = downloadUrlRepository
-            .findFirstByUrl(uuid)
+            .findOne(QDownloadUrlEntity.downloadUrlEntity.url.eq(uuid))
             .map(DownloadUrlEntity::getBoardUpdate)
             .orElseThrow(ServiceException::updateNotFound);
         return buildResponse(boardUpdate);

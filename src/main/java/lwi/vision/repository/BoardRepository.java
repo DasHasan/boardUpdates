@@ -2,7 +2,6 @@ package lwi.vision.repository;
 
 import lwi.vision.domain.BoardEntity;
 import org.springframework.data.jpa.repository.*;
-import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -10,4 +9,4 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface BoardRepository extends JpaRepository<BoardEntity, Long>, JpaSpecificationExecutor<BoardEntity>, QuerydslPredicateExecutor<BoardRepository> {}
+public interface BoardRepository extends JpaRepository<BoardEntity, Long>, JpaSpecificationExecutor<BoardEntity> {}

@@ -2,24 +2,22 @@
   "boardUpdatesApp": {
     "boardUpdateSuccessor": {
       "home": {
-        "title": "Update Nachfolger",
+        "title": "Board Update Successors",
         "refreshListLabel": "Liste aktualisieren",
-        "createLabel": "Update Nachfolger erstellen",
-        "createOrEditLabel": "Update Nachfolger erstellen oder bearbeiten",
-        "notFound": "Keine Update Nachfolger gefunden"
+        "createLabel": "Board Update Successor erstellen",
+        "createOrEditLabel": "Board Update Successor erstellen oder bearbeiten",
+        "notFound": "Keine Board Update Successors gefunden"
       },
-      "created": "Update Nachfolger erstellt mit ID {{ param }}",
-      "updated": "Update Nachfolger aktualisiert mit ID {{ param }}",
-      "deleted": "Update Nachfolger gelöscht mit ID {{ param }}",
+      "created": "Board Update Successor erstellt mit ID {{ param }}",
+      "updated": "Board Update Successor aktualisiert mit ID {{ param }}",
+      "deleted": "Board Update Successor gelöscht mit ID {{ param }}",
       "delete": {
-        "question": "Soll Update Nachfolger {{ id }} wirklich dauerhaft gelöscht werden?"
+        "question": "Soll Board Update Successor {{ id }} wirklich dauerhaft gelöscht werden?"
       },
       "detail": {
-        "title": "Update Nachfolger"
+        "title": "Board Update Successor"
       },
-      "id": "ID",
-      "from": "Von",
-      "to": "Nach"
+      "id": "ID"
     }
   }
 }

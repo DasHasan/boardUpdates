@@ -2,30 +2,29 @@
   "boardUpdatesApp": {
     "boardUpdate": {
       "home": {
-        "title": "Updates",
+        "title": "Board Updates",
         "refreshListLabel": "Liste aktualisieren",
-        "createLabel": "Update erstellen",
-        "createOrEditLabel": "Update erstellen oder bearbeiten",
-        "notFound": "Keine Updates gefunden"
+        "createLabel": "Board Update erstellen",
+        "createOrEditLabel": "Board Update erstellen oder bearbeiten",
+        "notFound": "Keine Board Updates gefunden"
       },
-      "created": "Update erstellt mit ID {{ param }}",
-      "updated": "Update aktualisiert mit ID {{ param }}",
-      "deleted": "Update gelöscht mit ID {{ param }}",
+      "created": "Board Update erstellt mit ID {{ param }}",
+      "updated": "Board Update aktualisiert mit ID {{ param }}",
+      "deleted": "Board Update gelöscht mit ID {{ param }}",
       "delete": {
-        "question": "Soll Update {{ id }} wirklich dauerhaft gelöscht werden?"
+        "question": "Soll Board Update {{ id }} wirklich dauerhaft gelöscht werden?"
       },
       "detail": {
-        "title": "Update"
+        "title": "Board Update"
       },
       "id": "ID",
       "version": "Version",
-      "path": "Pfad",
-      "type": "Update-Typ",
-      "releaseDate": "Release-Datum",
+      "path": "Path",
+      "type": "Type",
+      "releaseDate": "Release Date",
       "status": "Status",
-      "updateKeys": "Update Keys",
-      "board": "Board",
-      "updatePrecondition": "Update Precondition"
+      "updatePrecondition": "Update Precondition",
+      "downloadUrl": "Download Url"
     }
   }
 }

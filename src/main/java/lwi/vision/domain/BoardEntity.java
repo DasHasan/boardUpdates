@@ -2,8 +2,6 @@ package lwi.vision.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 import javax.persistence.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -14,7 +12,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Entity
 @Table(name = "board")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class BoardEntity extends AbstractAuditingEntity implements Serializable {
+public class BoardEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -27,11 +25,6 @@ public class BoardEntity extends AbstractAuditingEntity implements Serializable 
 
     @Column(name = "version")
     private String version;
-
-    @OneToMany(mappedBy = "board")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "updateKeys", "board", "updatePrecondition" }, allowSetters = true)
-    private Set<BoardUpdateEntity> boardUpdates = new HashSet<>();
 
     @ManyToOne
     @JsonIgnoreProperties(value = { "boardUpdate", "updateKeys", "boards" }, allowSetters = true)
@@ -75,37 +68,6 @@ public class BoardEntity extends AbstractAuditingEntity implements Serializable 
 
     public void setVersion(String version) {
         this.version = version;
-    }
-
-    public Set<BoardUpdateEntity> getBoardUpdates() {
-        return this.boardUpdates;
-    }
-
-    public BoardEntity boardUpdates(Set<BoardUpdateEntity> boardUpdates) {
-        this.setBoardUpdates(boardUpdates);
-        return this;
-    }
-
-    public BoardEntity addBoardUpdate(BoardUpdateEntity boardUpdate) {
-        this.boardUpdates.add(boardUpdate);
-        boardUpdate.setBoard(this);
-        return this;
-    }
-
-    public BoardEntity removeBoardUpdate(BoardUpdateEntity boardUpdate) {
-        this.boardUpdates.remove(boardUpdate);
-        boardUpdate.setBoard(null);
-        return this;
-    }
-
-    public void setBoardUpdates(Set<BoardUpdateEntity> boardUpdates) {
-        if (this.boardUpdates != null) {
-            this.boardUpdates.forEach(i -> i.setBoard(null));
-        }
-        if (boardUpdates != null) {
-            boardUpdates.forEach(i -> i.setBoard(this));
-        }
-        this.boardUpdates = boardUpdates;
     }
 
     public UpdatePreconditionEntity getUpdatePrecondition() {

@@ -87,15 +87,6 @@ public class BoardQueryService extends QueryService<BoardEntity> {
             if (criteria.getVersion() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getVersion(), BoardEntity_.version));
             }
-            if (criteria.getBoardUpdateId() != null) {
-                specification =
-                    specification.and(
-                        buildSpecification(
-                            criteria.getBoardUpdateId(),
-                            root -> root.join(BoardEntity_.boardUpdates, JoinType.LEFT).get(BoardUpdateEntity_.id)
-                        )
-                    );
-            }
             if (criteria.getUpdatePreconditionId() != null) {
                 specification =
                     specification.and(

@@ -13,8 +13,6 @@
         data-cy="entityCreateButton"
         class="btn btn-primary jh-create-entity create-download-url"
         [routerLink]="['/download-url/new']"
-        [queryParams]="{ boardUpdateId: boardUpdateId }"
-        *ngIf="downloadUrls?.length === 0"
       >
         <fa-icon icon="plus"></fa-icon>
         <span jhiTranslate="boardUpdatesApp.downloadUrl.home.createLabel"> Create a new Download Url </span>
@@ -22,11 +20,9 @@
     </div>
   </h2>
 
-  <ng-container *ngIf="!boardUpdateId">
-    <jhi-alert-error></jhi-alert-error>
+  <jhi-alert-error></jhi-alert-error>
 
-    <jhi-alert></jhi-alert>
-  </ng-container>
+  <jhi-alert></jhi-alert>
 
   <div class="alert alert-warning" id="no-result" *ngIf="downloadUrls?.length === 0">
     <span jhiTranslate="boardUpdatesApp.downloadUrl.home.notFound">No downloadUrls found</span>
@@ -36,21 +32,21 @@
     <table class="table table-striped" aria-describedby="page-heading">
       <thead>
         <tr>
-          <th scope="col" *ngIf="!boardUpdateId"><span jhiTranslate="global.field.id">ID</span></th>
+          <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
           <th scope="col"><span jhiTranslate="boardUpdatesApp.downloadUrl.expirationDate">Expiration Date</span></th>
           <th scope="col"><span jhiTranslate="boardUpdatesApp.downloadUrl.url">Url</span></th>
-          <th scope="col" *ngIf="!boardUpdateId"><span jhiTranslate="boardUpdatesApp.downloadUrl.boardUpdate">Board Update</span></th>
+          <th scope="col"><span jhiTranslate="boardUpdatesApp.downloadUrl.boardUpdate">Board Update</span></th>
           <th scope="col"></th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let downloadUrl of downloadUrls; trackBy: trackId" data-cy="entityTable">
-          <td *ngIf="!boardUpdateId">
+          <td>
             <a [routerLink]="['/download-url', downloadUrl.id, 'view']">{{ downloadUrl.id }}</a>
           </td>
           <td>{{ downloadUrl.expirationDate | formatMediumDate }}</td>
-          <td>/download/{{ downloadUrl.url }}</td>
-          <td *ngIf="!boardUpdateId">
+          <td>{{ downloadUrl.url }}</td>
+          <td>
             <div *ngIf="downloadUrl.boardUpdate">
               <a [routerLink]="['/board-update', downloadUrl.boardUpdate?.id, 'view']">{{ downloadUrl.boardUpdate?.id }}</a>
             </div>

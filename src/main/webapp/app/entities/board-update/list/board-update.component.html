@@ -13,7 +13,6 @@
         data-cy="entityCreateButton"
         class="btn btn-primary jh-create-entity create-board-update"
         [routerLink]="['/board-update/new']"
-        [queryParams]="{ boardId: board?.id }"
       >
         <fa-icon icon="plus"></fa-icon>
         <span jhiTranslate="boardUpdatesApp.boardUpdate.home.createLabel"> Create a new Board Update </span>
@@ -21,11 +20,9 @@
     </div>
   </h2>
 
-  <ng-container *ngIf="!board">
-    <jhi-alert-error></jhi-alert-error>
+  <jhi-alert-error></jhi-alert-error>
 
-    <jhi-alert></jhi-alert>
-  </ng-container>
+  <jhi-alert></jhi-alert>
 
   <div class="alert alert-warning" id="no-result" *ngIf="boardUpdates?.length === 0">
     <span jhiTranslate="boardUpdatesApp.boardUpdate.home.notFound">No boardUpdates found</span>
@@ -41,8 +38,8 @@
           <th scope="col"><span jhiTranslate="boardUpdatesApp.boardUpdate.type">Type</span></th>
           <th scope="col"><span jhiTranslate="boardUpdatesApp.boardUpdate.releaseDate">Release Date</span></th>
           <th scope="col"><span jhiTranslate="boardUpdatesApp.boardUpdate.status">Status</span></th>
-          <th scope="col" [classList]="board ? 'hidden' : ''"><span jhiTranslate="boardUpdatesApp.boardUpdate.board">Board</span></th>
           <th scope="col"><span jhiTranslate="boardUpdatesApp.boardUpdate.updatePrecondition">Update Precondition</span></th>
+          <th scope="col"><span jhiTranslate="boardUpdatesApp.boardUpdate.downloadUrl">Download Url</span></th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -56,16 +53,16 @@
           <td jhiTranslate="{{ 'boardUpdatesApp.UpdateType.' + boardUpdate.type }}">{{ boardUpdate.type }}</td>
           <td>{{ boardUpdate.releaseDate | formatMediumDatetime }}</td>
           <td>{{ boardUpdate.status }}</td>
-          <td [classList]="board ? 'hidden' : ''">
-            <div *ngIf="boardUpdate.board">
-              <a [routerLink]="['/board', boardUpdate.board?.id, 'view']">{{ boardUpdate.board?.serial }}</a>
-            </div>
-          </td>
           <td>
             <div *ngIf="boardUpdate.updatePrecondition">
               <a [routerLink]="['/update-precondition', boardUpdate.updatePrecondition?.id, 'view']">{{
                 boardUpdate.updatePrecondition?.id
               }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="boardUpdate.downloadUrl">
+              <a [routerLink]="['/download-url', boardUpdate.downloadUrl?.id, 'view']">{{ boardUpdate.downloadUrl?.id }}</a>
             </div>
           </td>
           <td class="text-right">

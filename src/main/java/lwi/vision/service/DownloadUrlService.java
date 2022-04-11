@@ -1,10 +1,7 @@
 package lwi.vision.service;
 
-import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
-import lwi.vision.domain.BoardUpdateEntity;
 import lwi.vision.domain.DownloadUrlEntity;
 import lwi.vision.repository.DownloadUrlRepository;
 import org.slf4j.Logger;
@@ -95,20 +92,5 @@ public class DownloadUrlService {
     public void delete(Long id) {
         log.debug("Request to delete DownloadUrl : {}", id);
         downloadUrlRepository.deleteById(id);
-    }
-
-    public DownloadUrlEntity getOrCreateByBoardUpdate(BoardUpdateEntity boardUpdate) {
-        log.debug("Request to get or create by board update : {}", boardUpdate);
-        Optional<DownloadUrlEntity> optional = downloadUrlRepository.findFirstByBoardUpdate_Id(boardUpdate.getId());
-        return optional.orElseGet(() -> save(buildFromBoardUpdate(boardUpdate)));
-    }
-
-    private DownloadUrlEntity buildFromBoardUpdate(BoardUpdateEntity boardUpdateEntity) {
-        log.info("Generating new DownloadUrl for : {}", boardUpdateEntity);
-        DownloadUrlEntity downloadUrlEntity = new DownloadUrlEntity();
-        downloadUrlEntity.setBoardUpdate(boardUpdateEntity);
-        downloadUrlEntity.setExpirationDate(ZonedDateTime.now().plusDays(1).toLocalDate());
-        downloadUrlEntity.setUrl(UUID.randomUUID().toString());
-        return downloadUrlEntity;
     }
 }

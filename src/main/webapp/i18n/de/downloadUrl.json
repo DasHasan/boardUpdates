@@ -2,7 +2,7 @@
   "boardUpdatesApp": {
     "downloadUrl": {
       "home": {
-        "title": "Download Url",
+        "title": "Download Urls",
         "refreshListLabel": "Liste aktualisieren",
         "createLabel": "Download Url erstellen",
         "createOrEditLabel": "Download Url erstellen oder bearbeiten",
@@ -18,7 +18,7 @@
         "title": "Download Url"
       },
       "id": "ID",
-      "expirationDate": "Ablaufdatum",
+      "expirationDate": "Expiration Date",
       "url": "Url",
       "boardUpdate": "Board Update"
     }

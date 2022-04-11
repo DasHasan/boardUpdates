@@ -48,10 +48,6 @@ public class GroupService {
             .findById(groupEntity.getId())
             .map(
                 existingGroup -> {
-                    if (groupEntity.getName() != null) {
-                        existingGroup.setName(groupEntity.getName());
-                    }
-
                     return existingGroup;
                 }
             )

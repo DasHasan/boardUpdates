@@ -6,10 +6,9 @@ import { BoardDetailComponent } from './detail/board-detail.component';
 import { BoardUpdateComponent } from './update/board-update.component';
 import { BoardDeleteDialogComponent } from './delete/board-delete-dialog.component';
 import { BoardRoutingModule } from './route/board-routing.module';
-import { BoardUpdateModule } from 'app/entities/board-update/board-update.module';
 
 @NgModule({
-  imports: [SharedModule, BoardRoutingModule, BoardUpdateModule],
+  imports: [SharedModule, BoardRoutingModule],
   declarations: [BoardComponent, BoardDetailComponent, BoardUpdateComponent, BoardDeleteDialogComponent],
   entryComponents: [BoardDeleteDialogComponent],
 })

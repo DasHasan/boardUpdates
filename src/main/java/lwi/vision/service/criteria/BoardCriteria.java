@@ -30,8 +30,6 @@ public class BoardCriteria implements Serializable, Criteria {
 
     private StringFilter version;
 
-    private LongFilter boardUpdateId;
-
     private LongFilter updatePreconditionId;
 
     public BoardCriteria() {}
@@ -40,7 +38,6 @@ public class BoardCriteria implements Serializable, Criteria {
         this.id = other.id == null ? null : other.id.copy();
         this.serial = other.serial == null ? null : other.serial.copy();
         this.version = other.version == null ? null : other.version.copy();
-        this.boardUpdateId = other.boardUpdateId == null ? null : other.boardUpdateId.copy();
         this.updatePreconditionId = other.updatePreconditionId == null ? null : other.updatePreconditionId.copy();
     }
 
@@ -94,21 +91,6 @@ public class BoardCriteria implements Serializable, Criteria {
         this.version = version;
     }
 
-    public LongFilter getBoardUpdateId() {
-        return boardUpdateId;
-    }
-
-    public LongFilter boardUpdateId() {
-        if (boardUpdateId == null) {
-            boardUpdateId = new LongFilter();
-        }
-        return boardUpdateId;
-    }
-
-    public void setBoardUpdateId(LongFilter boardUpdateId) {
-        this.boardUpdateId = boardUpdateId;
-    }
-
     public LongFilter getUpdatePreconditionId() {
         return updatePreconditionId;
     }
@@ -137,14 +119,13 @@ public class BoardCriteria implements Serializable, Criteria {
             Objects.equals(id, that.id) &&
             Objects.equals(serial, that.serial) &&
             Objects.equals(version, that.version) &&
-            Objects.equals(boardUpdateId, that.boardUpdateId) &&
             Objects.equals(updatePreconditionId, that.updatePreconditionId)
         );
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, serial, version, boardUpdateId, updatePreconditionId);
+        return Objects.hash(id, serial, version, updatePreconditionId);
     }
 
     // prettier-ignore
@@ -154,7 +135,6 @@ public class BoardCriteria implements Serializable, Criteria {
             (id != null ? "id=" + id + ", " : "") +
             (serial != null ? "serial=" + serial + ", " : "") +
             (version != null ? "version=" + version + ", " : "") +
-            (boardUpdateId != null ? "boardUpdateId=" + boardUpdateId + ", " : "") +
             (updatePreconditionId != null ? "updatePreconditionId=" + updatePreconditionId + ", " : "") +
             "}";
     }

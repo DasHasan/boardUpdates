@@ -81,9 +81,6 @@ public class GroupQueryService extends QueryService<GroupEntity> {
             if (criteria.getId() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getId(), GroupEntity_.id));
             }
-            if (criteria.getName() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getName(), GroupEntity_.name));
-            }
         }
         return specification;
     }

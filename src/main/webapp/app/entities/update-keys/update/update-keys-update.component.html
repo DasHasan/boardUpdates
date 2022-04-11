@@ -22,23 +22,6 @@
           <input type="text" class="form-control" name="key" id="field_key" data-cy="key" formControlName="key" />
         </div>
 
-        <div class="form-group" [class.display-none]="editForm.get('boardUpdate')!.value?.id">
-          <label class="form-control-label" jhiTranslate="boardUpdatesApp.updateKeys.boardUpdate" for="field_boardUpdate"
-            >Board Update</label
-          >
-          <select class="form-control" id="field_boardUpdate" data-cy="boardUpdate" name="boardUpdate" formControlName="boardUpdate">
-            <option [ngValue]="null"></option>
-            <option
-              [ngValue]="
-                boardUpdateOption.id === editForm.get('boardUpdate')!.value?.id ? editForm.get('boardUpdate')!.value : boardUpdateOption
-              "
-              *ngFor="let boardUpdateOption of boardUpdatesSharedCollection; trackBy: trackBoardUpdateById"
-            >
-              {{ boardUpdateOption.id }}
-            </option>
-          </select>
-        </div>
-
         <div class="form-group">
           <label class="form-control-label" jhiTranslate="boardUpdatesApp.updateKeys.updatePrecondition" for="field_updatePrecondition"
             >Update Precondition</label

@@ -18,12 +18,6 @@
         <dd>
           <span>{{ updateKeys.key }}</span>
         </dd>
-        <dt><span jhiTranslate="boardUpdatesApp.updateKeys.boardUpdate">Board Update</span></dt>
-        <dd>
-          <div *ngIf="updateKeys.boardUpdate">
-            <a [routerLink]="['/board-update', updateKeys.boardUpdate?.id, 'view']">{{ updateKeys.boardUpdate?.id }}</a>
-          </div>
-        </dd>
         <dt><span jhiTranslate="boardUpdatesApp.updateKeys.updatePrecondition">Update Precondition</span></dt>
         <dd>
           <div *ngIf="updateKeys.updatePrecondition">

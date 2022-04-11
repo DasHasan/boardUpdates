@@ -26,13 +26,10 @@ public class GroupCriteria implements Serializable, Criteria {
 
     private LongFilter id;
 
-    private StringFilter name;
-
     public GroupCriteria() {}
 
     public GroupCriteria(GroupCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
-        this.name = other.name == null ? null : other.name.copy();
     }
 
     @Override
@@ -55,21 +52,6 @@ public class GroupCriteria implements Serializable, Criteria {
         this.id = id;
     }
 
-    public StringFilter getName() {
-        return name;
-    }
-
-    public StringFilter name() {
-        if (name == null) {
-            name = new StringFilter();
-        }
-        return name;
-    }
-
-    public void setName(StringFilter name) {
-        this.name = name;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -79,12 +61,12 @@ public class GroupCriteria implements Serializable, Criteria {
             return false;
         }
         final GroupCriteria that = (GroupCriteria) o;
-        return Objects.equals(id, that.id) && Objects.equals(name, that.name);
+        return Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name);
+        return Objects.hash(id);
     }
 
     // prettier-ignore
@@ -92,7 +74,6 @@ public class GroupCriteria implements Serializable, Criteria {
     public String toString() {
         return "GroupCriteria{" +
             (id != null ? "id=" + id + ", " : "") +
-            (name != null ? "name=" + name + ", " : "") +
             "}";
     }
 }

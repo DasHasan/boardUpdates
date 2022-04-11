@@ -8,12 +8,6 @@
     -->
     <changeSet id="20211012153951-2" author="jhipster">
 
-        <addForeignKeyConstraint baseColumnNames="board_update_id"
-                                 baseTableName="update_keys"
-                                 constraintName="fk_update_keys__board_update_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="board_update"/>
-
         <addForeignKeyConstraint baseColumnNames="update_precondition_id"
                                  baseTableName="update_keys"
                                  constraintName="fk_update_keys__update_precondition_id"

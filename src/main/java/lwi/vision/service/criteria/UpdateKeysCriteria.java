@@ -28,8 +28,6 @@ public class UpdateKeysCriteria implements Serializable, Criteria {
 
     private StringFilter key;
 
-    private LongFilter boardUpdateId;
-
     private LongFilter updatePreconditionId;
 
     public UpdateKeysCriteria() {}
@@ -37,7 +35,6 @@ public class UpdateKeysCriteria implements Serializable, Criteria {
     public UpdateKeysCriteria(UpdateKeysCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
         this.key = other.key == null ? null : other.key.copy();
-        this.boardUpdateId = other.boardUpdateId == null ? null : other.boardUpdateId.copy();
         this.updatePreconditionId = other.updatePreconditionId == null ? null : other.updatePreconditionId.copy();
     }
 
@@ -76,21 +73,6 @@ public class UpdateKeysCriteria implements Serializable, Criteria {
         this.key = key;
     }
 
-    public LongFilter getBoardUpdateId() {
-        return boardUpdateId;
-    }
-
-    public LongFilter boardUpdateId() {
-        if (boardUpdateId == null) {
-            boardUpdateId = new LongFilter();
-        }
-        return boardUpdateId;
-    }
-
-    public void setBoardUpdateId(LongFilter boardUpdateId) {
-        this.boardUpdateId = boardUpdateId;
-    }
-
     public LongFilter getUpdatePreconditionId() {
         return updatePreconditionId;
     }
@@ -116,16 +98,13 @@ public class UpdateKeysCriteria implements Serializable, Criteria {
         }
         final UpdateKeysCriteria that = (UpdateKeysCriteria) o;
         return (
-            Objects.equals(id, that.id) &&
-            Objects.equals(key, that.key) &&
-            Objects.equals(boardUpdateId, that.boardUpdateId) &&
-            Objects.equals(updatePreconditionId, that.updatePreconditionId)
+            Objects.equals(id, that.id) && Objects.equals(key, that.key) && Objects.equals(updatePreconditionId, that.updatePreconditionId)
         );
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, key, boardUpdateId, updatePreconditionId);
+        return Objects.hash(id, key, updatePreconditionId);
     }
 
     // prettier-ignore
@@ -134,7 +113,6 @@ public class UpdateKeysCriteria implements Serializable, Criteria {
         return "UpdateKeysCriteria{" +
             (id != null ? "id=" + id + ", " : "") +
             (key != null ? "key=" + key + ", " : "") +
-            (boardUpdateId != null ? "boardUpdateId=" + boardUpdateId + ", " : "") +
             (updatePreconditionId != null ? "updatePreconditionId=" + updatePreconditionId + ", " : "") +
             "}";
     }

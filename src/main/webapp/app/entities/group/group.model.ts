@@ -1,10 +1,9 @@
 export interface IGroup {
   id?: number;
-  name?: string | null;
 }
 
 export class Group implements IGroup {
-  constructor(public id?: number, public name?: string | null) {}
+  constructor(public id?: number) {}
 }
 
 export function getGroupIdentifier(group: IGroup): number | undefined {

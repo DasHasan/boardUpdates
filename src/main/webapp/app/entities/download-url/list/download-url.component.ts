@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -11,7 +11,6 @@ import { DownloadUrlDeleteDialogComponent } from '../delete/download-url-delete-
   templateUrl: './download-url.component.html',
 })
 export class DownloadUrlComponent implements OnInit {
-  @Input() boardUpdateId?: number;
   downloadUrls?: IDownloadUrl[];
   isLoading = false;
 
@@ -20,8 +19,7 @@ export class DownloadUrlComponent implements OnInit {
   loadAll(): void {
     this.isLoading = true;
 
-    const query = this.downloadUrlService.query(this.boardUpdateId ? { 'boardUpdateId.equals': this.boardUpdateId } : {});
-    query.subscribe(
+    this.downloadUrlService.query().subscribe(
       (res: HttpResponse<IDownloadUrl[]>) => {
         this.isLoading = false;
         this.downloadUrls = res.body ?? [];

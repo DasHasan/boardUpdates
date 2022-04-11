@@ -23,17 +23,17 @@ public class UpdatePreconditionEntity implements Serializable {
     private Long id;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "updateKeys", "board", "updatePrecondition" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "updatePrecondition", "downloadUrl" }, allowSetters = true)
     private BoardUpdateEntity boardUpdate;
 
     @OneToMany(mappedBy = "updatePrecondition")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "boardUpdate", "updatePrecondition" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "updatePrecondition" }, allowSetters = true)
     private Set<UpdateKeysEntity> updateKeys = new HashSet<>();
 
     @OneToMany(mappedBy = "updatePrecondition")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "boardUpdates", "updatePrecondition" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "updatePrecondition" }, allowSetters = true)
     private Set<BoardEntity> boards = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

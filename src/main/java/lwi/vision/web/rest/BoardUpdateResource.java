@@ -5,9 +5,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 import lwi.vision.domain.BoardUpdateEntity;
-import lwi.vision.domain.UpdateKeysEntity;
 import lwi.vision.repository.BoardUpdateRepository;
 import lwi.vision.service.BoardUpdateQueryService;
 import lwi.vision.service.BoardUpdateService;
@@ -17,7 +15,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.ResponseUtil;
@@ -27,7 +24,6 @@ import tech.jhipster.web.util.ResponseUtil;
  */
 @RestController
 @RequestMapping("/api")
-@Transactional
 public class BoardUpdateResource {
 
     private final Logger log = LoggerFactory.getLogger(BoardUpdateResource.class);

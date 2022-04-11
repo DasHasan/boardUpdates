@@ -34,12 +34,6 @@
         <dd>
           <span>{{ boardUpdate.status }}</span>
         </dd>
-        <dt><span jhiTranslate="boardUpdatesApp.boardUpdate.board">Board</span></dt>
-        <dd>
-          <div *ngIf="boardUpdate.board">
-            <a [routerLink]="['/board', boardUpdate.board?.id, 'view']">{{ boardUpdate.board?.serial }}</a>
-          </div>
-        </dd>
         <dt><span jhiTranslate="boardUpdatesApp.boardUpdate.updatePrecondition">Update Precondition</span></dt>
         <dd>
           <div *ngIf="boardUpdate.updatePrecondition">
@@ -48,9 +42,13 @@
             }}</a>
           </div>
         </dd>
+        <dt><span jhiTranslate="boardUpdatesApp.boardUpdate.downloadUrl">Download Url</span></dt>
+        <dd>
+          <div *ngIf="boardUpdate.downloadUrl">
+            <a [routerLink]="['/download-url', boardUpdate.downloadUrl?.id, 'view']">{{ boardUpdate.downloadUrl?.id }}</a>
+          </div>
+        </dd>
       </dl>
-
-      <jhi-download-url [boardUpdateId]="boardUpdate.id"></jhi-download-url>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
         <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
@@ -59,36 +57,6 @@
       <button type="button" [routerLink]="['/board-update', boardUpdate.id, 'edit']" class="btn btn-primary">
         <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
       </button>
-
-      <button type="button" class="btn btn-primary" (click)="download()">
-        <fa-icon icon="download"></fa-icon>&nbsp;Update&nbsp;<span jhiTranslate="entity.action.download">Download</span>
-      </button>
-
-      <div>
-        <h2>Vorbedingungen für dieses Update</h2>
-      </div>
-
-      <jhi-update-keys [boardUpdate]="boardUpdate"></jhi-update-keys>
-
-<!--      <div class="curl-request">-->
-<!--        <h2 id="page-heading">-->
-<!--          <span>Request-Example</span>-->
-<!--        </h2>-->
-<!--        <pre><code>curl -X POST &#45;&#45;location "{{currentHost}}/search/software" \-->
-<!--  -H "Content-Type: application/json" \-->
-<!--  -d "{{ "{" }}-->
-<!--    \"serial\": \"{{requestBody.serial}}\",-->
-<!--    \"version\": \"{{requestBody.version}}\",-->
-<!--    \"status\": \"{{requestBody.status}}\",-->
-<!--    \"firmware\": \"{{requestBody.firmware}}\",-->
-<!--    \"software\": \"{{requestBody.software}}\",-->
-<!--    \"updateKeys\": [-->
-<!--      {{requestBody.updateKeys.join(", ")}}-->
-<!--    ]-->
-<!--  }"</code></pre>-->
-<!--      </div>-->
-
-<!--      <jhi-board-update-successor [boardUpdateId]="boardUpdate.id"></jhi-board-update-successor>-->
     </div>
   </div>
 </div>

@@ -152,3 +152,7 @@ Desktop.ini
 ######################
 .eslintcache
 /updates/
+
+
+**/*.spec.ts
+test\java\lwi\vision

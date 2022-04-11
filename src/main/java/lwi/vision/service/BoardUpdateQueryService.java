@@ -96,30 +96,21 @@ public class BoardUpdateQueryService extends QueryService<BoardUpdateEntity> {
             if (criteria.getStatus() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getStatus(), BoardUpdateEntity_.status));
             }
-            if (criteria.getUpdateKeysId() != null) {
-                specification =
-                    specification.and(
-                        buildSpecification(
-                            criteria.getUpdateKeysId(),
-                            root -> root.join(BoardUpdateEntity_.updateKeys, JoinType.LEFT).get(UpdateKeysEntity_.id)
-                        )
-                    );
-            }
-            if (criteria.getBoardId() != null) {
-                specification =
-                    specification.and(
-                        buildSpecification(
-                            criteria.getBoardId(),
-                            root -> root.join(BoardUpdateEntity_.board, JoinType.LEFT).get(BoardEntity_.id)
-                        )
-                    );
-            }
             if (criteria.getUpdatePreconditionId() != null) {
                 specification =
                     specification.and(
                         buildSpecification(
                             criteria.getUpdatePreconditionId(),
                             root -> root.join(BoardUpdateEntity_.updatePrecondition, JoinType.LEFT).get(UpdatePreconditionEntity_.id)
+                        )
+                    );
+            }
+            if (criteria.getDownloadUrlId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(
+                            criteria.getDownloadUrlId(),
+                            root -> root.join(BoardUpdateEntity_.downloadUrl, JoinType.LEFT).get(DownloadUrlEntity_.id)
                         )
                     );
             }

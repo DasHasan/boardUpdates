@@ -12,12 +12,6 @@
   ],
   "relationships": [
     {
-      "relationshipType": "one-to-many",
-      "otherEntityName": "boardUpdate",
-      "otherEntityRelationshipName": "board",
-      "relationshipName": "boardUpdate"
-    },
-    {
       "relationshipName": "updatePrecondition",
       "otherEntityName": "updatePrecondition",
       "relationshipType": "many-to-one",
