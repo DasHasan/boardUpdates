@@ -1,0 +1,66 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="boardUpdate">
+      <h2 data-cy="boardUpdateDetailsHeading"><span jhiTranslate="boardUpdatesApp.boardUpdate.detail.title">Board Update</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ boardUpdate.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="boardUpdatesApp.boardUpdate.version">Version</span></dt>
+        <dd>
+          <span>{{ boardUpdate.version }}</span>
+        </dd>
+        <dt><span jhiTranslate="boardUpdatesApp.boardUpdate.path">Path</span></dt>
+        <dd>
+          <span>{{ boardUpdate.path }}</span>
+        </dd>
+        <dt><span jhiTranslate="boardUpdatesApp.boardUpdate.type">Type</span></dt>
+        <dd>
+          <span jhiTranslate="{{ 'boardUpdatesApp.UpdateType.' + boardUpdate.type }}">{{ boardUpdate.type }}</span>
+        </dd>
+        <dt><span jhiTranslate="boardUpdatesApp.boardUpdate.releaseDate">Release Date</span></dt>
+        <dd>
+          <span>{{ boardUpdate.releaseDate | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="boardUpdatesApp.boardUpdate.status">Status</span></dt>
+        <dd>
+          <span>{{ boardUpdate.status }}</span>
+        </dd>
+        <dt><span jhiTranslate="boardUpdatesApp.boardUpdate.updatePrecondition">Update Precondition</span></dt>
+        <dd>
+          <div *ngIf="boardUpdate.updatePrecondition">
+            <a [routerLink]="['/update-precondition', boardUpdate.updatePrecondition?.id, 'view']">{{
+              boardUpdate.updatePrecondition?.id
+            }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="boardUpdatesApp.boardUpdate.downloadUrl">Download Url</span></dt>
+        <dd>
+          <div *ngIf="boardUpdate.downloadUrl">
+            <a [routerLink]="['/download-url', boardUpdate.downloadUrl?.id, 'view']">{{ boardUpdate.downloadUrl?.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/board-update', boardUpdate.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<ng-container *ngIf="boardUpdate && boardUpdate.updatePrecondition">
+  <jhi-lwi-update-precondition-detail [precondition]="boardUpdate.updatePrecondition"></jhi-lwi-update-precondition-detail>
+</ng-container>

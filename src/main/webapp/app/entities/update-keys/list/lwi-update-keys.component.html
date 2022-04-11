@@ -1,0 +1,88 @@
+foo
+{{keys | json}}
+<div>
+  <h2 id="page-heading" data-cy="UpdateKeysHeading">
+    <span jhiTranslate="boardUpdatesApp.updateKeys.home.title">Update Keys</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="boardUpdatesApp.updateKeys.home.refreshListLabel">Refresh List</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-update-keys"
+        [routerLink]="['/update-keys/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="boardUpdatesApp.updateKeys.home.createLabel"> Create a new Update Keys </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="updateKeys?.length === 0">
+    <span jhiTranslate="boardUpdatesApp.updateKeys.home.notFound">No updateKeys found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="updateKeys && updateKeys.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr>
+          <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
+          <th scope="col"><span jhiTranslate="boardUpdatesApp.updateKeys.key">Key</span></th>
+          <th scope="col"><span jhiTranslate="boardUpdatesApp.updateKeys.updatePrecondition">Update Precondition</span></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let updateKeys of updateKeys; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/update-keys', updateKeys.id, 'view']">{{ updateKeys.id }}</a>
+          </td>
+          <td>{{ updateKeys.key }}</td>
+          <td>
+            <div *ngIf="updateKeys.updatePrecondition">
+              <a [routerLink]="['/update-precondition', updateKeys.updatePrecondition?.id, 'view']">{{
+                updateKeys.updatePrecondition?.id
+              }}</a>
+            </div>
+          </td>
+          <td class="text-right">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/update-keys', updateKeys.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/update-keys', updateKeys.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(updateKeys)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

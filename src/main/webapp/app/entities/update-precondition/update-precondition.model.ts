@@ -4,6 +4,7 @@ import { IBoard } from 'app/entities/board/board.model';
 
 export interface IUpdatePrecondition {
   id?: number;
+  status?: string | null;
   boardUpdate?: IBoardUpdate | null;
   updateKeys?: IUpdateKeys[] | null;
   boards?: IBoard[] | null;
@@ -12,6 +13,7 @@ export interface IUpdatePrecondition {
 export class UpdatePrecondition implements IUpdatePrecondition {
   constructor(
     public id?: number,
+    public status?: string | null,
     public boardUpdate?: IBoardUpdate | null,
     public updateKeys?: IUpdateKeys[] | null,
     public boards?: IBoard[] | null

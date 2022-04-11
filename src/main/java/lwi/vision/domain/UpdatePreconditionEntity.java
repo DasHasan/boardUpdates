@@ -22,6 +22,9 @@ public class UpdatePreconditionEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "status")
+    private String status;
+
     @ManyToOne
     @JsonIgnoreProperties(value = { "updatePrecondition", "downloadUrl" }, allowSetters = true)
     private BoardUpdateEntity boardUpdate;
@@ -48,6 +51,19 @@ public class UpdatePreconditionEntity implements Serializable {
     public UpdatePreconditionEntity id(Long id) {
         this.id = id;
         return this;
+    }
+
+    public String getStatus() {
+        return this.status;
+    }
+
+    public UpdatePreconditionEntity status(String status) {
+        this.status = status;
+        return this;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public BoardUpdateEntity getBoardUpdate() {
@@ -149,6 +165,7 @@ public class UpdatePreconditionEntity implements Serializable {
     public String toString() {
         return "UpdatePreconditionEntity{" +
             "id=" + getId() +
+            ", status='" + getStatus() + "'" +
             "}";
     }
 }

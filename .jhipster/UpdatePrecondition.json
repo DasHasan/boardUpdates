@@ -1,5 +1,10 @@
 {
-  "fields": [],
+  "fields": [
+    {
+      "fieldName": "status",
+      "fieldType": "String"
+    }
+  ],
   "relationships": [
     {
       "relationshipName": "boardUpdate",

@@ -48,6 +48,10 @@ public class UpdatePreconditionService {
             .findById(updatePreconditionEntity.getId())
             .map(
                 existingUpdatePrecondition -> {
+                    if (updatePreconditionEntity.getStatus() != null) {
+                        existingUpdatePrecondition.setStatus(updatePreconditionEntity.getStatus());
+                    }
+
                     return existingUpdatePrecondition;
                 }
             )

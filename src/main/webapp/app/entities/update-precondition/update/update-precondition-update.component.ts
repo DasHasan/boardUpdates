@@ -21,6 +21,7 @@ export class UpdatePreconditionUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
+    status: [],
     boardUpdate: [],
   });
 
@@ -79,6 +80,7 @@ export class UpdatePreconditionUpdateComponent implements OnInit {
   protected updateForm(updatePrecondition: IUpdatePrecondition): void {
     this.editForm.patchValue({
       id: updatePrecondition.id,
+      status: updatePrecondition.status,
       boardUpdate: updatePrecondition.boardUpdate,
     });
 
@@ -104,6 +106,7 @@ export class UpdatePreconditionUpdateComponent implements OnInit {
     return {
       ...new UpdatePrecondition(),
       id: this.editForm.get(['id'])!.value,
+      status: this.editForm.get(['status'])!.value,
       boardUpdate: this.editForm.get(['boardUpdate'])!.value,
     };
   }

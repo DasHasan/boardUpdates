@@ -3,9 +3,9 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
 import { BoardUpdateComponent } from '../list/board-update.component';
-import { BoardUpdateDetailComponent } from '../detail/board-update-detail.component';
 import { BoardUpdateUpdateComponent } from '../update/board-update-update.component';
 import { BoardUpdateRoutingResolveService } from './board-update-routing-resolve.service';
+import {LwiBoardUpdateDetailComponent} from "app/entities/board-update/detail/lwi-board-update-detail.component";
 
 const boardUpdateRoute: Routes = [
   {
@@ -15,7 +15,7 @@ const boardUpdateRoute: Routes = [
   },
   {
     path: ':id/view',
-    component: BoardUpdateDetailComponent,
+    component: LwiBoardUpdateDetailComponent,
     resolve: {
       boardUpdate: BoardUpdateRoutingResolveService,
     },

@@ -38,3 +38,8 @@
     </div>
   </div>
 </div>
+
+<ng-container *ngIf="updatePrecondition && updatePrecondition.updateKeys">
+  {{updatePrecondition.updateKeys | json}}
+  <jhi-lwi-update-keys [keys]="updatePrecondition.updateKeys"></jhi-lwi-update-keys>
+</ng-container>
