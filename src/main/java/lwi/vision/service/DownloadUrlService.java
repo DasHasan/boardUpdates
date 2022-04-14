@@ -2,6 +2,8 @@ package lwi.vision.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 import lwi.vision.domain.DownloadUrlEntity;
 import lwi.vision.repository.DownloadUrlRepository;
 import org.slf4j.Logger;
@@ -70,6 +72,19 @@ public class DownloadUrlService {
     public List<DownloadUrlEntity> findAll() {
         log.debug("Request to get all DownloadUrls");
         return downloadUrlRepository.findAll();
+    }
+
+    /**
+     *  Get all the downloadUrls where BoardUpdate is {@code null}.
+     *  @return the list of entities.
+     */
+    @Transactional(readOnly = true)
+    public List<DownloadUrlEntity> findAllWhereBoardUpdateIsNull() {
+        log.debug("Request to get all downloadUrls where BoardUpdate is null");
+        return StreamSupport
+            .stream(downloadUrlRepository.findAll().spliterator(), false)
+            .filter(downloadUrl -> downloadUrl.getBoardUpdate() == null)
+            .collect(Collectors.toList());
     }
 
     /**

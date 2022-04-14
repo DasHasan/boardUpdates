@@ -7,16 +7,29 @@
   ],
   "relationships": [
     {
-      "relationshipName": "updateKeys",
-      "otherEntityName": "updateKeys",
       "relationshipType": "one-to-many",
-      "otherEntityRelationshipName": "updatePrecondition"
+      "otherEntityName": "board",
+      "otherEntityRelationshipName": "updatePrecondition",
+      "relationshipName": "boards"
     },
     {
-      "relationshipName": "boards",
-      "otherEntityName": "board",
       "relationshipType": "one-to-many",
-      "otherEntityRelationshipName": "updatePrecondition"
+      "otherEntityName": "updateKeys",
+      "otherEntityRelationshipName": "updatePrecondition",
+      "relationshipName": "updateKeys"
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "updateVersionPrecondition",
+      "otherEntityRelationshipName": "updatePrecondition",
+      "relationshipName": "updateVersionPrecondition"
+    },
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "boardUpdate",
+      "otherEntityRelationshipName": "updatePrecondition",
+      "relationshipName": "boardUpdate",
+      "ownerSide": false
     }
   ],
   "service": "serviceClass",
@@ -25,5 +38,9 @@
   "readOnly": false,
   "pagination": "no",
   "name": "UpdatePrecondition",
-  "changelogDate": "20220408065120"
+  "changelogDate": "20220408065120",
+  "entityTableName": "update_precondition",
+  "fluentMethods": true,
+  "embedded": false,
+  "applications": ["boardUpdates"]
 }

@@ -28,8 +28,7 @@ public class DownloadUrlEntity implements Serializable {
     private String url;
 
     @JsonIgnoreProperties(value = { "updatePrecondition", "downloadUrl" }, allowSetters = true)
-    @OneToOne
-    @JoinColumn(unique = true)
+    @OneToOne(mappedBy = "downloadUrl")
     private BoardUpdateEntity boardUpdate;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -82,6 +81,12 @@ public class DownloadUrlEntity implements Serializable {
     }
 
     public void setBoardUpdate(BoardUpdateEntity boardUpdate) {
+        if (this.boardUpdate != null) {
+            this.boardUpdate.setDownloadUrl(null);
+        }
+        if (boardUpdate != null) {
+            boardUpdate.setDownloadUrl(this);
+        }
         this.boardUpdate = boardUpdate;
     }
 

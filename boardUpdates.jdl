@@ -65,6 +65,7 @@ entity UpdatePrecondition {
 }
 entity UpdateVersionPrecondition {
   version String
+  type UpdateType
 }
 enum UpdateType {
   FIRMWARE (Firmware),
@@ -72,16 +73,13 @@ enum UpdateType {
 }
 
 relationship OneToOne {
-  BoardUpdate{updatePrecondition} to UpdatePrecondition
+  BoardUpdate{updatePrecondition} to UpdatePrecondition{boardUpdate}
   BoardUpdate{downloadUrl} to DownloadUrl{boardUpdate}
-  DownloadUrl{boardUpdate} to BoardUpdate{downloadUrl}
 }
 relationship OneToMany {
   UpdatePrecondition{boards} to Board{updatePrecondition}
   UpdatePrecondition{updateKeys} to UpdateKeys{updatePrecondition}
-}
-relationship ManyToOne {
-  UpdateVersionPrecondition{updatePrecondition} to UpdatePrecondition
+  UpdatePrecondition{updateVersionPrecondition} to UpdateVersionPrecondition{updatePrecondition}
 }
 
 service Board, BoardUpdate, DownloadUrl, Group, UpdateKeys, UpdatePrecondition, UpdateVersionPrecondition with serviceClass

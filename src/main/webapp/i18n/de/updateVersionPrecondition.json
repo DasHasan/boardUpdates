@@ -18,7 +18,9 @@
         "title": "Update Version Precondition"
       },
       "id": "ID",
-      "version": "Version"
+      "version": "Version",
+      "type": "Type",
+      "updatePrecondition": "Update Precondition"
     }
   }
 }

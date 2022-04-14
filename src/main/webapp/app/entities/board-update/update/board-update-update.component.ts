@@ -122,7 +122,7 @@ export class BoardUpdateUpdateComponent implements OnInit {
 
   protected loadRelationshipsOptions(): void {
     this.updatePreconditionService
-      .query({ filter: 'update-is-null' })
+      .query({ filter: 'boardupdate-is-null' })
       .pipe(map((res: HttpResponse<IUpdatePrecondition[]>) => res.body ?? []))
       .pipe(
         map((updatePreconditions: IUpdatePrecondition[]) =>

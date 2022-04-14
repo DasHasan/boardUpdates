@@ -15,7 +15,7 @@
       "otherEntityName": "boardUpdate",
       "otherEntityRelationshipName": "downloadUrl",
       "relationshipName": "boardUpdate",
-      "ownerSide": true
+      "ownerSide": false
     }
   ],
   "service": "serviceClass",

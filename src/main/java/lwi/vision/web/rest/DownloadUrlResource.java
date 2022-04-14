@@ -5,6 +5,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.StreamSupport;
 import lwi.vision.domain.DownloadUrlEntity;
 import lwi.vision.repository.DownloadUrlRepository;
 import lwi.vision.service.DownloadUrlQueryService;

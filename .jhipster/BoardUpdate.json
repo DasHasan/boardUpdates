@@ -25,22 +25,18 @@
   ],
   "relationships": [
     {
-      "relationshipName": "updatePrecondition",
-      "otherEntityName": "updatePrecondition",
       "relationshipType": "one-to-one",
-      "otherEntityField": "id",
-      "ownerSide": true,
-      "id": false,
-      "otherEntityRelationshipName": "update"
+      "otherEntityName": "updatePrecondition",
+      "otherEntityRelationshipName": "boardUpdate",
+      "relationshipName": "updatePrecondition",
+      "ownerSide": true
     },
     {
-      "relationshipName": "downloadUrl",
-      "otherEntityName": "downloadUrl",
       "relationshipType": "one-to-one",
-      "otherEntityField": "id",
-      "ownerSide": true,
-      "id": false,
-      "otherEntityRelationshipName": "boardUpdate"
+      "otherEntityName": "downloadUrl",
+      "otherEntityRelationshipName": "boardUpdate",
+      "relationshipName": "downloadUrl",
+      "ownerSide": true
     }
   ],
   "entityTableName": "board_update",

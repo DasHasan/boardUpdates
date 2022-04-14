@@ -17,6 +17,15 @@
             <column name="version" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
+            <column name="type" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="update_precondition_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="board_update_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
     </changeSet>
@@ -38,6 +47,7 @@
                   tableName="update_version_precondition">
             <column name="id" type="numeric"/>
             <column name="version" type="string"/>
+            <column name="type" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

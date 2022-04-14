@@ -1,7 +1,9 @@
 package lwi.vision.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import javax.persistence.*;
+import lwi.vision.domain.enumeration.UpdateType;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -21,6 +23,14 @@ public class UpdateVersionPreconditionEntity implements Serializable {
 
     @Column(name = "version")
     private String version;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type")
+    private UpdateType type;
+
+    @ManyToOne
+    @JsonIgnoreProperties(value = { "boards", "updateKeys", "updateVersionPreconditions", "boardUpdate" }, allowSetters = true)
+    private UpdatePreconditionEntity updatePrecondition;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -49,6 +59,32 @@ public class UpdateVersionPreconditionEntity implements Serializable {
         this.version = version;
     }
 
+    public UpdateType getType() {
+        return this.type;
+    }
+
+    public UpdateVersionPreconditionEntity type(UpdateType type) {
+        this.type = type;
+        return this;
+    }
+
+    public void setType(UpdateType type) {
+        this.type = type;
+    }
+
+    public UpdatePreconditionEntity getUpdatePrecondition() {
+        return this.updatePrecondition;
+    }
+
+    public UpdateVersionPreconditionEntity updatePrecondition(UpdatePreconditionEntity updatePrecondition) {
+        this.setUpdatePrecondition(updatePrecondition);
+        return this;
+    }
+
+    public void setUpdatePrecondition(UpdatePreconditionEntity updatePrecondition) {
+        this.updatePrecondition = updatePrecondition;
+    }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -74,6 +110,7 @@ public class UpdateVersionPreconditionEntity implements Serializable {
         return "UpdateVersionPreconditionEntity{" +
             "id=" + getId() +
             ", version='" + getVersion() + "'" +
+            ", type='" + getType() + "'" +
             "}";
     }
 }

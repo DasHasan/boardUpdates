@@ -28,12 +28,21 @@ public class UpdatePreconditionEntity implements Serializable {
     @OneToMany(mappedBy = "updatePrecondition")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "updatePrecondition" }, allowSetters = true)
+    private Set<BoardEntity> boards = new HashSet<>();
+
+    @OneToMany(mappedBy = "updatePrecondition")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(value = { "updatePrecondition" }, allowSetters = true)
     private Set<UpdateKeysEntity> updateKeys = new HashSet<>();
 
     @OneToMany(mappedBy = "updatePrecondition")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "updatePrecondition" }, allowSetters = true)
-    private Set<BoardEntity> boards = new HashSet<>();
+    private Set<UpdateVersionPreconditionEntity> updateVersionPreconditions = new HashSet<>();
+
+    @JsonIgnoreProperties(value = { "updatePrecondition", "downloadUrl" }, allowSetters = true)
+    @OneToOne(mappedBy = "updatePrecondition")
+    private BoardUpdateEntity boardUpdate;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -60,6 +69,37 @@ public class UpdatePreconditionEntity implements Serializable {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Set<BoardEntity> getBoards() {
+        return this.boards;
+    }
+
+    public UpdatePreconditionEntity boards(Set<BoardEntity> boards) {
+        this.setBoards(boards);
+        return this;
+    }
+
+    public UpdatePreconditionEntity addBoards(BoardEntity board) {
+        this.boards.add(board);
+        board.setUpdatePrecondition(this);
+        return this;
+    }
+
+    public UpdatePreconditionEntity removeBoards(BoardEntity board) {
+        this.boards.remove(board);
+        board.setUpdatePrecondition(null);
+        return this;
+    }
+
+    public void setBoards(Set<BoardEntity> boards) {
+        if (this.boards != null) {
+            this.boards.forEach(i -> i.setUpdatePrecondition(null));
+        }
+        if (boards != null) {
+            boards.forEach(i -> i.setUpdatePrecondition(this));
+        }
+        this.boards = boards;
     }
 
     public Set<UpdateKeysEntity> getUpdateKeys() {
@@ -93,35 +133,54 @@ public class UpdatePreconditionEntity implements Serializable {
         this.updateKeys = updateKeys;
     }
 
-    public Set<BoardEntity> getBoards() {
-        return this.boards;
+    public Set<UpdateVersionPreconditionEntity> getUpdateVersionPreconditions() {
+        return this.updateVersionPreconditions;
     }
 
-    public UpdatePreconditionEntity boards(Set<BoardEntity> boards) {
-        this.setBoards(boards);
+    public UpdatePreconditionEntity updateVersionPreconditions(Set<UpdateVersionPreconditionEntity> updateVersionPreconditions) {
+        this.setUpdateVersionPreconditions(updateVersionPreconditions);
         return this;
     }
 
-    public UpdatePreconditionEntity addBoards(BoardEntity board) {
-        this.boards.add(board);
-        board.setUpdatePrecondition(this);
+    public UpdatePreconditionEntity addUpdateVersionPrecondition(UpdateVersionPreconditionEntity updateVersionPrecondition) {
+        this.updateVersionPreconditions.add(updateVersionPrecondition);
+        updateVersionPrecondition.setUpdatePrecondition(this);
         return this;
     }
 
-    public UpdatePreconditionEntity removeBoards(BoardEntity board) {
-        this.boards.remove(board);
-        board.setUpdatePrecondition(null);
+    public UpdatePreconditionEntity removeUpdateVersionPrecondition(UpdateVersionPreconditionEntity updateVersionPrecondition) {
+        this.updateVersionPreconditions.remove(updateVersionPrecondition);
+        updateVersionPrecondition.setUpdatePrecondition(null);
         return this;
     }
 
-    public void setBoards(Set<BoardEntity> boards) {
-        if (this.boards != null) {
-            this.boards.forEach(i -> i.setUpdatePrecondition(null));
+    public void setUpdateVersionPreconditions(Set<UpdateVersionPreconditionEntity> updateVersionPreconditions) {
+        if (this.updateVersionPreconditions != null) {
+            this.updateVersionPreconditions.forEach(i -> i.setUpdatePrecondition(null));
         }
-        if (boards != null) {
-            boards.forEach(i -> i.setUpdatePrecondition(this));
+        if (updateVersionPreconditions != null) {
+            updateVersionPreconditions.forEach(i -> i.setUpdatePrecondition(this));
         }
-        this.boards = boards;
+        this.updateVersionPreconditions = updateVersionPreconditions;
+    }
+
+    public BoardUpdateEntity getBoardUpdate() {
+        return this.boardUpdate;
+    }
+
+    public UpdatePreconditionEntity boardUpdate(BoardUpdateEntity boardUpdate) {
+        this.setBoardUpdate(boardUpdate);
+        return this;
+    }
+
+    public void setBoardUpdate(BoardUpdateEntity boardUpdate) {
+        if (this.boardUpdate != null) {
+            this.boardUpdate.setUpdatePrecondition(null);
+        }
+        if (boardUpdate != null) {
+            boardUpdate.setUpdatePrecondition(this);
+        }
+        this.boardUpdate = boardUpdate;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

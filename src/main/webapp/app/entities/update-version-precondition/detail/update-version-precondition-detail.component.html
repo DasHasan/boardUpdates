@@ -20,6 +20,20 @@
         <dd>
           <span>{{ updateVersionPrecondition.version }}</span>
         </dd>
+        <dt><span jhiTranslate="boardUpdatesApp.updateVersionPrecondition.type">Type</span></dt>
+        <dd>
+          <span jhiTranslate="{{ 'boardUpdatesApp.UpdateType.' + updateVersionPrecondition.type }}">{{
+            updateVersionPrecondition.type
+          }}</span>
+        </dd>
+        <dt><span jhiTranslate="boardUpdatesApp.updateVersionPrecondition.updatePrecondition">Update Precondition</span></dt>
+        <dd>
+          <div *ngIf="updateVersionPrecondition.updatePrecondition">
+            <a [routerLink]="['/update-precondition', updateVersionPrecondition.updatePrecondition?.id, 'view']">{{
+              updateVersionPrecondition.updatePrecondition?.id
+            }}</a>
+          </div>
+        </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

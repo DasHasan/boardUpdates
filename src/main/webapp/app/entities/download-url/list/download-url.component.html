@@ -35,7 +35,6 @@
           <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
           <th scope="col"><span jhiTranslate="boardUpdatesApp.downloadUrl.expirationDate">Expiration Date</span></th>
           <th scope="col"><span jhiTranslate="boardUpdatesApp.downloadUrl.url">Url</span></th>
-          <th scope="col"><span jhiTranslate="boardUpdatesApp.downloadUrl.boardUpdate">Board Update</span></th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -46,11 +45,6 @@
           </td>
           <td>{{ downloadUrl.expirationDate | formatMediumDate }}</td>
           <td>{{ downloadUrl.url }}</td>
-          <td>
-            <div *ngIf="downloadUrl.boardUpdate">
-              <a [routerLink]="['/board-update', downloadUrl.boardUpdate?.id, 'view']">{{ downloadUrl.boardUpdate?.id }}</a>
-            </div>
-          </td>
           <td class="text-right">
             <div class="btn-group">
               <button

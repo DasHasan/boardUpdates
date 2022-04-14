@@ -19,8 +19,10 @@
       },
       "id": "ID",
       "status": "Status",
+      "boards": "Boards",
       "updateKeys": "Update Keys",
-      "boards": "Boards"
+      "updateVersionPrecondition": "Update Version Precondition",
+      "boardUpdate": "Board Update"
     }
   }
 }

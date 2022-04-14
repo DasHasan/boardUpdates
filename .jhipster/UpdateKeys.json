@@ -7,10 +7,10 @@
   ],
   "relationships": [
     {
-      "relationshipName": "updatePrecondition",
-      "otherEntityName": "updatePrecondition",
       "relationshipType": "many-to-one",
-      "otherEntityField": "id"
+      "otherEntityName": "updatePrecondition",
+      "otherEntityRelationshipName": "updateKeys",
+      "relationshipName": "updatePrecondition"
     }
   ],
   "service": "serviceClass",

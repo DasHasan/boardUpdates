@@ -51,6 +51,9 @@ public class UpdateVersionPreconditionService {
                     if (updateVersionPreconditionEntity.getVersion() != null) {
                         existingUpdateVersionPrecondition.setVersion(updateVersionPreconditionEntity.getVersion());
                     }
+                    if (updateVersionPreconditionEntity.getType() != null) {
+                        existingUpdateVersionPrecondition.setType(updateVersionPreconditionEntity.getType());
+                    }
 
                     return existingUpdateVersionPrecondition;
                 }

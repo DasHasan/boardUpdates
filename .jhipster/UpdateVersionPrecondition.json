@@ -3,14 +3,30 @@
     {
       "fieldName": "version",
       "fieldType": "String"
+    },
+    {
+      "fieldName": "type",
+      "fieldType": "UpdateType",
+      "fieldValues": "FIRMWARE (Firmware),SOFTWARE (Software)"
     }
   ],
-  "relationships": [],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "updatePrecondition",
+      "otherEntityRelationshipName": "updateVersionPrecondition",
+      "relationshipName": "updatePrecondition"
+    }
+  ],
   "service": "serviceClass",
   "dto": "no",
   "jpaMetamodelFiltering": false,
   "readOnly": false,
   "pagination": "no",
   "name": "UpdateVersionPrecondition",
-  "changelogDate": "20220411114724"
+  "changelogDate": "20220411114724",
+  "entityTableName": "update_version_precondition",
+  "fluentMethods": true,
+  "embedded": false,
+  "applications": ["boardUpdates"]
 }

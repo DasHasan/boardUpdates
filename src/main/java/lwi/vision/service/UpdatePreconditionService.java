@@ -2,6 +2,8 @@ package lwi.vision.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 import lwi.vision.domain.UpdatePreconditionEntity;
 import lwi.vision.repository.UpdatePreconditionRepository;
 import org.slf4j.Logger;
@@ -67,6 +69,19 @@ public class UpdatePreconditionService {
     public List<UpdatePreconditionEntity> findAll() {
         log.debug("Request to get all UpdatePreconditions");
         return updatePreconditionRepository.findAll();
+    }
+
+    /**
+     *  Get all the updatePreconditions where BoardUpdate is {@code null}.
+     *  @return the list of entities.
+     */
+    @Transactional(readOnly = true)
+    public List<UpdatePreconditionEntity> findAllWhereBoardUpdateIsNull() {
+        log.debug("Request to get all updatePreconditions where BoardUpdate is null");
+        return StreamSupport
+            .stream(updatePreconditionRepository.findAll().spliterator(), false)
+            .filter(updatePrecondition -> updatePrecondition.getBoardUpdate() == null)
+            .collect(Collectors.toList());
     }
 
     /**
