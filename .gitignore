@@ -155,4 +155,4 @@ Desktop.ini
 
 
 **/*.spec.ts
-src\test\java
+src/test/java

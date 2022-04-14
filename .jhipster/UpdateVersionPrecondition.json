@@ -5,14 +5,7 @@
       "fieldType": "String"
     }
   ],
-  "relationships": [
-    {
-      "relationshipName": "updatePrecondition",
-      "otherEntityName": "updatePrecondition",
-      "relationshipType": "many-to-one",
-      "otherEntityField": "id"
-    }
-  ],
+  "relationships": [],
   "service": "serviceClass",
   "dto": "no",
   "jpaMetamodelFiltering": false,

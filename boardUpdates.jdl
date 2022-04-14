@@ -81,7 +81,6 @@ relationship OneToMany {
   UpdatePrecondition{updateKeys} to UpdateKeys{updatePrecondition}
 }
 relationship ManyToOne {
-  UpdatePrecondition{boardUpdate} to BoardUpdate
   UpdateVersionPrecondition{updatePrecondition} to UpdatePrecondition
 }
 
