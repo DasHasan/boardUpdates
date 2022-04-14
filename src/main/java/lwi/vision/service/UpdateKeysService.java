@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import lwi.vision.domain.UpdateKeysEntity;
 import lwi.vision.repository.UpdateKeysRepository;
+import lwi.vision.repository.UpdatePreconditionRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -20,8 +21,11 @@ public class UpdateKeysService {
 
     private final UpdateKeysRepository updateKeysRepository;
 
-    public UpdateKeysService(UpdateKeysRepository updateKeysRepository) {
+    private final UpdatePreconditionRepository updatePreconditionRepository;
+
+    public UpdateKeysService(UpdateKeysRepository updateKeysRepository, UpdatePreconditionRepository updatePreconditionRepository) {
         this.updateKeysRepository = updateKeysRepository;
+        this.updatePreconditionRepository = updatePreconditionRepository;
     }
 
     /**
@@ -32,7 +36,14 @@ public class UpdateKeysService {
      */
     public UpdateKeysEntity save(UpdateKeysEntity updateKeysEntity) {
         log.debug("Request to save UpdateKeys : {}", updateKeysEntity);
-        return updateKeysRepository.save(updateKeysEntity);
+        UpdateKeysEntity updateKeys = updateKeysRepository.save(updateKeysEntity);
+        if (updateKeysEntity.getUpdatePrecondition() != null && updateKeysEntity.getUpdatePrecondition().getId() != null) {
+            updatePreconditionRepository.findById(updateKeysEntity.getUpdatePrecondition().getId()).ifPresent(updatePreconditionEntity -> {
+                updatePreconditionEntity.getUpdateKeys().add(updateKeys);
+                updatePreconditionRepository.save(updatePreconditionEntity);
+            });
+        }
+        return updateKeys;
     }
 
     /**

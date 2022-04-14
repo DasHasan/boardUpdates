@@ -29,8 +29,8 @@ public class UpdatePreconditionEntity implements Serializable {
     @JsonIgnoreProperties(value = { "updatePrecondition", "downloadUrl" }, allowSetters = true)
     private BoardUpdateEntity boardUpdate;
 
-    @OneToMany(mappedBy = "updatePrecondition", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @OneToMany(mappedBy = "updatePrecondition", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+    //@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "updatePrecondition" }, allowSetters = true)
     private Set<UpdateKeysEntity> updateKeys = new HashSet<>();
 

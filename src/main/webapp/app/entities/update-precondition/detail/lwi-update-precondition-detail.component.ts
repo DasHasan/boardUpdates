@@ -17,5 +17,7 @@ export class LwiUpdatePreconditionDetailComponent extends UpdatePreconditionDeta
     this.updatePrecondition = this.precondition;
     // eslint-disable-next-line no-console
     console.log(this.updatePrecondition);
+    // eslint-disable-next-line no-debugger
+    debugger;
   }
 }
