@@ -3,8 +3,6 @@ package lwi.vision.service;
 import java.util.List;
 import java.util.Optional;
 import lwi.vision.domain.BoardUpdateEntity;
-import lwi.vision.domain.UpdateKeysEntity;
-import lwi.vision.domain.UpdatePreconditionEntity;
 import lwi.vision.repository.BoardUpdateRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,9 +32,6 @@ public class BoardUpdateService {
      */
     public BoardUpdateEntity save(BoardUpdateEntity boardUpdateEntity) {
         log.debug("Request to save BoardUpdate : {}", boardUpdateEntity);
-        if (boardUpdateEntity.getUpdatePrecondition() == null) {
-            boardUpdateEntity.setUpdatePrecondition(new UpdatePreconditionEntity().boardUpdate(boardUpdateEntity));
-        }
         return boardUpdateRepository.save(boardUpdateEntity);
     }
 

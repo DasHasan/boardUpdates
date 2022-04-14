@@ -25,16 +25,12 @@ public class UpdatePreconditionEntity implements Serializable {
     @Column(name = "status")
     private String status;
 
-    @ManyToOne
-    @JsonIgnoreProperties(value = { "updatePrecondition", "downloadUrl" }, allowSetters = true)
-    private BoardUpdateEntity boardUpdate;
-
-    @OneToMany(mappedBy = "updatePrecondition", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
-    //@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @OneToMany(mappedBy = "updatePrecondition")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "updatePrecondition" }, allowSetters = true)
     private Set<UpdateKeysEntity> updateKeys = new HashSet<>();
 
-    @OneToMany(mappedBy = "updatePrecondition", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "updatePrecondition")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "updatePrecondition" }, allowSetters = true)
     private Set<BoardEntity> boards = new HashSet<>();
@@ -64,19 +60,6 @@ public class UpdatePreconditionEntity implements Serializable {
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public BoardUpdateEntity getBoardUpdate() {
-        return this.boardUpdate;
-    }
-
-    public UpdatePreconditionEntity boardUpdate(BoardUpdateEntity boardUpdate) {
-        this.setBoardUpdate(boardUpdate);
-        return this;
-    }
-
-    public void setBoardUpdate(BoardUpdateEntity boardUpdate) {
-        this.boardUpdate = boardUpdate;
     }
 
     public Set<UpdateKeysEntity> getUpdateKeys() {

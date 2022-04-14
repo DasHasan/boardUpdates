@@ -155,4 +155,4 @@ Desktop.ini
 
 
 **/*.spec.ts
-test\java\lwi\vision
+src\test\java

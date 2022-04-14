@@ -24,7 +24,7 @@ public class UpdateKeysEntity implements Serializable {
     private String key;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "boardUpdate", "updateKeys", "boards" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "updateKeys", "boards" }, allowSetters = true)
     private UpdatePreconditionEntity updatePrecondition;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

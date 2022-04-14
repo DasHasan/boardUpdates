@@ -10,7 +10,7 @@ import { DATE_TIME_FORMAT } from 'app/config/input.constants';
 
 import { IBoardUpdate, BoardUpdate } from '../board-update.model';
 import { BoardUpdateService } from '../service/board-update.service';
-import {IUpdatePrecondition, UpdatePrecondition} from 'app/entities/update-precondition/update-precondition.model';
+import { IUpdatePrecondition } from 'app/entities/update-precondition/update-precondition.model';
 import { UpdatePreconditionService } from 'app/entities/update-precondition/service/update-precondition.service';
 import { IDownloadUrl } from 'app/entities/download-url/download-url.model';
 import { DownloadUrlService } from 'app/entities/download-url/service/download-url.service';

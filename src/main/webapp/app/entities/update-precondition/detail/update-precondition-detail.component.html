@@ -20,12 +20,6 @@
         <dd>
           <span>{{ updatePrecondition.status }}</span>
         </dd>
-        <dt><span jhiTranslate="boardUpdatesApp.updatePrecondition.boardUpdate">Board Update</span></dt>
-        <dd>
-          <div *ngIf="updatePrecondition.boardUpdate">
-            <a [routerLink]="['/board-update', updatePrecondition.boardUpdate?.id, 'view']">{{ updatePrecondition.boardUpdate?.id }}</a>
-          </div>
-        </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

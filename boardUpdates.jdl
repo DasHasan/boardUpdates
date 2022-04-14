@@ -1,0 +1,89 @@
+application {
+  config {
+    applicationType monolith
+    authenticationType jwt
+    baseName boardUpdates
+    blueprints []
+    buildTool maven
+    cacheProvider ehcache
+    clientFramework angularX
+    clientPackageManager npm
+    clientTheme none
+    creationTimestamp 1632055175521
+    databaseType sql
+    devDatabaseType mysql
+    dtoSuffix DTO
+    enableHibernateCache true
+    enableSwaggerCodegen false
+    enableTranslation true
+    entitySuffix Entity
+    jhiPrefix jhi
+    jhipsterVersion "7.0.1"
+    jwtSecretKey "N2FlZTNhZGYxMGNmYmZjMzViOGNjZWRiNGIwYzY4YWRmMWQ1M2QyNTgzZmZhMmFmMjg2NjJhNWRlYjQxOGRlNjBlM2E5M2VjMGMzNThkMzBhYTI3NTQwNTYzZjQzMjE3N2FkMDQ5MjBmODIxZDk4NjNkOTZlOTdlMmRhNDYxOTY="
+    languages [de]
+    messageBroker false
+    nativeLanguage de
+    otherModules []
+    packageName lwi.vision
+    prodDatabaseType mysql
+    reactive false
+    searchEngine false
+    serverPort 8080
+    serviceDiscoveryType false
+    skipClient false
+    skipServer false
+    skipUserManagement false
+    testFrameworks []
+    websocket false
+    withAdminUi true
+  }
+
+  entities Board, BoardUpdate, DownloadUrl, Group, UpdateKeys, UpdatePrecondition, UpdateVersionPrecondition
+}
+
+entity Board {
+  serial String
+  version String
+}
+entity BoardUpdate {
+  version String
+  path String
+  type UpdateType
+  releaseDate ZonedDateTime
+  status String
+}
+entity DownloadUrl {
+  expirationDate LocalDate
+  url String
+}
+entity Group (jhi_group)
+entity UpdateKeys {
+  key String
+}
+entity UpdatePrecondition {
+  status String
+}
+entity UpdateVersionPrecondition {
+  version String
+}
+enum UpdateType {
+  FIRMWARE (Firmware),
+  SOFTWARE (Software)
+}
+
+relationship OneToOne {
+  BoardUpdate{updatePrecondition} to UpdatePrecondition
+  BoardUpdate{downloadUrl} to DownloadUrl{boardUpdate}
+  DownloadUrl{boardUpdate} to BoardUpdate{downloadUrl}
+}
+relationship OneToMany {
+  UpdatePrecondition{boards} to Board{updatePrecondition}
+  UpdatePrecondition{updateKeys} to UpdateKeys{updatePrecondition}
+}
+relationship ManyToOne {
+  UpdatePrecondition{boardUpdate} to BoardUpdate
+  UpdateVersionPrecondition{updatePrecondition} to UpdatePrecondition
+}
+
+service Board, BoardUpdate, DownloadUrl, Group, UpdateKeys, UpdatePrecondition, UpdateVersionPrecondition with serviceClass
+filter Board, BoardUpdate, DownloadUrl, Group, UpdateKeys

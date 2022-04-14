@@ -1,11 +1,9 @@
-import { IBoardUpdate } from 'app/entities/board-update/board-update.model';
 import { IUpdateKeys } from 'app/entities/update-keys/update-keys.model';
 import { IBoard } from 'app/entities/board/board.model';
 
 export interface IUpdatePrecondition {
   id?: number;
   status?: string | null;
-  boardUpdate?: IBoardUpdate | null;
   updateKeys?: IUpdateKeys[] | null;
   boards?: IBoard[] | null;
 }
@@ -14,7 +12,6 @@ export class UpdatePrecondition implements IUpdatePrecondition {
   constructor(
     public id?: number,
     public status?: string | null,
-    public boardUpdate?: IBoardUpdate | null,
     public updateKeys?: IUpdateKeys[] | null,
     public boards?: IBoard[] | null
   ) {}

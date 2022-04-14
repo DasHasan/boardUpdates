@@ -34,7 +34,6 @@
         <tr>
           <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
           <th scope="col"><span jhiTranslate="boardUpdatesApp.updatePrecondition.status">Status</span></th>
-          <th scope="col"><span jhiTranslate="boardUpdatesApp.updatePrecondition.boardUpdate">Board Update</span></th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -44,11 +43,6 @@
             <a [routerLink]="['/update-precondition', updatePrecondition.id, 'view']">{{ updatePrecondition.id }}</a>
           </td>
           <td>{{ updatePrecondition.status }}</td>
-          <td>
-            <div *ngIf="updatePrecondition.boardUpdate">
-              <a [routerLink]="['/board-update', updatePrecondition.boardUpdate?.id, 'view']">{{ updatePrecondition.boardUpdate?.id }}</a>
-            </div>
-          </td>
           <td class="text-right">
             <div class="btn-group">
               <button
