@@ -6,6 +6,9 @@ import { UpdatePreconditionDetailComponent } from './detail/update-precondition-
 import { UpdatePreconditionUpdateComponent } from './update/update-precondition-update.component';
 import { UpdatePreconditionDeleteDialogComponent } from './delete/update-precondition-delete-dialog.component';
 import { UpdatePreconditionRoutingModule } from './route/update-precondition-routing.module';
+import {
+  LwiUpdatePreconditionDetailComponent
+} from "app/entities/update-precondition/detail/lwi-update-precondition-detail.component";
 
 @NgModule({
   imports: [SharedModule, UpdatePreconditionRoutingModule],
@@ -14,7 +17,11 @@ import { UpdatePreconditionRoutingModule } from './route/update-precondition-rou
     UpdatePreconditionDetailComponent,
     UpdatePreconditionUpdateComponent,
     UpdatePreconditionDeleteDialogComponent,
+    LwiUpdatePreconditionDetailComponent
   ],
   entryComponents: [UpdatePreconditionDeleteDialogComponent],
+  exports: [
+    LwiUpdatePreconditionDetailComponent
+  ]
 })
 export class UpdatePreconditionModule {}

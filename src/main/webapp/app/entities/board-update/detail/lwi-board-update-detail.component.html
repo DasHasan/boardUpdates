@@ -34,20 +34,6 @@
         <dd>
           <span>{{ boardUpdate.status }}</span>
         </dd>
-        <dt><span jhiTranslate="boardUpdatesApp.boardUpdate.updatePrecondition">Update Precondition</span></dt>
-        <dd>
-          <div *ngIf="boardUpdate.updatePrecondition">
-            <a [routerLink]="['/update-precondition', boardUpdate.updatePrecondition?.id, 'view']">{{
-              boardUpdate.updatePrecondition?.id
-            }}</a>
-          </div>
-        </dd>
-        <dt><span jhiTranslate="boardUpdatesApp.boardUpdate.downloadUrl">Download Url</span></dt>
-        <dd>
-          <div *ngIf="boardUpdate.downloadUrl">
-            <a [routerLink]="['/download-url', boardUpdate.downloadUrl?.id, 'view']">{{ boardUpdate.downloadUrl?.id }}</a>
-          </div>
-        </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

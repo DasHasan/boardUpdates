@@ -6,6 +6,8 @@ import { BoardUpdateComponent } from '../list/board-update.component';
 import { BoardUpdateDetailComponent } from '../detail/board-update-detail.component';
 import { BoardUpdateUpdateComponent } from '../update/board-update-update.component';
 import { BoardUpdateRoutingResolveService } from './board-update-routing-resolve.service';
+import {LwiBoardUpdateUpdateComponent} from "app/entities/board-update/update/lwi-board-update-update.component";
+import {LwiBoardUpdateDetailComponent} from "app/entities/board-update/detail/lwi-board-update-detail.component";
 
 const boardUpdateRoute: Routes = [
   {
@@ -15,7 +17,7 @@ const boardUpdateRoute: Routes = [
   },
   {
     path: ':id/view',
-    component: BoardUpdateDetailComponent,
+    component: LwiBoardUpdateDetailComponent,
     resolve: {
       boardUpdate: BoardUpdateRoutingResolveService,
     },
@@ -23,7 +25,7 @@ const boardUpdateRoute: Routes = [
   },
   {
     path: 'new',
-    component: BoardUpdateUpdateComponent,
+    component: LwiBoardUpdateUpdateComponent,
     resolve: {
       boardUpdate: BoardUpdateRoutingResolveService,
     },

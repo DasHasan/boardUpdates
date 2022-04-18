@@ -5,7 +5,7 @@
   "description": "Description for boardUpdates",
   "license": "UNLICENSED",
   "scripts": {
-    "jhipster": "jhipster",
+    "jhipster": "jhipster export-jdl",
     "prettier:check": "prettier --check \"{,src/**/,webpack/}*.{md,json,yml,html,js,ts,tsx,css,scss,java}\"",
     "prettier:format": "prettier --write \"{,src/**/,webpack/}*.{md,json,yml,html,js,ts,tsx,css,scss,java}\"",
     "lint": "eslint . --ext .js,.ts",

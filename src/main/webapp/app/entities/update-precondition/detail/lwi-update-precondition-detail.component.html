@@ -7,30 +7,12 @@
 
       <hr />
 
-      <jhi-alert-error></jhi-alert-error>
-
-      <jhi-alert></jhi-alert>
-
       <dl class="row-md jh-entity-details">
-        <dt><span jhiTranslate="global.field.id">ID</span></dt>
-        <dd>
-          <span>{{ updatePrecondition.id }}</span>
-        </dd>
         <dt><span jhiTranslate="boardUpdatesApp.updatePrecondition.status">Status</span></dt>
         <dd>
           <span>{{ updatePrecondition.status }}</span>
         </dd>
-        <dt><span jhiTranslate="boardUpdatesApp.updatePrecondition.boardUpdate">Board Update</span></dt>
-        <dd>
-          <div *ngIf="updatePrecondition.boardUpdate">
-            <a [routerLink]="['/board-update', updatePrecondition.boardUpdate?.id, 'view']">{{ updatePrecondition.boardUpdate?.id }}</a>
-          </div>
-        </dd>
       </dl>
-
-      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
-        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
-      </button>
 
       <button type="button" [routerLink]="['/update-precondition', updatePrecondition.id, 'edit']" class="btn btn-primary">
         <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
@@ -40,5 +22,5 @@
 </div>
 
 <ng-container *ngIf="updatePrecondition">
-  <jhi-lwi-update-keys [updatePrecondition]="updatePrecondition"></jhi-lwi-update-keys>
+<!--  <jhi-lwi-update-keys [updatePrecondition]="updatePrecondition"></jhi-lwi-update-keys>-->
 </ng-container>

@@ -39,12 +39,12 @@ public class BoardUpdateEntity implements Serializable {
     private String status;
 
     @JsonIgnoreProperties(value = { "boards", "updateKeys", "updateVersionPreconditions", "boardUpdate" }, allowSetters = true)
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(unique = true)
     private UpdatePreconditionEntity updatePrecondition;
 
     @JsonIgnoreProperties(value = { "boardUpdate" }, allowSetters = true)
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(unique = true)
     private DownloadUrlEntity downloadUrl;
 
